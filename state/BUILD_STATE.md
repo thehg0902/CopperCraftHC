@@ -28,5 +28,17 @@ Notes:
   GSAP floating text w/ reduced-motion & no-GSAP fallbacks, services, service-area,
   sliding testimonials carousel, cta, contact placeholder form, mobile nav @360, sticky
   call bar). 0 console errors. AWAITING operator approval of BOTH previews (gate).
+- P2 copper refinement (operator: orange "felt cheap"): retuned to premium metallic
+  copper (deeper #A05628 action + reflective sheen/gilded stars/CTA sweep, reduced-motion
+  gated). 0 contrast fails. Re-presented at gate.
 - Pending: Poppins/Inter woff2 files needed at site/assets/fonts/ (system fallback for
-  now — flagged); domain (deploy-time).
+  now — flagged); domain (deploy-time). NOT yet committed/pushed since the copper +
+  seamless-opener changes.
+- P2 seamless opener: removed the trust strip from between hero/story-1/story-2 (now one
+  continuous dark cinematic sequence); trust bar relocated to after story-2. Verified live.
+- P2 seamless FIX: root-caused a 1-viewport gap between story1/story2 to CSS
+  sticky/GSAP 'end:bottom bottom' both releasing 1vh early by design. Switched scrub
+  pin technique to explicit end:'+='+sectionHeight — story1 unpins at the EXACT pixel
+  story2 pins (verified via ScrollTrigger start/end + live screenshot at the boundary:
+  0px gap, canvas fills edge-to-edge under header). Documented in DECISIONS.md as the
+  required Phase 5 hero-media technique for adjacent pinned scrub sections.

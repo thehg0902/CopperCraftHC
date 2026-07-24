@@ -29,10 +29,11 @@
 
 :root {
   /* ===== Colors (required set) ===== */
-  --color-primary:      #A85422;  /* Copper (AA-safe action: white text ~4.95:1).
-                                     Vibrant brand copper #C96A32 kept as
-                                     --color-primary-vibrant for decorative use. */
-  --color-primary-dark: #8F431F;  /* Deep copper — hover / copper text on light */
+  --color-primary:      #A05628;  /* Refined deep copper (AA action: white ~5.4:1).
+                                     Browner/rosier than the old orange for a
+                                     premium metallic read; sheen added via
+                                     --gradient-copper-metal + --sheen-soft below. */
+  --color-primary-dark: #7E4520;  /* Deep copper — hover / copper text on light */
   --color-accent:       #23679D;  /* Cooling blue — trust / secondary */
   --color-bg:           #F7F5F1;  /* Warm off-white base */
   --color-surface:      #FFFFFF;  /* Card background */
@@ -43,8 +44,8 @@
   --color-error:        #B42318;  /* Accessible red (white text AA) */
 
   /* ---- Brand-board extensions (project-specific; still tokens) ---- */
-  --color-primary-vibrant: #C96A32; /* Brand copper — decorative only (fails text AA) */
-  --color-primary-light: #E98543; /* Copper highlight */
+  --color-primary-vibrant: #B26A38; /* Bronzed copper — decorative only (fails text AA) */
+  --color-primary-light: #E0A46A; /* Warm copper highlight (satin) */
   --color-accent-light:  #4CA6D8; /* Cool highlight / airflow */
   --color-accent-dark:   #123A5A; /* Deep navy */
   --color-bg-alt:        #EEF1F3; /* Secondary soft-cool bg */
@@ -52,8 +53,24 @@
   --color-dark-surface:  #1A2024; /* Elevated dark surface */
   --color-dark-text:     #F7F5F1; /* Light text on dark */
   --color-dark-text-muted:#AAB2B8;/* Muted text on dark */
-  --gradient-copper: linear-gradient(90deg, #C96A32 0%, #E98543 100%);
   --gradient-cool:   linear-gradient(90deg, #23679D 0%, #4CA6D8 100%);
+
+  /* ---- Metallic copper (luxury sheen — reflective, restrained) ---- */
+  --metal-copper-shade: #6B3A1B;  /* deep shadow of the curve */
+  --metal-copper-core:  #A9662F;  /* mid copper body */
+  --metal-copper-glow:  #E7B37B;  /* warm specular */
+  --metal-copper-spec:  #F6DDBB;  /* champagne glint (used sparingly) */
+  /* Curved reflective sweep: dark → body → bright specular → body → dark */
+  --gradient-copper: linear-gradient(120deg,
+      #6B3A1B 0%, #9A5A2A 22%, #C58A4E 44%,
+      #F0CFA0 50%, #C58A4E 56%, #955327 78%, #7E4520 100%);
+  /* Soft surface curvature overlay for buttons: top-left highlight → shade */
+  --sheen-soft: linear-gradient(157deg,
+      rgba(255,255,255,.30) 0%, rgba(255,255,255,.06) 30%,
+      rgba(255,255,255,0) 46%, rgba(0,0,0,.14) 100%);
+  /* Thin moving glint band (very subtle; motion-gated in CSS) */
+  --sheen-sweep: linear-gradient(105deg,
+      rgba(246,221,187,0) 40%, rgba(246,221,187,.55) 50%, rgba(246,221,187,0) 60%);
 
   /* ===== Typography ===== */
   --font-heading: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;

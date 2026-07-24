@@ -198,7 +198,10 @@ installation Richmond Hill", "HVAC maintenance Richmond Hill".
 - Languages:
 {claude-proposed: en (Richmond Hill has a large Persian/Farsi + Chinese community —
  consider en+fa or en+zh if the operator serves them; confirm before adding).}
-- Pages: home | hero | trust-bar | scroll-story-1 | scroll-story-2 | services | service-area | testimonials | cta | contact
+- Pages: home | hero | scroll-story-1 | scroll-story-2 | trust-bar | services | service-area | testimonials | cta | contact
+  {SEAMLESS: nothing sits between hero → scroll-story-1 → scroll-story-2 — one
+   continuous dark cinematic journey, no strips/bands. Trust bar moved to AFTER the
+   sequence.}
 - Domain:
 ### Integrations
 - Google Maps:
@@ -278,6 +281,12 @@ Muted Dark-Section Text	Silver gray	#AAB2B8
   progress; text copy comes from Phase 3 copywriting. Both scrub sections: frame
   0001 doubles as poster + reduced-motion fallback. Watch page weight (two frame
   sequences) — set Hosting plan for the correct performance budget profile.
+
+  SEAMLESS: sections 1→2→3 must read as ONE continuous shot — NO strips, bands,
+  headers, padding gaps, or colour breaks between them. All three share the dark
+  cinematic backdrop; hero loop's resting frame → story-1 opening frame → story-2
+  (story-1 last frame = story-2 first frame). The first non-cinematic element (the
+  trust bar) appears only AFTER story-2.
 
   TESTIMONIALS SECTION = a horizontal sliding CAROUSEL (slides sideways). Use the
   full approved review set (Auto → Testimonial candidates). Requirements: swipe/drag

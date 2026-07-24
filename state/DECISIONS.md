@@ -9,6 +9,8 @@
 2026-07-24 | story/pricing | Founding story = skip (irrelevant); no published prices; no promo. Lead with real testimonials + honest/no-oversell positioning; quality guarantee on workmanship. | human | operator answers
 2026-07-24 | email | info@coppercraft.ca | human | operator answer
 2026-07-24 | testimonials | Full operator-supplied review set APPROVED for site; display as horizontal sliding carousel in the testimonials section | human | operator request
+2026-07-24 | seamless opener | Trust bar MOVED from between hero/story-1 to AFTER story-2. Sections 1→2→3 (hero → scroll-story-1 → scroll-story-2) must read as ONE continuous shot — no strips/bands/colour breaks between them. New order: hero, scroll-story-1, scroll-story-2, trust-bar, services, service-area, testimonials, cta, contact | human | operator: "remove all the strips between the first three sections, make them feel seamless"
+2026-07-24 | scroll-scrub pin technique | ROOT-CAUSED a residual 1-viewport gap between story1/story2: CSS position:sticky (and GSAP's `end:'bottom bottom'`) both release the pinned stage exactly 1 viewport-height BEFORE the section's true end — standard behavior, not a bug, but wrong for back-to-back seamless scrub sections. FIX: `pin:stage` with explicit `end:'+='+sec.offsetHeight` so the pin holds the full section height; story1 unpins at the exact scroll pixel story2 pins (verified 0px gap). This is the technique Phase 5's hero-media/scrub-player.js must use for any adjacent pinned scrub sections. | claude | operator: "there is still a gap, remove them entirely. i want seamless transition"
 
 ---
 
@@ -67,3 +69,8 @@ Operator approved all 3 recommended sections. Final single-page section order (i
 - Trust approach: lead with 5.0★ + the review wall (carousel); copper-accent star/quote motifs; NO licence/insured badges (unconfirmed).
 - Color mode: light-dominant with dark cinematic feature bands.
 - Playbook conversion must-haves KEPT despite expressive motion: tap-to-call in header (sticky mobile), service-area list, short placeholder quote form (name/phone/issue), single clear CTA = CALL.
+
+## Phase 2 — Copper refinement (operator feedback: flat orange "felt cheap")
+Shifted from flat orange to a PREMIUM METALLIC COPPER — deeper, browner/rosier, less saturated + a restrained reflective sheen (not chrome, "not too metallic").
+- tokens.css: --color-primary #A85422 → #A05628 (AA white ~5.4:1); --color-primary-vibrant #C96A32→#B26A38; --color-primary-light #E98543→#E0A46A. New metallic tokens: --metal-copper-shade/core/glow/spec; --gradient-copper (curved reflective sweep, champagne specular); --sheen-soft (button surface curvature); --sheen-sweep (slow glint).
+- Applied: primary buttons = satin copper (sheen overlay + specular top edge + inset depth) with a slow low-opacity glint; CTA band = darker metallic gradient (lightest stop #A9662F keeps white text AA) + diagonal sheen sweep; trust + review stars gilded via gradient-clip text; logo mark gilded. Motion glint is prefers-reduced-motion-gated. Style preview: 67 tokens, 0 contrast fails.
