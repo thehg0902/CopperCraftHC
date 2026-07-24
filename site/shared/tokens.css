@@ -1,0 +1,110 @@
+/* CopperCraft Heating & Cooling — Design Tokens
+   Single source of truth (contracts/design-tokens.md). Implements the
+   operator's brand board 1:1. No component may hardcode a visual value.
+   Direction: "Copper & Cool" — expressive motion, 1.333 type scale. */
+
+/* ---- Fonts: self-hosted per file-structure contract.
+   NOTE: place woff2 files at site/assets/fonts/ (Poppins 400/500/600,
+   Inter 400/500). Falls back to system sans until then. ---- */
+@font-face {
+  font-family: 'Poppins'; font-style: normal; font-weight: 400;
+  font-display: swap; src: url('../assets/fonts/poppins-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins'; font-style: normal; font-weight: 500;
+  font-display: swap; src: url('../assets/fonts/poppins-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins'; font-style: normal; font-weight: 600;
+  font-display: swap; src: url('../assets/fonts/poppins-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter'; font-style: normal; font-weight: 400;
+  font-display: swap; src: url('../assets/fonts/inter-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter'; font-style: normal; font-weight: 500;
+  font-display: swap; src: url('../assets/fonts/inter-500.woff2') format('woff2');
+}
+
+:root {
+  /* ===== Colors (required set) ===== */
+  --color-primary:      #A85422;  /* Copper (AA-safe action: white text ~4.95:1).
+                                     Vibrant brand copper #C96A32 kept as
+                                     --color-primary-vibrant for decorative use. */
+  --color-primary-dark: #8F431F;  /* Deep copper — hover / copper text on light */
+  --color-accent:       #23679D;  /* Cooling blue — trust / secondary */
+  --color-bg:           #F7F5F1;  /* Warm off-white base */
+  --color-surface:      #FFFFFF;  /* Card background */
+  --color-text:         #17191B;  /* Near-black charcoal */
+  --color-text-muted:   #616970;  /* Medium slate gray (AA on bg + surface) */
+  --color-border:       #D9DEE2;  /* Light neutral gray */
+  --color-success:      #157347;  /* Accessible green (white text AA) */
+  --color-error:        #B42318;  /* Accessible red (white text AA) */
+
+  /* ---- Brand-board extensions (project-specific; still tokens) ---- */
+  --color-primary-vibrant: #C96A32; /* Brand copper — decorative only (fails text AA) */
+  --color-primary-light: #E98543; /* Copper highlight */
+  --color-accent-light:  #4CA6D8; /* Cool highlight / airflow */
+  --color-accent-dark:   #123A5A; /* Deep navy */
+  --color-bg-alt:        #EEF1F3; /* Secondary soft-cool bg */
+  --color-dark-bg:       #111416; /* Cinematic dark section bg (scrub stages) */
+  --color-dark-surface:  #1A2024; /* Elevated dark surface */
+  --color-dark-text:     #F7F5F1; /* Light text on dark */
+  --color-dark-text-muted:#AAB2B8;/* Muted text on dark */
+  --gradient-copper: linear-gradient(90deg, #C96A32 0%, #E98543 100%);
+  --gradient-cool:   linear-gradient(90deg, #23679D 0%, #4CA6D8 100%);
+
+  /* ===== Typography ===== */
+  --font-heading: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body:    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Modular scale, ratio 1.333 (expressive), 1rem base */
+  --text-xs:   0.75rem;   /* 12px */
+  --text-sm:   0.875rem;  /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg:   1.333rem;  /* ~21px */
+  --text-xl:   1.777rem;  /* ~28px */
+  --text-2xl:  2.369rem;  /* ~38px */
+  --text-3xl:  3.157rem;  /* ~51px */
+  --text-hero: clamp(2.5rem, 6vw, 4.209rem); /* responsive hero (~40–67px) */
+
+  --leading-tight:  1.12;
+  --leading-normal: 1.5;
+  --leading-loose:  1.75;
+
+  /* ===== Spacing (4px base, brand-board 8pt steps) ===== */
+  --space-1:  0.25rem;  /* 4  */
+  --space-2:  0.5rem;   /* 8  */
+  --space-3:  0.75rem;  /* 12 */
+  --space-4:  1rem;     /* 16 */
+  --space-5:  1.5rem;   /* 24 */
+  --space-6:  2rem;     /* 32 */
+  --space-7:  2.5rem;   /* 40 */
+  --space-8:  3rem;     /* 48 */
+  --space-9:  4rem;     /* 64 */
+  --space-10: 5rem;     /* 80 */
+  --space-11: 6rem;     /* 96 */
+  --space-12: 8rem;     /* 128 */
+
+  /* ===== Layout ===== */
+  --container-max: 1200px;
+  --section-pad-y: clamp(3rem, 8vw, 6rem); /* 48–96px */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;   /* brand-board extension */
+  --radius-full: 999px;
+
+  /* ===== Elevation (brand-board shadows) ===== */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
+
+  /* ===== Motion ===== */
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}

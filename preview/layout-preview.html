@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CopperCraft — Layout Preview (binding for Phase 5)</title>
+<link rel="stylesheet" href="../site/shared/tokens.css">
+<style>
+  /* ===== Preview-only reset + base (Phase 5 moves this into site/shared/base.css) ===== */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font-body);color:var(--color-text);background:var(--color-bg);
+       line-height:var(--leading-normal);-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:var(--font-heading);line-height:var(--leading-tight);font-weight:600}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .container{max-width:var(--container-max);margin-inline:auto;padding-inline:var(--space-5)}
+  section{padding-block:var(--section-pad-y)}
+  .eyebrow{font-size:var(--text-sm);font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+           color:var(--color-primary)}
+  /* Grey labeled asset-slot placeholder boxes */
+  .slot{position:relative;background:repeating-linear-gradient(45deg,#e4e7ea,#e4e7ea 12px,#dcdfe3 12px,#dcdfe3 24px);
+        border:2px dashed #b6bcc2;border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;
+        text-align:center;color:#566;font-size:var(--text-sm);font-weight:600;min-height:220px}
+  .slot code{background:rgba(0,0,0,.72);color:#fff;padding:2px 8px;border-radius:var(--radius-sm);
+             font-size:var(--text-xs);display:inline-block;margin-top:var(--space-2)}
+
+  /* ===== Buttons ===== */
+  .btn{display:inline-flex;align-items:center;gap:var(--space-2);font-family:var(--font-heading);
+       font-weight:600;font-size:var(--text-base);padding:var(--space-3) var(--space-5);
+       border-radius:var(--radius-md);cursor:pointer;border:2px solid transparent;
+       transition:transform var(--duration-fast) var(--ease-standard),background var(--duration-fast)}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{background:var(--color-primary);color:#fff}
+  .btn-primary:hover{background:var(--color-primary-dark)}
+  .btn-secondary{background:transparent;color:var(--color-accent);border-color:var(--color-accent)}
+  .btn-ghost{background:var(--color-surface);color:var(--color-text);border-color:var(--color-border)}
+
+  /* ===== Preloader ===== */
+  #preloader{position:fixed;inset:0;z-index:1000;background:var(--color-dark-bg);display:flex;
+             flex-direction:column;align-items:center;justify-content:center;gap:var(--space-5);
+             transition:opacity var(--duration-slow) var(--ease-out-expo),visibility var(--duration-slow)}
+  #preloader.hidden{opacity:0;visibility:hidden}
+  .pl-logo{width:96px;height:96px;border:3px solid var(--color-primary-vibrant);border-radius:var(--radius-lg);
+           display:flex;align-items:center;justify-content:center;color:var(--color-dark-text);
+           font-family:var(--font-heading);font-weight:600;font-size:var(--text-2xl)}
+  .pl-bar{width:min(240px,60vw);height:4px;background:var(--color-dark-surface);border-radius:var(--radius-full);overflow:hidden}
+  .pl-bar span{display:block;height:100%;width:0;background:var(--gradient-copper);
+               animation:plload 1.6s var(--ease-out-expo) forwards}
+  .pl-text{color:var(--color-dark-text-muted);font-size:var(--text-sm);letter-spacing:.1em;text-transform:uppercase}
+  @keyframes plload{to{width:100%}}
+
+  /* ===== Header ===== */
+  header{position:sticky;top:0;z-index:100;background:rgba(247,245,241,.9);backdrop-filter:blur(10px);
+         border-bottom:1px solid var(--color-border)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:var(--space-3);font-family:var(--font-heading);font-weight:600}
+  .brand .mark{width:36px;height:36px;border:2px solid var(--color-primary);border-radius:var(--radius-sm);
+               display:flex;align-items:center;justify-content:center;color:var(--color-primary);font-size:var(--text-sm)}
+  .nav-links{display:flex;align-items:center;gap:var(--space-6);font-size:var(--text-base)}
+  .nav-links a:hover{color:var(--color-primary)}
+  .nav-cta{display:flex;align-items:center;gap:var(--space-3)}
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;flex-direction:column;gap:5px}
+  .nav-toggle span{width:24px;height:2px;background:var(--color-text);display:block}
+
+  /* ===== Hero ===== */
+  .hero{position:relative;min-height:92vh;display:flex;align-items:center;color:#fff;overflow:hidden}
+  .hero .slot{position:absolute;inset:0;border-radius:0;min-height:0}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,20,22,.78),rgba(17,20,22,.35))}
+  .hero-inner{position:relative;z-index:2;max-width:640px}
+  .hero h1{font-size:var(--text-hero);margin-block:var(--space-3) var(--space-4);text-shadow:0 2px 24px rgba(0,0,0,.4)}
+  .hero p{font-size:var(--text-lg);color:#f0f0f0;margin-bottom:var(--space-6);max-width:52ch}
+  .hero-actions{display:flex;gap:var(--space-3);flex-wrap:wrap}
+
+  /* ===== Trust bar ===== */
+  .trust{background:var(--color-dark-bg);color:var(--color-dark-text);padding-block:var(--space-5)}
+  .trust .container{display:flex;flex-wrap:wrap;gap:var(--space-6);align-items:center;justify-content:center;text-align:center}
+  .trust .stars{color:var(--color-primary-light);font-size:var(--text-lg);font-weight:600}
+  .trust b{color:var(--color-dark-text)} .trust span{color:var(--color-dark-text-muted)}
+
+  /* ===== Scroll-scrub story sections ===== */
+  .scrolly{position:relative;height:300vh;background:var(--color-dark-bg)}
+  .scrolly .stage{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .scrolly .slot{position:absolute;inset:0;border-radius:0;min-height:0;color:#cfd4d8;
+                 background:repeating-linear-gradient(45deg,#20262b,#20262b 12px,#252c31 12px,#252c31 24px);border-color:#3a4248}
+  .scrolly .frame-note{position:absolute;top:var(--space-4);left:var(--space-4);z-index:3;
+                       background:rgba(0,0,0,.7);color:#fff;font-size:var(--text-xs);padding:4px 10px;border-radius:var(--radius-sm)}
+  .scrolly canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:.55}
+  .floating{position:relative;z-index:4;max-width:760px;text-align:center;padding-inline:var(--space-5)}
+  .floating .line{font-family:var(--font-heading);font-weight:600;color:#fff;font-size:var(--text-2xl);
+                  margin-block:var(--space-4);opacity:.15;transform:translateY(24px)}
+  .scrub-progress{position:absolute;bottom:0;left:0;height:4px;width:0;background:var(--gradient-cool);z-index:5}
+
+  /* ===== Services ===== */
+  .sec-head{text-align:center;max-width:640px;margin:0 auto var(--space-8)}
+  .sec-head h2{font-size:var(--text-2xl);margin-top:var(--space-2)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-5)}
+  .card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);
+        padding:var(--space-6);box-shadow:var(--shadow-sm);transition:box-shadow var(--duration-base),transform var(--duration-base)}
+  .card:hover{box-shadow:var(--shadow-md);transform:translateY(-4px)}
+  .card .ico{width:48px;height:48px;border-radius:var(--radius-md);background:var(--color-bg-alt);
+             display:flex;align-items:center;justify-content:center;color:var(--color-accent);margin-bottom:var(--space-4);font-weight:600}
+  .card h3{font-size:var(--text-lg);margin-bottom:var(--space-2)}
+  .card p{color:var(--color-text-muted);font-size:var(--text-sm)}
+
+  /* ===== Service area ===== */
+  .area{background:var(--color-bg-alt)}
+  .chips{display:flex;flex-wrap:wrap;gap:var(--space-3);justify-content:center;margin-top:var(--space-5)}
+  .chip{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);
+        padding:var(--space-2) var(--space-4);font-size:var(--text-sm);font-weight:500}
+
+  /* ===== Testimonials carousel ===== */
+  .tcar{position:relative}
+  .track{display:flex;gap:var(--space-5);overflow-x:auto;scroll-snap-type:x mandatory;
+         scroll-behavior:smooth;padding-block:var(--space-3);cursor:grab;
+         scrollbar-width:none} .track::-webkit-scrollbar{display:none}
+  .review{scroll-snap-align:center;flex:0 0 min(420px,86vw);background:var(--color-surface);
+          border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
+  .review .stars{color:var(--color-primary-light);font-weight:600;margin-bottom:var(--space-3)}
+  .review p{font-size:var(--text-base);margin-bottom:var(--space-4)}
+  .review .who{font-family:var(--font-heading);font-weight:600;font-size:var(--text-sm)}
+  .car-nav{display:flex;gap:var(--space-3);justify-content:center;margin-top:var(--space-5)}
+  .car-nav button{width:44px;height:44px;border-radius:var(--radius-full);border:1px solid var(--color-border);
+                  background:var(--color-surface);cursor:pointer;font-size:var(--text-lg)}
+  .car-nav button:hover{background:var(--color-bg-alt);border-color:var(--color-primary)}
+
+  /* ===== CTA band ===== */
+  .cta-band{background:var(--gradient-copper);color:#fff;text-align:center}
+  .cta-band h2{font-size:var(--text-2xl);margin-bottom:var(--space-5);color:#fff}
+
+  /* ===== Contact ===== */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8)}
+  .nap p{margin-bottom:var(--space-3);color:var(--color-text-muted)}
+  .nap b{color:var(--color-text)}
+  .field{display:flex;flex-direction:column;gap:var(--space-2);margin-bottom:var(--space-4)}
+  .field label{font-size:var(--text-sm);font-weight:600}
+  .field input,.field textarea{border:1px solid var(--color-border);border-radius:var(--radius-md);
+        padding:var(--space-3);font-family:var(--font-body);font-size:var(--text-base)}
+  .form-note{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-2)}
+
+  footer{background:var(--color-dark-bg);color:var(--color-dark-text-muted);padding-block:var(--space-8);font-size:var(--text-sm)}
+
+  /* ===== Sticky mobile call bar ===== */
+  .mobile-call{display:none;position:fixed;bottom:0;left:0;right:0;z-index:90;background:var(--color-primary);
+               color:#fff;text-align:center;padding:var(--space-4);font-family:var(--font-heading);font-weight:600}
+
+  /* ===== Mobile ===== */
+  @media(max-width:860px){
+    .nav-links{position:fixed;inset:68px 0 auto 0;background:var(--color-bg);flex-direction:column;
+               padding:var(--space-6);border-bottom:1px solid var(--color-border);transform:translateY(-120%);
+               transition:transform var(--duration-base) var(--ease-out-expo)}
+    .nav-links.open{transform:translateY(0)}
+    .nav-toggle{display:flex}
+    .nav-cta .btn-primary{display:none}
+    .nav-toggle{order:3}
+    .contact-grid{grid-template-columns:1fr}
+    .mobile-call{display:block}
+    body{padding-bottom:60px}
+  }
+
+  /* ===== Reduced motion ===== */
+  @media(prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+    .floating .line{opacity:1!important;transform:none!important}
+    #preloader{display:none}
+  }
+  /* Preview banner */
+  .pv{position:fixed;bottom:8px;right:8px;z-index:200;background:var(--color-accent-dark);color:#fff;
+      font-size:11px;padding:4px 10px;border-radius:var(--radius-full);opacity:.85}
+</style>
+</head>
+<body>
+
+<!-- ============ PRELOADER (Phase 5: preloader.js) ============ -->
+<div id="preloader" aria-hidden="true">
+  <div class="pl-logo">CC</div>
+  <div class="pl-bar"><span></span></div>
+  <div class="pl-text">Warming up…</div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="container nav">
+    <a class="brand" href="#top"><span class="mark">CC</span> CopperCraft</a>
+    <nav class="nav-links" id="menu">
+      <a href="#services">Services</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#area">Service Area</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-primary" href="tel:+16472506072">📞 (647) 250-6072</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO (preloader → muted looping video) ============ -->
+<section class="hero" id="top">
+  <div class="slot">Asset slot<code>hero-loop.mp4 · muted looping video · poster = LCP</code></div>
+  <div class="container hero-inner">
+    <span class="eyebrow" style="color:var(--color-primary-light)">Richmond Hill &amp; York Region</span>
+    <h1>[ Hero headline — comfort, restored fast ]</h1>
+    <p>[ Subhead: honest HVAC service, no overselling — same-day response during business hours. Placeholder copy from Phase 3. ]</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="tel:+16472506072">Call now — fast response</a>
+      <a class="btn btn-ghost" href="#contact">Book a visit</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST BAR ============ -->
+<div class="trust">
+  <div class="container">
+    <span class="stars">★★★★★ 5.0</span>
+    <span><b>Dozens of 5-star Google reviews</b></span>
+    <span>Honest &amp; upfront — <b>no overselling</b></span>
+    <span>Serving homes &amp; businesses year-round</span>
+  </div>
+</div>
+
+<!-- ============ SCROLL-STORY 1 (scrub + floating text — problem/empathy) ============ -->
+<section class="scrolly" id="story1" data-scrub>
+  <div class="stage">
+    <span class="frame-note">canvas scroll-scrub · reduced-motion → frame 0001</span>
+    <div class="slot">Asset slot<code>scroll-story-1-scrub.mp4 → frames + manifest.json</code></div>
+    <canvas aria-hidden="true"></canvas>
+    <div class="floating">
+      <p class="line">[ It's the coldest night — and the furnace won't fire. ]</p>
+      <p class="line">[ You call around. Nobody calls back. ]</p>
+      <p class="line">[ There's a better way. ]</p>
+    </div>
+    <div class="scrub-progress"></div>
+  </div>
+</section>
+
+<!-- ============ SCROLL-STORY 2 (scrub + floating text — promise; seam-continuous) ============ -->
+<section class="scrolly" id="story2" data-scrub>
+  <div class="stage">
+    <span class="frame-note">first frame = story-1 last frame (seam continuity, authored in footage)</span>
+    <div class="slot">Asset slot<code>scroll-story-2-scrub.mp4 → frames + manifest.json</code></div>
+    <canvas aria-hidden="true"></canvas>
+    <div class="floating">
+      <p class="line">[ We show up. We're honest. ]</p>
+      <p class="line">[ We fix it right — and tell you when you don't need more. ]</p>
+      <p class="line">[ Quality, guaranteed. ]</p>
+    </div>
+    <div class="scrub-progress"></div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <div class="container">
+    <div class="sec-head"><span class="eyebrow">What we do</span><h2>[ Services headline ]</h2></div>
+    <div class="grid">
+      <div class="card"><div class="ico">🔥</div><h3>Furnace Repair</h3><p>[ placeholder ]</p></div>
+      <div class="card"><div class="ico">❄️</div><h3>A/C Repair</h3><p>[ placeholder ]</p></div>
+      <div class="card"><div class="ico">⚙️</div><h3>Installations</h3><p>[ placeholder ]</p></div>
+      <div class="card"><div class="ico">🌡️</div><h3>Heat Pumps</h3><p>[ placeholder + rebate note ]</p></div>
+      <div class="card"><div class="ico">💨</div><h3>Ductless / Mini-split</h3><p>[ placeholder ]</p></div>
+      <div class="card"><div class="ico">🛠️</div><h3>Maintenance</h3><p>[ placeholder ]</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICE AREA ============ -->
+<section class="area" id="area">
+  <div class="container sec-head" style="margin-bottom:0">
+    <span class="eyebrow">Where we work</span><h2>[ Service area ]</h2>
+    <div class="chips">
+      <span class="chip">Richmond Hill</span><span class="chip">Markham</span><span class="chip">Vaughan</span>
+      <span class="chip">Thornhill</span><span class="chip">Aurora</span><span class="chip">Newmarket</span>
+      <span class="chip">+ York Region</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS (horizontal sliding carousel) ============ -->
+<section id="reviews">
+  <div class="container">
+    <div class="sec-head"><span class="eyebrow">Real reviews</span><h2>5.0★ on Google</h2></div>
+    <div class="tcar">
+      <div class="track" id="track" tabindex="0" aria-label="Customer reviews, scroll sideways">
+        <div class="review"><div class="stars">★★★★★</div><p>"Professional, punctual, and knowledgeable. They made sure my AC was running perfectly before they left. Highly recommend."</p><div class="who">Shima Bonakdar · Google</div></div>
+        <div class="review"><div class="stars">★★★★★</div><p>"One of the best contractors I've dealt with. Showed up when they said, and didn't try to upsell me on things I didn't need."</p><div class="who">Negar Zaraby · Google</div></div>
+        <div class="review"><div class="stars">★★★★★</div><p>"Joe was fantastic from start to finish — professional, knowledgeable, and took time to explain everything."</p><div class="who">Shirin Bonakdar · Google</div></div>
+        <div class="review"><div class="stars">★★★★★</div><p>"If you're looking for an honest, reliable, patient technician, Joe is your guy. Fixed with no fuss and no overselling."</p><div class="who">Anahita B. · Google</div></div>
+        <div class="review"><div class="stars">★★★★★</div><p>"Great price. Best service out there. Truly dependable and honest approach."</p><div class="who">Mehri S. · Google</div></div>
+        <div class="review"><div class="stars">★★★★★</div><p>"AC stopped working — quick to respond and fixed same day. Extremely reasonable price. Do not hesitate."</p><div class="who">Sherri A. · Google</div></div>
+        <div class="review"><div class="stars">★★★★★</div><p>"Joe and his team are reliable whenever I need something. You can depend on them in an emergency."</p><div class="who">Melwin Gonsalves · Google</div></div>
+      </div>
+      <div class="car-nav">
+        <button id="prev" aria-label="Previous reviews">‹</button>
+        <button id="next" aria-label="Next reviews">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA BAND ============ -->
+<section class="cta-band">
+  <div class="container">
+    <h2>[ Closing CTA — comfort is one call away ]</h2>
+    <a class="btn btn-ghost" href="tel:+16472506072">Call (647) 250-6072</a>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="container">
+    <div class="sec-head"><span class="eyebrow">Get in touch</span><h2>[ Contact ]</h2></div>
+    <div class="contact-grid">
+      <div class="nap">
+        <p><b>CopperCraft Heating &amp; Cooling</b></p>
+        <p>9555 Yonge St, Richmond Hill, ON L4C 9M5</p>
+        <p><b>Phone:</b> (647) 250-6072 &nbsp; <b>Email:</b> info@coppercraft.ca</p>
+        <p><b>Hours:</b> Mon–Fri 9am–10pm · Sat 10am–3:30pm · Sun closed</p>
+        <div class="slot" style="min-height:260px">Asset slot<code>Google Map embed (contact location)</code></div>
+      </div>
+      <form class="quote" onsubmit="return false">
+        <div class="field"><label>Name</label><input type="text" placeholder="Your name"></div>
+        <div class="field"><label>Phone</label><input type="tel" placeholder="Best number to reach you"></div>
+        <div class="field"><label>What's going on?</label><textarea rows="4" placeholder="e.g. AC not cooling"></textarea></div>
+        <button class="btn btn-primary" type="submit">Request a callback</button>
+        <p class="form-note">⚙ Placeholder form — no Formspree ID yet (wired later). Phase 5: forms=placeholder.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer><div class="container">© CopperCraft Heating &amp; Cooling · Richmond Hill, ON · [footer nav placeholder]</div></footer>
+
+<a class="mobile-call" href="tel:+16472506072">📞 Call CopperCraft — (647) 250-6072</a>
+<div class="pv">LAYOUT PREVIEW · binding for Phase 5</div>
+
+<!-- GSAP (same CDN Phase 5 ships). Graceful fallback if offline: text stays visible. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* ---- Preloader (localStorage skip for returning visitors) ---- */
+  var pre = document.getElementById('preloader');
+  if(reduce || localStorage.getItem('cc_seen')){ pre && pre.remove(); }
+  else {
+    window.addEventListener('load', function(){
+      setTimeout(function(){ pre.classList.add('hidden'); localStorage.setItem('cc_seen','1'); }, 1400);
+    });
+  }
+
+  /* ---- Mobile nav ---- */
+  var t=document.getElementById('navToggle'), m=document.getElementById('menu');
+  t.addEventListener('click',function(){var o=m.classList.toggle('open');t.setAttribute('aria-expanded',o);});
+  m.addEventListener('click',function(e){if(e.target.tagName==='A')m.classList.remove('open');});
+
+  /* ---- Testimonials carousel (arrows + drag; NO autoplay; reduced-motion safe) ---- */
+  var track=document.getElementById('track');
+  function step(){return Math.min(track.clientWidth*0.86+24, 444);}
+  document.getElementById('next').onclick=function(){track.scrollBy({left:step(),behavior:reduce?'auto':'smooth'});};
+  document.getElementById('prev').onclick=function(){track.scrollBy({left:-step(),behavior:reduce?'auto':'smooth'});};
+  var down=false,x0=0,s0=0;
+  track.addEventListener('pointerdown',function(e){down=true;x0=e.clientX;s0=track.scrollLeft;track.style.cursor='grabbing';});
+  addEventListener('pointerup',function(){down=false;track.style.cursor='grab';});
+  track.addEventListener('pointermove',function(e){if(down)track.scrollLeft=s0-(e.clientX-x0);});
+
+  /* ---- Scroll-scrub demo + GSAP-pinned floating text ----
+     Phase 5 (hero-media/scrub-player.js): a canvas draws frame N of the
+     ingested sequence as scroll progresses; GSAP ScrollTrigger pins the
+     stage and drives floating-text opacity. Here we simulate the frame
+     with a moving gradient so the pin + progress behavior is visible. */
+  document.querySelectorAll('[data-scrub]').forEach(function(sec){
+    var cv=sec.querySelector('canvas'), ctx=cv.getContext('2d'),
+        bar=sec.querySelector('.scrub-progress'), lines=sec.querySelectorAll('.floating .line');
+    function size(){cv.width=cv.clientWidth;cv.height=cv.clientHeight;}
+    size(); addEventListener('resize',size);
+    function draw(p){ // p: 0..1 scrub progress → stand-in "frame"
+      var w=cv.width,h=cv.height,g=ctx.createLinearGradient(p*w-h,0,p*w+h,h);
+      g.addColorStop(0,'#123A5A');g.addColorStop(.5,'#23679D');g.addColorStop(1,'#C96A32');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    }
+    function progress(){
+      var r=sec.getBoundingClientRect(), total=sec.offsetHeight-innerHeight;
+      var p=Math.min(1,Math.max(0,-r.top/total));
+      bar.style.width=(p*100)+'%'; if(!reduce) draw(p);
+      if(!window.gsap){ // fallback reveal without GSAP
+        lines.forEach(function(l,i){var seg=i/lines.length;l.style.opacity=p>seg?1:.15;l.style.transform=p>seg?'none':'translateY(24px)';});
+      }
+    }
+    if(!reduce) draw(0);
+    if(window.gsap && window.ScrollTrigger){
+      gsap.registerPlugin(ScrollTrigger);
+      ScrollTrigger.create({trigger:sec,start:'top top',end:'bottom bottom',scrub:true,onUpdate:function(self){
+        bar.style.width=(self.progress*100)+'%'; if(!reduce) draw(self.progress);
+      }});
+      lines.forEach(function(l,i){
+        gsap.to(l,{opacity:1,y:0,ease:'power2.out',
+          scrollTrigger:{trigger:sec,start:(i/lines.length*70+5)+'% top',end:'+=15%',scrub:true}});
+      });
+    } else {
+      addEventListener('scroll',progress,{passive:true}); progress();
+    }
+  });
+})();
+</script>
+</body>
+</html>

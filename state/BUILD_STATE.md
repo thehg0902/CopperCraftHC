@@ -1,14 +1,14 @@
 # Build State
 
-Client: (set at Phase 0)
+Client: CopperCraft Heating & Cooling
 Template version: v1.7.1
-Started: -
+Started: 2026-07-24
 
 | phase | name         | status  | gate                      | completed |
 |-------|--------------|---------|---------------------------|-----------|
-| 0     | intake       | pending | HUMAN: confirm table      | -         |
-| 1     | architecture | pending | -                         | -         |
-| 2     | design       | pending | HUMAN: approve style prev | -         |
+| 0     | intake       | done    | HUMAN: confirm table      | 2026-07-24 |
+| 1     | architecture | done    | -                         | 2026-07-24 |
+| 2     | design       | in-progress | HUMAN: approve style prev | -     |
 | 3     | content      | pending | -                         | -         |
 | 4     | media        | pending | HUMAN: fill slots/approve | -         |
 | 5     | build        | pending | -                         | -         |
@@ -18,3 +18,15 @@ Started: -
 
 status: pending | in-progress | blocked | done
 Notes:
+- P0 (2026-07-24): niche=HVAC contractor. Contact/hours/email/guarantee confirmed
+  → Overrides. No 24/7, no licence claims, no published prices, no founding story
+  (operator). Full review set approved → sliding testimonials carousel. Home pages:
+  hero → scroll-story-1 → scroll-story-2 → services → testimonials → contact.
+- P2 (2026-07-24): tokens.css written from brand board (1 contrast fix: action copper
+  → #A85422 for AA; vibrant #C96A32 kept decorative). Style preview: 61 tokens, 0
+  contrast fails. Layout preview authored + self-checked in browser (hero, dual scrub +
+  GSAP floating text w/ reduced-motion & no-GSAP fallbacks, services, service-area,
+  sliding testimonials carousel, cta, contact placeholder form, mobile nav @360, sticky
+  call bar). 0 console errors. AWAITING operator approval of BOTH previews (gate).
+- Pending: Poppins/Inter woff2 files needed at site/assets/fonts/ (system fallback for
+  now — flagged); domain (deploy-time).

@@ -1,0 +1,117 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Style Preview (never shipped)</title>
+<link rel="stylesheet" href="../site/shared/tokens.css">
+<style>
+body{margin:0;background:var(--color-bg);color:var(--color-text);
+  font-family:var(--font-body,sans-serif);padding:2rem}
+h2{font-family:var(--font-heading,serif);border-bottom:1px solid var(--color-border);
+  padding-bottom:.3rem;margin-top:2.5rem}
+.grid{display:flex;flex-wrap:wrap;gap:1rem}
+.sw{width:130px;font-size:12px} .chip{height:56px;border-radius:var(--radius-sm,6px);
+  border:1px solid var(--color-border)}
+.pair{padding:1rem;border-radius:var(--radius-md,10px);width:230px;position:relative}
+.pair .ratio{display:block;margin-top:.4rem;font-size:11px;opacity:.8}
+.ts code,.sp code{font-size:11px;opacity:.6;margin-left:.75rem;font-family:monospace}
+.sp .bar{height:10px;background:var(--color-accent);border-radius:2px;display:inline-block}
+.sp{display:flex;align-items:center;gap:.5rem}
+.cards{display:flex;gap:1rem;flex-wrap:wrap}
+.card{background:var(--color-surface);padding:var(--space-5,1.25rem);width:200px}
+.r-sm{border-radius:var(--radius-sm)} .r-md{border-radius:var(--radius-md)}
+.r-lg{border-radius:var(--radius-lg)}
+.s-sm{box-shadow:var(--shadow-sm)} .s-md{box-shadow:var(--shadow-md)}
+.s-lg{box-shadow:var(--shadow-lg)}
+.btn{display:inline-block;padding:.7rem 1.4rem;border-radius:var(--radius-full,999px);
+  font-weight:600;text-decoration:none;margin-right:1rem}
+.btn-primary{background:var(--color-primary);color:var(--color-bg)}
+.btn-secondary{border:2px solid var(--color-primary);color:var(--color-primary)}
+input{background:var(--color-surface);color:var(--color-text);
+  border:1px solid var(--color-border);border-radius:var(--radius-sm);
+  padding:.7rem 1rem;font-family:inherit}
+.hero{margin-top:1rem;padding:12vh 2rem;background:var(--color-surface);
+  border-radius:var(--radius-lg);text-align:center}
+.hero h1{font-family:var(--font-heading,serif);font-size:var(--text-hero,3.5rem);
+  line-height:var(--leading-tight,1.1);margin:0 0 1rem}
+.hero p{color:var(--color-text-muted);max-width:38rem;margin:0 auto 1.5rem}
+.motion{display:inline-block;padding:.6rem 1.2rem;background:var(--color-accent);
+  color:var(--color-bg);border-radius:var(--radius-md)}
+@media (prefers-reduced-motion: no-preference){
+  .motion{transition:transform var(--duration-base,300ms) var(--ease-standard,ease)}
+  .motion:hover{transform:translateY(-4px) scale(1.04)}}
+pre.rationale{background:var(--color-surface);padding:1rem;overflow:auto;
+  border-radius:var(--radius-sm);font-size:13px;white-space:pre-wrap}
+</style></head><body>
+<h1 style="font-family:var(--font-heading)">Style Preview</h1>
+<p>Generated from <code>site/shared/tokens.css</code> — approve the vibe
+before Phases 3-5 build on it. This file never ships.</p>
+
+<h2>Design rationale (DECISIONS.md)</h2>
+<pre class="rationale">## Phase 2 — Design Direction (rationale)
+- Direction name: "Copper & Cool" — craftsman-warm meets clean-clinical comfort (implements the operator's brand board 1:1; it is the authoritative system).
+- Type pairing: Poppins (Semibold/Medium) headings — sturdy friendly geometric; Inter (Regular/Medium) body — neutral, legible. Brand fonts = hard constraint.
+- Color intent: warm off-white base (#F7F5F1) + charcoal text (#17191B); COPPER #C96A32 = primary action/warmth; COOLING-BLUE #23679D = trust/secondary; dark charcoal bands (#111416) host the cinematic scrub stages so copper/blue airflow light-streaks pop.
+- Imagery style: photo-real, NO people (operator) — interiors, condensers/equipment, and the copper/blue light-streak abstract for scrub sections; subtle airflow-line motif.
+- Layout personality: sturdy, straightforward, generous 8pt rhythm, rounded 8–16px cards, soft 3-tier shadows; zero clutter, conversion path always visible.
+- Motion level: EXPRESSIVE — DEVIATION from HVAC playbook's "subtle" default, justified by client.md precedence (operator-requested cinematic scrub + Stack animation:gsap). Guardrails: prefers-reduced-motion fallbacks everywhere, poster = LCP, phone/CTA never buried, first viewport fast.
+- ONE distinctive element: the continuous scroll-scrub "single unbroken shot" journey (hero loop → story-1 → story-2, seam-matched) with GSAP-pinned floating text over the copper/blue airflow visual.
+- Trust approach: lead with 5.0★ + the review wall (carousel); copper-accent star/quote motifs; NO licence/insured badges (unconfirmed).
+- Color mode: light-dominant with dark cinematic feature bands.
+- Playbook conversion must-haves KEPT despite expressive motion: tap-to-call in header (sticky mobile), service-area list, short placeholder quote form (name/phone/issue), single clear CTA = CALL.</pre>
+
+<h2>Mock hero</h2>
+<div class="hero"><h1>Your Headline In The Display Face</h1>
+<p>Subheading in the body face at muted color — does this pairing carry
+the mood the client asked for?</p>
+<a class="btn btn-primary" href="#">Primary Action</a>
+<a class="btn btn-secondary" href="#">Secondary</a></div>
+
+<h2>Contrast pairings (WCAG AA)</h2><div class="grid"><div class="pair" style="color:var(--color-text);background:var(--color-bg)">body text / page bg<br><strong>The quick brown fox — $149</strong><span class="ratio">16.19:1 PASS</span></div>
+<div class="pair" style="color:var(--color-text-muted);background:var(--color-bg)">muted text / page bg<br><strong>The quick brown fox — $149</strong><span class="ratio">5.13:1 PASS</span></div>
+<div class="pair" style="color:var(--color-text);background:var(--color-surface)">text / surface (cards)<br><strong>The quick brown fox — $149</strong><span class="ratio">17.63:1 PASS</span></div>
+<div class="pair" style="color:var(--color-bg);background:var(--color-primary)">button label / primary<br><strong>The quick brown fox — $149</strong><span class="ratio">4.87:1 PASS</span></div></div>
+<h2>Palette</h2><div class="grid"><div class="sw"><div class="chip" style="background:var(--color-accent)"></div><code>--color-accent</code><small>#23679D</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-accent-dark)"></div><code>--color-accent-dark</code><small>#123A5A</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-accent-light)"></div><code>--color-accent-light</code><small>#4CA6D8</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-bg)"></div><code>--color-bg</code><small>#F7F5F1</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-bg-alt)"></div><code>--color-bg-alt</code><small>#EEF1F3</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-border)"></div><code>--color-border</code><small>#D9DEE2</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-dark-bg)"></div><code>--color-dark-bg</code><small>#111416</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-dark-surface)"></div><code>--color-dark-surface</code><small>#1A2024</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-dark-text)"></div><code>--color-dark-text</code><small>#F7F5F1</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-dark-text-muted)"></div><code>--color-dark-text-muted</code><small>#AAB2B8</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-error)"></div><code>--color-error</code><small>#B42318</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-primary)"></div><code>--color-primary</code><small>#A85422</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-primary-dark)"></div><code>--color-primary-dark</code><small>#8F431F</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-primary-light)"></div><code>--color-primary-light</code><small>#E98543</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-primary-vibrant)"></div><code>--color-primary-vibrant</code><small>#C96A32</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-success)"></div><code>--color-success</code><small>#157347</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-surface)"></div><code>--color-surface</code><small>#FFFFFF</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-text)"></div><code>--color-text</code><small>#17191B</small></div>
+<div class="sw"><div class="chip" style="background:var(--color-text-muted)"></div><code>--color-text-muted</code><small>#616970</small></div></div>
+<h2>Type scale</h2><div class="ts" style="font-size:var(--text-hero);font-family:var(--font-heading)">Aa Quick brown fox <code>--text-hero = clamp(2.5rem, 6vw, 4.209rem)</code></div>
+<div class="ts" style="font-size:var(--text-3xl);font-family:var(--font-heading)">Aa Quick brown fox <code>--text-3xl = 3.157rem</code></div>
+<div class="ts" style="font-size:var(--text-2xl);font-family:var(--font-heading)">Aa Quick brown fox <code>--text-2xl = 2.369rem</code></div>
+<div class="ts" style="font-size:var(--text-xl);font-family:var(--font-body)">Aa Quick brown fox <code>--text-xl = 1.777rem</code></div>
+<div class="ts" style="font-size:var(--text-lg);font-family:var(--font-body)">Aa Quick brown fox <code>--text-lg = 1.333rem</code></div>
+<div class="ts" style="font-size:var(--text-base);font-family:var(--font-body)">Aa Quick brown fox <code>--text-base = 1rem</code></div>
+<div class="ts" style="font-size:var(--text-sm);font-family:var(--font-body)">Aa Quick brown fox <code>--text-sm = 0.875rem</code></div>
+<div class="ts" style="font-size:var(--text-xs);font-family:var(--font-body)">Aa Quick brown fox <code>--text-xs = 0.75rem</code></div>
+<h2>Spacing</h2><div class="sp"><code>--space-1</code><div class="bar" style="width:var(--space-1)"></div><small>0.25rem</small></div>
+<div class="sp"><code>--space-2</code><div class="bar" style="width:var(--space-2)"></div><small>0.5rem</small></div>
+<div class="sp"><code>--space-3</code><div class="bar" style="width:var(--space-3)"></div><small>0.75rem</small></div>
+<div class="sp"><code>--space-4</code><div class="bar" style="width:var(--space-4)"></div><small>1rem</small></div>
+<div class="sp"><code>--space-5</code><div class="bar" style="width:var(--space-5)"></div><small>1.5rem</small></div>
+<div class="sp"><code>--space-6</code><div class="bar" style="width:var(--space-6)"></div><small>2rem</small></div>
+<div class="sp"><code>--space-7</code><div class="bar" style="width:var(--space-7)"></div><small>2.5rem</small></div>
+<div class="sp"><code>--space-8</code><div class="bar" style="width:var(--space-8)"></div><small>3rem</small></div>
+<div class="sp"><code>--space-9</code><div class="bar" style="width:var(--space-9)"></div><small>4rem</small></div>
+<div class="sp"><code>--space-10</code><div class="bar" style="width:var(--space-10)"></div><small>5rem</small></div>
+<div class="sp"><code>--space-11</code><div class="bar" style="width:var(--space-11)"></div><small>6rem</small></div>
+<div class="sp"><code>--space-12</code><div class="bar" style="width:var(--space-12)"></div><small>8rem</small></div>
+<h2>Radius + elevation</h2><div class="cards">
+<div class="card r-sm s-sm">radius-sm / shadow-sm</div>
+<div class="card r-md s-md">radius-md / shadow-md</div>
+<div class="card r-lg s-lg">radius-lg / shadow-lg</div></div>
+<h2>Form + motion</h2>
+<p><input placeholder="Input field"> <span class="motion">hover me (motion tokens)</span></p>
+</body></html>
