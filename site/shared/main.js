@@ -1,19 +1,45 @@
-// Shared init: preloader (with returning-visitor skip) + mobile nav toggle.
+// Shared init: preloader + staged hero entrance + mobile nav toggle.
 (function () {
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ==========================================================
+     PRELOADER + HERO ENTRANCE
+
+     Runs on EVERY visit. The returning-visitor localStorage skip that
+     client.md offered as optional is deliberately gone — the operator wants
+     the curtain every time.
+
+     Timings are the knobs worth tuning:
+     ========================================================== */
+  var PRELOADER_HOLD_MS = 1200;  // beat held after load before the curtain lifts
+  var PRELOADER_MAX_MS  = 4000;  // hard cap: never trap a visitor behind it
+  var CURTAIN_LEAD_MS   = 260;   // let the curtain start lifting before copy moves
+
+  function revealHero() {
+    var intro = document.querySelector('.hero-intro');
+    if (intro) intro.classList.add('is-revealed');
+  }
+
   var pre = document.getElementById('preloader');
-  if (pre) {
-    if (reduce || localStorage.getItem('coppercraft_seen')) {
-      pre.remove();
-    } else {
-      window.addEventListener('load', function () {
-        setTimeout(function () {
-          pre.classList.add('hidden');
-          localStorage.setItem('coppercraft_seen', '1');
-        }, 1400);
-      });
+  if (!pre) {
+    revealHero();                       // sub-pages: nothing to wait for
+  } else if (reduce) {
+    pre.remove();                       // no curtain, no stagger — show it all
+    revealHero();
+  } else {
+    var lifted = false;
+    function lift() {
+      if (lifted) return;               // load + cap can both fire
+      lifted = true;
+      pre.classList.add('hidden');
+      setTimeout(revealHero, CURTAIN_LEAD_MS);
     }
+    // `load` waits on the hero video and every image, which can be a long
+    // time on a slow connection — the cap guarantees the page appears.
+    window.addEventListener('load', function () {
+      setTimeout(lift, PRELOADER_HOLD_MS);
+    });
+    setTimeout(lift, PRELOADER_MAX_MS);
   }
 
   /* Header state: stay transparent (knockout logo, light nav) while a

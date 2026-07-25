@@ -56,6 +56,31 @@
 .hero-stage h1{font-size:var(--text-hero);margin-block:var(--space-4) var(--space-5);
                text-shadow:0 2px 24px rgba(0,0,0,.45)}
 .hero-sub{font-size:var(--text-lg);color:#f0f0f0;margin-bottom:var(--space-7)}
+
+/* ===== Staged hero entrance =====
+   Each element lifts in after the one before it, with a real pause between,
+   so the opening reads as deliberate rather than everything arriving at once.
+   The LAYER's opacity belongs to the scroll driver — this only ever touches
+   the children, so the two never fight.
+   Hidden by default and revealed by .is-revealed from shared/main.js; the
+   <noscript> block in index.html un-hides them when the script never runs. */
+.hero-intro > *{opacity:0;transform:translateY(26px)}
+@media(prefers-reduced-motion:no-preference){
+  .hero-intro > *{transition:opacity 700ms var(--ease-out-expo),
+                             transform 700ms var(--ease-out-expo)}
+  .hero-intro.is-revealed > *{opacity:1;transform:none}
+  /* 240ms between beats — long enough to read as a sequence, short enough
+     that the phone CTA is not held back on an emergency visit. */
+  .hero-intro.is-revealed > :nth-child(1){transition-delay:0ms}
+  .hero-intro.is-revealed > :nth-child(2){transition-delay:240ms}
+  .hero-intro.is-revealed > :nth-child(3){transition-delay:480ms}
+  .hero-intro.is-revealed > :nth-child(4){transition-delay:720ms}
+  .hero-intro.is-revealed > :nth-child(5){transition-delay:960ms}
+}
+/* Reduced motion: no curtain, no stagger, no transform — just the hero. */
+@media(prefers-reduced-motion:reduce){
+  .hero-intro > *{opacity:1;transform:none}
+}
 .hero-actions{display:flex;gap:var(--space-3);flex-wrap:wrap}
 .hero-trust{margin-top:var(--space-6);font-size:var(--text-sm);color:#d8dade;
             text-shadow:0 1px 8px rgba(0,0,0,.5)}

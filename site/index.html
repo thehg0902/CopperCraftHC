@@ -7,7 +7,7 @@
 <meta name="description" content="Honest heating and cooling service in Richmond Hill. Furnace and A/C repair, installation, heat pumps and water heaters. 5.0★ on Google. Same-day service when available.">
 <link rel="stylesheet" href="shared/tokens.css?v=70d38a08">
 <link rel="stylesheet" href="shared/base.css?v=838c7e72">
-<link rel="stylesheet" href="style.css?v=dead54ba">
+<link rel="stylesheet" href="style.css?v=9bc74582">
 <noscript><style>
   /* No driver: the runway is pure scroll distance the choreography would
      have used, so collapse it to a single screen and show only the hero
@@ -16,6 +16,9 @@
   .hero-stage{height:100svh}
   .hero-stage__layer--next,.hero-stage__layer--promise{display:none}
   .hero-stage__canvas{display:none}
+  /* The staged hero copy starts hidden and is revealed by JS — without it,
+     show everything immediately rather than an empty hero. */
+  .hero-intro > *{opacity:1;transform:none}
 </style></noscript>
 </head>
 <body>
@@ -87,7 +90,7 @@
     </div>
 
     <div class="hero-stage__layer hero-stage__layer--lead" data-hero-layer="lead">
-      <div class="container">
+      <div class="container hero-intro">
         <span class="eyebrow eyebrow--on-dark">Heating &amp; Cooling Service in Richmond Hill</span>
         <h1>Comfort Down? We'll Make It Right.</h1>
         <p class="hero-sub">Honest advice. Quality work. No pressure.</p>
@@ -656,7 +659,7 @@
   <a class="btn btn-ghost" href="contact/">Book a Visit</a>
 </div>
 
-<script src="shared/main.js?v=0bb8848e"></script>
+<script src="shared/main.js?v=094b0ec6"></script>
 <script src="script.js?v=952a8213"></script>
 </body>
 </html>
