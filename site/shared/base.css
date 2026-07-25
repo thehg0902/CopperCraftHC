@@ -135,13 +135,21 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
      border-top:1px solid var(--color-dark-surface)}
 
 /* ===== Sticky mobile action bar ===== */
+/* Hidden until the pinned hero stage is fully behind the visitor — a fixed
+   bar over the cinematic run would cut the "one continuous shot" the whole
+   opening is built around. shared/main.js adds .is-visible once the stage's
+   bottom edge clears the viewport top (and immediately on pages that have no
+   hero stage at all). */
 .mobile-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:95;
             gap:var(--space-3);padding:var(--space-3) var(--space-4);
-            background:rgba(17,20,22,.92);backdrop-filter:blur(10px)}
-/* Sized to their labels — a button should not be much wider than its
-   text. The bar centres them instead of stretching each to 50%. */
-.mobile-bar{justify-content:center}
-.mobile-bar .btn{flex:0 1 auto}
+            background:rgba(17,20,22,.92);backdrop-filter:blur(10px);
+            transform:translateY(110%);visibility:hidden}
+.mobile-bar.is-visible{transform:none;visibility:visible}
+@media(prefers-reduced-motion:no-preference){
+  .mobile-bar{transition:transform var(--duration-base) var(--ease-out-expo),
+                         visibility var(--duration-base)}
+}
+.mobile-bar .btn{flex:1}
 
 /* ===== Mobile =====
    Drawer breakpoint is 1099px, not 1024: the 7-link nav plus the brand and

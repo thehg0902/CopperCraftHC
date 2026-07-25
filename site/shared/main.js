@@ -69,6 +69,36 @@
   }
 
   /* ==========================================================
+     STICKY MOBILE ACTION BAR — reveal only past the hero stage.
+     A fixed bar sitting over the pinned cinematic run would cut the "one
+     continuous shot" the opening is built around, so it stays hidden until
+     the stage's bottom edge clears the viewport top. Pages with no hero
+     stage (every sub-page) show it immediately.
+     ========================================================== */
+  (function mobileBar() {
+    var bar = document.querySelector('.mobile-bar');
+    if (!bar) return;
+    var stage = document.querySelector('[data-hero-stage]');
+    if (!stage) { bar.classList.add('is-visible'); return; }
+
+    var lastY = -1;
+    function sync() {
+      // Past the stage entirely — not merely past the scrub, since the stage
+      // still fills the viewport for its final 100svh as it scrolls away.
+      bar.classList.toggle('is-visible', stage.getBoundingClientRect().bottom <= 0);
+    }
+    function onScroll() {
+      var y = window.pageYOffset;
+      if (y === lastY) return;
+      lastY = y;
+      sync();
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', function () { lastY = -1; sync(); });
+    sync();
+  })();
+
+  /* ==========================================================
      CAROUSELS — one player, every track.
      Lives here rather than in the home page's script.js because the Our Work
      carousel also runs on /our-work/, which loads its own script.js only.
