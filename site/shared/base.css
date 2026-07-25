@@ -244,6 +244,10 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
         border:1px solid var(--color-border);border-radius:var(--radius-lg);
         padding:var(--space-6);box-shadow:var(--shadow-sm);display:flex;
         flex-direction:column;gap:var(--space-4)}
+/* Solid copper, not the metallic gradient: at 16px the gradient goes muddy
+   (same reason the hero trust line uses a solid fill). */
+.review__stars{display:flex;align-items:center;gap:3px;color:var(--color-primary)}
+.review__stars svg{width:16px;height:16px;flex:0 0 auto}
 .review blockquote p{font-size:var(--text-base)}
 /* Long quotes are clamped so a card is scannable, never a wall of text.
    Cards that actually overflow carry a Read more link to the Google profile
