@@ -22,7 +22,14 @@ import re
 import sys
 
 SITE = pathlib.Path(__file__).resolve().parent.parent / "site"
-ASSET_RE = re.compile(r'(?P<attr>href|src)="(?P<url>[^"]+\.(?:css|js))(?:\?[^"]*)?"')
+# Images and video are stamped too, not just CSS/JS: swapping a logo or a
+# poster changes the FILE but not the URL, so a returning visitor keeps the
+# cached copy for the full max-age. Scrub frames are excluded on purpose —
+# they are requested from JS via data-scrub-base + a pattern, never from a
+# markup attribute, so there is nothing here to rewrite.
+ASSET_RE = re.compile(
+    r'(?P<attr>href|src|poster)="'
+    r'(?P<url>[^"]+\.(?:css|js|png|webp|jpe?g|svg|mp4))(?:\?[^"]*)?"')
 SKIP = ("http://", "https://", "//", "data:")
 
 
