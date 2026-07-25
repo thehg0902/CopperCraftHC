@@ -6,3 +6,6 @@ See contracts/media-log.md for format and rules.
 | hero-loop.mp4 | 2026-07-24 | video | client | n/a — operator-supplied footage | 0 | n/a (not paid gen) | site/assets/video/hero-loop.mp4 | in-use |
 | scroll-story-1-scrub.mp4 | 2026-07-24 | video | client | n/a — operator-supplied footage | 0 | n/a (not paid gen) | site/assets/images/scrub/scroll-story-1-scrub/manifest.json | in-use |
 | scroll-story-2-scrub.mp4 | 2026-07-24 | video | client | n/a — operator-supplied footage | 0 | n/a (not paid gen) | site/assets/images/scrub/scroll-story-2-scrub/manifest.json | in-use |
+| logo-mark.png | 2026-07-24 | image | client | n/a — operator logo-Image.png, cropped to content bounds | 0 | n/a (not paid gen) | site/assets/images/logo-mark.png | in-use |
+| logo-wordmark.png | 2026-07-24 | image | client | n/a — operator logo-text.png, cropped to content bounds | 0 | n/a (not paid gen) | site/assets/images/logo-wordmark.png | in-use |
+| logo-wordmark-light.png | 2026-07-24 | image | client | n/a — operator wordmark, neutral glyphs recoloured warm-white for dark bg | 0 | n/a (not paid gen) | site/assets/images/logo-wordmark-light.png | in-use |

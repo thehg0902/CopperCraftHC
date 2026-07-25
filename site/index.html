@@ -12,14 +12,20 @@
 <body>
 
 <div id="preloader" aria-hidden="true">
-  <div class="pl-logo">CC</div>
+  <img class="pl-logo" src="assets/images/logo-mark.png" alt="" width="256" height="257">
   <div class="pl-bar"><span></span></div>
   <div class="pl-text">Warming up…</div>
 </div>
 
-<header>
+<header id="siteHeader">
   <div class="container nav">
-    <a class="brand" href="#top"><span class="mark">CC</span> CopperCraft</a>
+    <a class="brand" href="#top" aria-label="CopperCraft Heating &amp; Cooling — home">
+      <img class="brand-mark" src="assets/images/logo-mark.png" alt="" width="256" height="257">
+      <span class="brand-words">
+        <img class="brand-word brand-word--light" src="assets/images/logo-wordmark-light.png" alt="" width="680" height="136">
+        <img class="brand-word brand-word--dark" src="assets/images/logo-wordmark.png" alt="" width="680" height="136">
+      </span>
+    </a>
     <nav class="nav-links" id="menu" aria-label="Primary">
       <a href="#services">Services</a>
       <a href="#reviews">Reviews</a>
@@ -36,7 +42,7 @@
 <main>
 
 <!-- HERO -->
-<section class="hero" id="top">
+<section class="hero" id="top" data-header-dark>
   <video class="hero-video" autoplay muted loop playsinline aria-hidden="true" poster="assets/images/hero-loop-poster.webp">
     <source src="assets/video/hero-loop.mp4" type="video/mp4">
   </video>
@@ -52,7 +58,7 @@
 </section>
 
 <!-- SCROLL-STORY 1 — problem / empathy -->
-<section class="scrolly" id="story1" data-scrub="scroll-story-1-scrub" aria-label="The problem">
+<section class="scrolly" id="story1" data-scrub="scroll-story-1-scrub" data-header-dark aria-label="The problem">
   <div class="stage">
     <canvas aria-hidden="true"></canvas>
     <div class="floating">
@@ -65,7 +71,7 @@
 </section>
 
 <!-- SCROLL-STORY 2 — promise (seam-continuous with story 1) -->
-<section class="scrolly" id="story2" data-scrub="scroll-story-2-scrub" aria-label="The promise">
+<section class="scrolly" id="story2" data-scrub="scroll-story-2-scrub" data-header-dark aria-label="The promise">
   <div class="stage">
     <canvas aria-hidden="true"></canvas>
     <div class="floating">
@@ -78,7 +84,7 @@
 </section>
 
 <!-- TRUST BAR (after the seamless cinematic sequence) -->
-<div class="trust">
+<div class="trust" data-header-dark>
   <div class="container">
     <span class="stars">★★★★★ 5.0</span>
     <span><b>Dozens of 5-star Google reviews</b></span>
@@ -204,7 +210,7 @@
 </section>
 
 <!-- CTA BAND -->
-<section class="cta-band">
+<section class="cta-band" data-header-dark>
   <div class="container">
     <h2>Comfort is one honest call away.</h2>
     <a class="btn btn-ghost" href="tel:+16472506072">Call (647) 250-6072</a>
@@ -236,7 +242,7 @@
 
 </main>
 
-<footer>
+<footer data-header-dark>
   <div class="container">
     <p>© <span id="year">2026</span> CopperCraft Heating &amp; Cooling · 9555 Yonge St, Richmond Hill, ON</p>
     <nav aria-label="Footer">

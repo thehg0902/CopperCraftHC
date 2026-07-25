@@ -82,3 +82,26 @@ Notes:
   console errors. forms/maps sections remain placeholder pending Phase 5
   forms/maps-gbp integration pass. Continuing Phase 5 (accessibility,
   performance, mobile-polish, integrations) before QA.
+- P5 header + real logo (2026-07-24, operator request): removed the solid top
+  bar — header is now fixed + fully transparent so the hero runs edge-to-edge
+  (sticky had been reserving a light 68px strip above it). Both text
+  placeholders replaced with the operator's real artwork: logo-mark.png +
+  logo-wordmark.png, cropped from logo-Image.png / logo-text.png to their
+  content bounds (the sources were ~1254px canvases that were mostly empty
+  padding, plus two stray edge artifacts on the mark). Added
+  logo-wordmark-light.png — a knockout variant recolouring only the neutral
+  near-black glyphs to warm white, copper/blue accents untouched — because a
+  transparent header floats over the dark cinematic run where the original
+  near-black wordmark is invisible. Header swaps state via [data-header-dark]
+  + .scrolled (shared/main.js). New --header-h token. All 3 logos ingested
+  with alpha preserved, MEDIA_LOG rows in-use. DEVIATION from the binding
+  layout preview logged in DECISIONS.md. Verified at 1280/800/360: no bar,
+  correct state swap over light sections, mobile drawer links legible, 0
+  console errors.
+- NOTE (env): .claude/launch.json had hardcoded Windows Python paths — fixed
+  to python3. preview_start still cannot launch the server on this Mac (the
+  launcher process has no Desktop access: getcwd/chdir "Operation not
+  permitted"), so the preview runs as a background `python3 -m http.server
+  8080` from site/ and the browser attaches to http://localhost:8080. Granting
+  the launcher Full Disk / Desktop access, or moving the repo out of
+  ~/Desktop, would restore the normal preview_start path.
