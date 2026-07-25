@@ -10,7 +10,7 @@ Started: 2026-07-24
 | 1     | architecture | done    | -                         | 2026-07-24 |
 | 2     | design       | done    | HUMAN: approve style prev | 2026-07-24 |
 | 3     | content      | done    | -                         | 2026-07-24 |
-| 4     | media        | in-progress | HUMAN: fill slots/approve | -     |
+| 4     | media        | in-progress | HUMAN: confirm slot mapping | -   |
 | 5     | build        | pending | -                         | -         |
 | 6     | qa           | pending | scripts must pass         | -         |
 | 7     | deploy       | pending | HUMAN: confirm deploy     | -         |
@@ -51,3 +51,10 @@ Notes:
   used verbatim. No invented facts. site/style.css, site/script.js,
   site/shared/base.css, site/shared/main.js created as empty Phase-5 stubs.
   Phase 3 done. Proceeding to Phase 4 media.
+- P4 (2026-07-24): intake swept — all 3 required video slots (hero-loop,
+  scroll-story-1-scrub, scroll-story-2-scrub) already supplied by operator
+  footage; moved into placement folders under client/assets-intake/slots/,
+  pre-ticked [x], MEDIA_LOG rows model=client/credits=0. ZERO gaps — no
+  generation prompts, no paid-media gate needed. logo-*.png files noted as
+  unused (layout uses text logotype, not image). STOPPED for operator to
+  confirm slot mapping, then run /ingest.
