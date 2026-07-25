@@ -9,8 +9,8 @@ Started: 2026-07-24
 | 0     | intake       | done    | HUMAN: confirm table      | 2026-07-24 |
 | 1     | architecture | done    | -                         | 2026-07-24 |
 | 2     | design       | done    | HUMAN: approve style prev | 2026-07-24 |
-| 3     | content      | in-progress | -                     | -         |
-| 4     | media        | pending | HUMAN: fill slots/approve | -         |
+| 3     | content      | done    | -                         | 2026-07-24 |
+| 4     | media        | in-progress | HUMAN: fill slots/approve | -     |
 | 5     | build        | pending | -                         | -         |
 | 6     | qa           | pending | scripts must pass         | -         |
 | 7     | deploy       | pending | HUMAN: confirm deploy     | -         |
@@ -45,3 +45,9 @@ Notes:
 - P2 GATE (2026-07-24): operator approved both style-preview.html and
   layout-preview.html in-chat. Layout preview is now BINDING for Phase 5.
   Phase 2 marked done. Proceeding to Phase 3 content.
+- P3 (2026-07-24): final copy for all 9 home sections written directly into
+  site/index.html (single-page site). Hero register chosen (warm/honest
+  craftsman, see DECISIONS.md). Full approved testimonial set (9 reviews)
+  used verbatim. No invented facts. site/style.css, site/script.js,
+  site/shared/base.css, site/shared/main.js created as empty Phase-5 stubs.
+  Phase 3 done. Proceeding to Phase 4 media.

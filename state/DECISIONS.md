@@ -74,3 +74,26 @@ Operator approved all 3 recommended sections. Final single-page section order (i
 Shifted from flat orange to a PREMIUM METALLIC COPPER — deeper, browner/rosier, less saturated + a restrained reflective sheen (not chrome, "not too metallic").
 - tokens.css: --color-primary #A85422 → #A05628 (AA white ~5.4:1); --color-primary-vibrant #C96A32→#B26A38; --color-primary-light #E98543→#E0A46A. New metallic tokens: --metal-copper-shade/core/glow/spec; --gradient-copper (curved reflective sweep, champagne specular); --sheen-soft (button surface curvature); --sheen-sweep (slow glint).
 - Applied: primary buttons = satin copper (sheen overlay + specular top edge + inset depth) with a slow low-opacity glint; CTA band = darker metallic gradient (lightest stop #A9662F keeps white text AA) + diagonal sheen sweep; trust + review stars gilded via gradient-clip text; logo mark gilded. Motion glint is prefers-reduced-motion-gated. Style preview: 67 tokens, 0 contrast fails.
+
+## Phase 3 — Copy (headline register + coverage)
+- Hero headline register: chose the warm/honest/craftsman register over the
+  urgent-direct register, per Mood adjectives (dependable, honest, warm,
+  neighbourly, craftsman-precise). Candidates considered: (A) "Furnace Down?
+  A/C Dead? We Answer the Phone — and Tell You the Truth." (urgent-direct) vs
+  (B) "Honest Heating & Cooling, Right Here in Richmond Hill" (warm-craftsman,
+  CHOSEN). Urgency still carried in the subhead + CTA ("Call Now — Fast
+  Response") so the panic-lane audience isn't lost. Register held consistent
+  site-wide (services, CTA band, contact all lead with honesty/trust, not
+  pressure). | claude | rule 3
+- All copy written into site/index.html (single-page site per Phase 1
+  architecture). No invented facts: no years-in-business, no licence claim,
+  no published price, no 24/7 claim — matches Overrides. Testimonials are
+  verbatim from the approved Auto list, truncated quotes kept as "[…]"
+  exactly as supplied, never completed. Heat-pump service copy stays vague on
+  rebates ("rebate programs available to you") per Target Audience guidance —
+  no dollar figures. | claude | rule 2, 2c
+- site/style.css, site/script.js, site/shared/base.css, site/shared/main.js
+  created as empty stubs (page skeleton per file-structure contract) — Phase
+  5 (layout-systems/components/hero-media/frontend-animation) fills these in;
+  the approved layout-preview.html markup/classes are binding for that pass.
+  | claude | file-structure contract rule 7, precedence with Phase 2 gate
