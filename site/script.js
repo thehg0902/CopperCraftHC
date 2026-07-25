@@ -1,5 +1,7 @@
-/* Home page behavior: hero pinned stage (idle loop -> scroll-scrub),
-   the story scrub section, and the testimonials carousel. */
+/* Home page behavior: the hero pinned stage (idle loop -> scroll-scrub ->
+   story-2), driven by scroll position.
+   Carousels live in shared/main.js — /our-work/ runs one too and does not
+   load this file. */
 (function () {
   'use strict';
 
@@ -271,21 +273,4 @@
     }, measure);
   })();
 
-  /* ==========================================================
-     TESTIMONIALS CAROUSEL (arrows + drag; no autoplay)
-     ========================================================== */
-  (function carousel() {
-    var track = document.getElementById('track');
-    if (!track) return;
-    var prevBtn = document.getElementById('prev');
-    var nextBtn = document.getElementById('next');
-    function step() { return Math.min(track.clientWidth * 0.86 + 24, 444); }
-    if (nextBtn) nextBtn.onclick = function () { track.scrollBy({ left: step(), behavior: reduced ? 'auto' : 'smooth' }); };
-    if (prevBtn) prevBtn.onclick = function () { track.scrollBy({ left: -step(), behavior: reduced ? 'auto' : 'smooth' }); };
-
-    var down = false, x0 = 0, s0 = 0;
-    track.addEventListener('pointerdown', function (e) { down = true; x0 = e.clientX; s0 = track.scrollLeft; track.style.cursor = 'grabbing'; });
-    window.addEventListener('pointerup', function () { down = false; track.style.cursor = 'grab'; });
-    track.addEventListener('pointermove', function (e) { if (down) track.scrollLeft = s0 - (e.clientX - x0); });
-  })();
 })();

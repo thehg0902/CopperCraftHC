@@ -67,4 +67,87 @@
       if (e.target.tagName === 'A') menu.classList.remove('open');
     });
   }
+
+  /* ==========================================================
+     CAROUSELS — one player, every track.
+     Lives here rather than in the home page's script.js because the Our Work
+     carousel also runs on /our-work/, which loads its own script.js only.
+     ========================================================== */
+  var AUTOPLAY_MS = 5200;
+
+  function makeCarousel(track, prevBtn, nextBtn) {
+    if (!track) return;
+    // Pause scope is the whole component, not just the scroller — otherwise
+    // focusing the prev/next buttons would not stop the autoplay.
+    var scope = track.closest('.tcar') || track;
+    var timer = null, paused = false, down = false;
+
+    function step() {
+      var first = track.firstElementChild;
+      if (!first) return track.clientWidth;
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return first.getBoundingClientRect().width + gap;
+    }
+    function go(dir) {
+      var max = track.scrollWidth - track.clientWidth;
+      var to = track.scrollLeft + dir * step();
+      if (dir > 0 && track.scrollLeft >= max - 2) to = 0;        // wrap forward
+      else if (dir < 0 && track.scrollLeft <= 2) to = max;       // wrap back
+      track.scrollTo({ left: to, behavior: reduce ? 'auto' : 'smooth' });
+    }
+
+    if (nextBtn) nextBtn.addEventListener('click', function () { go(1); });
+    if (prevBtn) prevBtn.addEventListener('click', function () { go(-1); });
+
+    track.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    });
+
+    track.addEventListener('pointerdown', function (e) {
+      down = true; var x0 = e.clientX, s0 = track.scrollLeft;
+      // is-dragging drops scroll-behavior:smooth so the grab tracks 1:1
+      // instead of animating every pointermove.
+      track.classList.add('is-dragging');
+      track.style.cursor = 'grabbing';
+      function move(ev) { if (down) track.scrollLeft = s0 - (ev.clientX - x0); }
+      function up() {
+        down = false;
+        track.classList.remove('is-dragging');
+        track.style.cursor = 'grab';
+        window.removeEventListener('pointermove', move);
+        window.removeEventListener('pointerup', up);
+      }
+      window.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', up);
+    });
+
+    /* Autoplay. Never under reduced motion — an auto-advancing carousel is
+       precisely the motion that setting opts out of. Pauses on hover and on
+       keyboard focus (WCAG 2.2.2 lets the user stop moving content), while
+       dragging, and while the tab is hidden. */
+    if (reduce) return;
+    function start() { if (!timer) timer = setInterval(function () {
+      if (!paused && !down) go(1);
+    }, AUTOPLAY_MS); }
+    function stop() { clearInterval(timer); timer = null; }
+
+    ['pointerenter', 'focusin'].forEach(function (ev) {
+      scope.addEventListener(ev, function () { paused = true; });
+    });
+    ['pointerleave', 'focusout'].forEach(function (ev) {
+      scope.addEventListener(ev, function () { paused = false; });
+    });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stop(); else start();
+    });
+    start();
+  }
+
+  makeCarousel(document.getElementById('track'),
+               document.getElementById('prev'),
+               document.getElementById('next'));
+  makeCarousel(document.getElementById('workTrack'),
+               document.getElementById('workPrev'),
+               document.getElementById('workNext'));
 })();

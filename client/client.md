@@ -172,9 +172,11 @@ installation Richmond Hill", "HVAC maintenance Richmond Hill".
 - Audience:
 - Years in business / founded:
 {operator: needed — a real founding year unlocks a strong trust line. Not invented.}
-- Service area:
-{claude-proposed: Richmond Hill + York Region (Markham, Vaughan, Thornhill,
- Aurora, Newmarket) — confirm the true radius.}
+- Service area: Richmond Hill, Markham, Vaughan, Thornhill, Aurora, Newmarket
+  {operator-CONFIRMED 2026-07-25 (in-chat). Previously a claude-proposed guess;
+   it was pulled off the site on 2026-07-24 precisely because it was unconfirmed,
+   and is now published as fact. Outside these six, the site invites the visitor
+   to call and confirm rather than implying coverage.}
 - Certifications / licenses: {operator unsure — do NOT display any TSSA licence #,
  G2/G1, or "licensed/insured" claim until confirmed. Trust rests on the 5.0 Google
  rating + review volume instead.}
