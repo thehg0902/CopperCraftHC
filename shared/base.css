@@ -217,7 +217,7 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 /* 2-across even at mobile: 10 cards stacked one-per-row is a wall of text
    on a phone. 10 divides evenly by 2 and 5, so no breakpoint strands a
    widow (rules/css.md). */
-.service-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-3)}
+.service-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-3)}
 .service-card{background:var(--color-surface);border:1px solid var(--color-border);
      border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
 /* One icon set serves both card types and both backgrounds: stroke is
@@ -282,7 +282,7 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 .work .car-nav button:hover{background:#232a2f;border-color:var(--color-primary-light)}
 
 /* Grid on /our-work/ (browse everything); marquee cells on the homepage. */
-.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-4)}
+.work-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4)}
 .work-item{position:relative;border-radius:var(--radius-lg);overflow:hidden;
      background:var(--color-dark-surface)}
 .marquee--work .work-item{flex:none;width:min(72vw,17rem)}
@@ -339,11 +339,11 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 
 @media(min-width:640px){
   .service-grid{gap:var(--space-5)}
-  .work-grid{grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
+  .work-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-5)}
   .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
 }
 @media(min-width:1024px){
-  .service-grid{grid-template-columns:repeat(5,1fr)}
+  .service-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
 }
 
 /* ===== Legal pages (privacy policy + terms of use) ===== */

@@ -228,7 +228,7 @@
 .why-grid p{color:var(--color-text-muted)}
 
 @media(min-width:820px){
-  .trust-stats{grid-template-columns:repeat(3,1fr);gap:0}
+  .trust-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
   .stat{padding:var(--space-2) var(--space-6)}
   /* rule flips: stacked -> side-by-side */
   .stat + .stat{border-top:0;border-left:1px solid rgba(255,255,255,.22)}
@@ -236,13 +236,13 @@
 
 /* ===== Breakpoints ===== */
 @media(min-width:640px){
-  .problem-grid{grid-template-columns:repeat(2,1fr)}
-  .why-grid{grid-template-columns:repeat(2,1fr);gap:var(--space-7)}
+  .problem-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .why-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-7)}
   .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
 }
 @media(min-width:1024px){
-  .problem-grid{grid-template-columns:repeat(3,1fr)}
-  .why-grid{grid-template-columns:repeat(4,1fr)}
+  .problem-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .why-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
 
   /* ===== Hero lead — desktop composition =====
      Flush left is a phone composition: on a wide screen it strands the copy
