@@ -6,8 +6,8 @@
 <title>CopperCraft Heating &amp; Cooling — Honest HVAC Service in Richmond Hill</title>
 <meta name="description" content="Honest heating and cooling service in Richmond Hill. Furnace and A/C repair, installation, heat pumps and water heaters. 5.0★ on Google. Same-day service when available.">
 <link rel="stylesheet" href="shared/tokens.css?v=70d38a08">
-<link rel="stylesheet" href="shared/base.css?v=838c7e72">
-<link rel="stylesheet" href="style.css?v=dead54ba">
+<link rel="stylesheet" href="shared/base.css?v=0c0bd594">
+<link rel="stylesheet" href="style.css?v=97271236">
 <noscript><style>
   /* No driver: the runway is pure scroll distance the choreography would
      have used, so collapse it to a single screen and show only the hero
@@ -16,6 +16,9 @@
   .hero-stage{height:100svh}
   .hero-stage__layer--next,.hero-stage__layer--promise{display:none}
   .hero-stage__canvas{display:none}
+  /* The staged hero copy starts hidden and is revealed by JS — without it,
+     show everything immediately rather than an empty hero. */
+  .hero-intro > *{opacity:1;transform:none}
 </style></noscript>
 </head>
 <body>
@@ -87,9 +90,9 @@
     </div>
 
     <div class="hero-stage__layer hero-stage__layer--lead" data-hero-layer="lead">
-      <div class="container">
+      <div class="container hero-intro">
         <span class="eyebrow eyebrow--on-dark">Heating &amp; Cooling Service in Richmond Hill</span>
-        <h1>Comfort Down? We'll Make It Right.</h1>
+        <h1><span>Comfort Down?</span> <span>We'll Make It Right.</span></h1>
         <p class="hero-sub">Honest advice. Quality work. No pressure.</p>
         <div class="hero-actions">
           <a class="btn btn-soft" href="tel:+16472506072">Call (647)&nbsp;250-6072</a>
@@ -102,9 +105,12 @@
     <div class="hero-stage__layer hero-stage__layer--next" data-hero-layer="next"
          role="group" aria-label="Your home should feel like home again">
       <div class="container">
-        <h2 class="line">Your Home Should Feel Like Home Again.</h2>
-        <p class="line">When the heat stops or the AC fails, you do not need a sales pitch. You need someone who will find the problem and explain what should happen next.</p>
-        <p class="line line--muted">Clear answers. Careful diagnosis. Comfort restored.</p>
+        <h2 class="line">Your Home Should <em>Feel Like Home</em> Again.</h2>
+        <p class="line">
+          <span class="line__aside">When the heat stops or the AC fails, you do not need a sales pitch.</span>
+          You need someone who will <strong>find the problem</strong> and <strong>explain what should happen next</strong>.
+        </p>
+        <p class="line line--muted">Clear answers <span aria-hidden="true">·</span> Careful diagnosis <span aria-hidden="true">·</span> Comfort restored</p>
         <p class="line"><a class="btn btn-glass line-cta" href="tel:+16472506072">Need help now? Call (647)&nbsp;250-6072</a></p>
       </div>
     </div>
@@ -206,43 +212,43 @@
 <!-- PROBLEM SELECTOR -->
 <section class="problems" id="help">
   <div class="container">
-    <div class="sec-head">
+    <div class="sec-head" data-animate>
       <span class="eyebrow">How can we help?</span>
       <h2>What Is Happening With Your System?</h2>
       <p>You do not need to know the technical name of the problem. Choose what sounds closest to what you are experiencing.</p>
     </div>
     <ul class="problem-grid">
-      <li class="problem-card">
+      <li class="problem-card" data-animate>
         <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 3.5 5 6.2 5 9a5 5 0 0 1-10 0c0-1.7.7-3.2 2-4.7.4 1.5 1.2 2.3 2 2.7C11.6 8.2 11.6 5.7 12 3z"/></svg>
         <h3>My Furnace Is Not Heating</h3>
         <p>The furnace will not start, shuts off repeatedly or blows cold air.</p>
         <a class="link-cta" href="contact/?need=furnace-repair">Get Furnace Help</a>
       </li>
-      <li class="problem-card">
+      <li class="problem-card" data-animate>
         <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5v19M3.9 7.2l16.2 9.6M20.1 7.2L3.9 16.8"/><path d="M12 6.6 9.8 4.4M12 6.6l2.2-2.2M12 17.4l-2.2 2.2M12 17.4l2.2 2.2"/></svg>
         <h3>My AC Is Not Cooling</h3>
         <p>The system is running, but the home is still hot or the airflow feels weak.</p>
         <a class="link-cta" href="contact/?need=ac-repair">Get AC Help</a>
       </li>
-      <li class="problem-card">
+      <li class="problem-card" data-animate>
         <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 2.9 19.4h18.2z"/><path d="M12 9.6v4.2"/><path d="M12 17h.01"/></svg>
         <h3>Something Sounds or Smells Wrong</h3>
         <p>Unusual noises, burning smells, leaking water or sudden performance changes should be inspected.</p>
         <a class="link-cta" href="contact/?need=diagnosis">Request a Diagnosis</a>
       </li>
-      <li class="problem-card">
+      <li class="problem-card" data-animate>
         <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.8 18a8.2 8.2 0 1 1 16.4 0"/><path d="M12 18l4.6-4.6"/><path d="M12 18h.01"/></svg>
         <h3>My System Is Getting Old</h3>
         <p>The system needs frequent repairs, costs more to operate or may be approaching replacement.</p>
         <a class="link-cta" href="contact/?need=replacement">Explore Replacement Options</a>
       </li>
-      <li class="problem-card">
+      <li class="problem-card" data-animate>
         <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M9 15.2V8.8m0 0L7.2 10.6M9 8.8l1.8 1.8"/><path d="M15 8.8v6.4m0 0 1.8-1.8M15 15.2l-1.8-1.8"/></svg>
         <h3>I Am Considering a Heat Pump</h3>
         <p>Help choosing a heating and cooling system suited to the home.</p>
         <a class="link-cta" href="contact/?need=heat-pump">Explore Heat Pumps</a>
       </li>
-      <li class="problem-card">
+      <li class="problem-card" data-animate>
         <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.6 3.4a5 5 0 0 0-6.1 6.1l-6 6a2.2 2.2 0 1 0 3 3l6-6a5 5 0 0 0 6.1-6.1l-2.9 2.9-2.1-2.1z"/></svg>
         <h3>I Need Seasonal Maintenance</h3>
         <p>Prepare the system before the next heating or cooling season.</p>
@@ -256,25 +262,25 @@
 <!-- WHY COPPERCRAFT -->
 <section class="why">
   <div class="container">
-    <div class="sec-head">
+    <div class="sec-head" data-animate>
       <span class="eyebrow">The CopperCraft difference</span>
       <h2>HVAC Service Without the Typical Headaches</h2>
       <p>You should not have to wonder whether a contractor is recommending what is best for your home—or simply what costs the most.</p>
     </div>
     <ul class="why-grid">
-      <li>
+      <li data-animate>
         <h3>Honest Recommendations</h3>
         <p>We tell you when a repair makes more sense than a replacement.</p>
       </li>
-      <li>
+      <li data-animate>
         <h3>Clear Explanations</h3>
         <p>Understand what went wrong, what your options are and why a solution is being recommended.</p>
       </li>
-      <li>
+      <li data-animate>
         <h3>No Unnecessary Upselling</h3>
         <p>The goal is to solve the actual problem—not add work you do not need.</p>
       </li>
-      <li>
+      <li data-animate>
         <h3>Careful Workmanship</h3>
         <p>Repairs and installations are completed carefully, tested and backed by our quality commitment.</p>
       </li>
@@ -286,22 +292,22 @@
 <!-- SERVICES -->
 <section class="services" id="services">
   <div class="container">
-    <div class="sec-head">
+    <div class="sec-head" data-animate>
       <span class="eyebrow">Heating, cooling &amp; indoor comfort</span>
       <h2>The Right Service for Every Season</h2>
       <p>From urgent repairs to planned system upgrades, CopperCraft provides dependable heating and cooling solutions for homes and businesses.</p>
     </div>
     <ul class="service-grid">
-      <li class="service-card"><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 3.5 5 6.2 5 9a5 5 0 0 1-10 0c0-1.7.7-3.2 2-4.7.4 1.5 1.2 2.3 2 2.7C11.6 8.2 11.6 5.7 12 3z"/></svg><h3>Furnace Repair</h3><p>Won't start, short-cycling or blowing cold — diagnosed and fixed.</p></li>
-      <li class="service-card"><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="3" width="13" height="18" rx="2.5"/><path d="M9 7.5h6"/><path d="M12 12.8c1.6 1.7 2.4 2.9 2.4 3.8a2.4 2.4 0 0 1-4.8 0c0-.9.8-2.1 2.4-3.8z"/></svg><h3>Furnace Installation</h3><p>Replacements for older, unreliable or inefficient heating systems.</p></li>
-      <li class="service-card"><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5v19M3.9 7.2l16.2 9.6M20.1 7.2L3.9 16.8"/><path d="M12 6.6 9.8 4.4M12 6.6l2.2-2.2M12 17.4l-2.2 2.2M12 17.4l2.2 2.2"/></svg><h3>Air-Conditioning Repair</h3><p>Not cooling, leaking or weak airflow — repaired properly.</p></li>
-      <li class="service-card"><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M6.5 9.5h11M6.5 12.5h11M6.5 15.5h7"/></svg><h3>Air-Conditioning Installation</h3><p>Dependable replacement and installation for summer cooling.</p></li>
-      <li class="service-card"><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M9 15.2V8.8m0 0L7.2 10.6M9 8.8l1.8 1.8"/><path d="M15 8.8v6.4m0 0 1.8-1.8M15 15.2l-1.8-1.8"/></svg><h3>Heat Pumps</h3><p>Heating and cooling in one system, sized to your home.</p></li>
-      <li class="service-card"><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="6" rx="2"/><path d="M6.5 8h11"/><path d="M6 14.5c2 1.6 4 1.6 6 0s4-1.6 6 0"/><path d="M6 18.5c2 1.6 4 1.6 6 0s4-1.6 6 0"/></svg><h3>Ductless Systems</h3><p>Comfort for additions and rooms without ductwork.</p></li>
-      <li class="service-card"><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4.5" width="12" height="16.5" rx="3"/><path d="M9.5 4.5V2.6M14.5 4.5V2.6"/><path d="M12 10.2c1.6 1.9 2.4 3.1 2.4 4a2.4 2.4 0 0 1-4.8 0c0-.9.8-2.1 2.4-4z"/></svg><h3>Water Heaters</h3><p>Repair and replacement — tank and tankless.</p></li>
-      <li class="service-card"><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><circle cx="12" cy="12" r="4"/><path d="M12 9.8v2.4l1.7 1"/></svg><h3>Thermostats and Controls</h3><p>Installation and troubleshooting for accurate comfort control.</p></li>
-      <li class="service-card"><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.6 3.4a5 5 0 0 0-6.1 6.1l-6 6a2.2 2.2 0 1 0 3 3l6-6a5 5 0 0 0 6.1-6.1l-2.9 2.9-2.1-2.1z"/></svg><h3>Preventative Maintenance</h3><p>Seasonal inspections that catch problems early.</p></li>
-      <li class="service-card"><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V6.2l7-3.2V21"/><path d="M11 21V10h9v11"/><path d="M14.3 13.8h2.4M14.3 17.2h2.4M7.2 9h.9M7.2 12.6h.9M7.2 16.2h.9"/></svg><h3>Light Commercial HVAC</h3><p>Heating and cooling for offices, shops and small commercial spaces.</p></li>
+      <li class="service-card" data-animate><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 3.5 5 6.2 5 9a5 5 0 0 1-10 0c0-1.7.7-3.2 2-4.7.4 1.5 1.2 2.3 2 2.7C11.6 8.2 11.6 5.7 12 3z"/></svg><h3>Furnace Repair</h3><p>Won't start, short-cycling or blowing cold — diagnosed and fixed.</p></li>
+      <li class="service-card" data-animate><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="3" width="13" height="18" rx="2.5"/><path d="M9 7.5h6"/><path d="M12 12.8c1.6 1.7 2.4 2.9 2.4 3.8a2.4 2.4 0 0 1-4.8 0c0-.9.8-2.1 2.4-3.8z"/></svg><h3>Furnace Installation</h3><p>Replacements for older, unreliable or inefficient heating systems.</p></li>
+      <li class="service-card" data-animate><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5v19M3.9 7.2l16.2 9.6M20.1 7.2L3.9 16.8"/><path d="M12 6.6 9.8 4.4M12 6.6l2.2-2.2M12 17.4l-2.2 2.2M12 17.4l2.2 2.2"/></svg><h3>Air-Conditioning Repair</h3><p>Not cooling, leaking or weak airflow — repaired properly.</p></li>
+      <li class="service-card" data-animate><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M6.5 9.5h11M6.5 12.5h11M6.5 15.5h7"/></svg><h3>Air-Conditioning Installation</h3><p>Dependable replacement and installation for summer cooling.</p></li>
+      <li class="service-card" data-animate><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M9 15.2V8.8m0 0L7.2 10.6M9 8.8l1.8 1.8"/><path d="M15 8.8v6.4m0 0 1.8-1.8M15 15.2l-1.8-1.8"/></svg><h3>Heat Pumps</h3><p>Heating and cooling in one system, sized to your home.</p></li>
+      <li class="service-card" data-animate><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="6" rx="2"/><path d="M6.5 8h11"/><path d="M6 14.5c2 1.6 4 1.6 6 0s4-1.6 6 0"/><path d="M6 18.5c2 1.6 4 1.6 6 0s4-1.6 6 0"/></svg><h3>Ductless Systems</h3><p>Comfort for additions and rooms without ductwork.</p></li>
+      <li class="service-card" data-animate><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4.5" width="12" height="16.5" rx="3"/><path d="M9.5 4.5V2.6M14.5 4.5V2.6"/><path d="M12 10.2c1.6 1.9 2.4 3.1 2.4 4a2.4 2.4 0 0 1-4.8 0c0-.9.8-2.1 2.4-4z"/></svg><h3>Water Heaters</h3><p>Repair and replacement — tank and tankless.</p></li>
+      <li class="service-card" data-animate><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><circle cx="12" cy="12" r="4"/><path d="M12 9.8v2.4l1.7 1"/></svg><h3>Thermostats and Controls</h3><p>Installation and troubleshooting for accurate comfort control.</p></li>
+      <li class="service-card" data-animate><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.6 3.4a5 5 0 0 0-6.1 6.1l-6 6a2.2 2.2 0 1 0 3 3l6-6a5 5 0 0 0 6.1-6.1l-2.9 2.9-2.1-2.1z"/></svg><h3>Preventative Maintenance</h3><p>Seasonal inspections that catch problems early.</p></li>
+      <li class="service-card" data-animate><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V6.2l7-3.2V21"/><path d="M11 21V10h9v11"/><path d="M14.3 13.8h2.4M14.3 17.2h2.4M7.2 9h.9M7.2 12.6h.9M7.2 16.2h.9"/></svg><h3>Light Commercial HVAC</h3><p>Heating and cooling for offices, shops and small commercial spaces.</p></li>
     </ul>
     <p class="sec-foot">Not sure what your system needs? <a href="tel:+16472506072">Call (647)&nbsp;250-6072</a></p>
   </div>
@@ -310,7 +316,7 @@
 <!-- TESTIMONIALS -->
 <section class="reviews" id="reviews">
   <div class="container">
-    <div class="sec-head">
+    <div class="sec-head" data-animate>
       <span class="eyebrow">Real customer experiences</span>
       <h2>The Best Proof Is How Customers Describe the Service</h2>
       <p>Customers repeatedly mention clear explanations, dependable arrival times, fair recommendations and no unnecessary upselling.</p>
@@ -382,7 +388,7 @@
 <!-- OUR WORK — visual proof only, no case-study narratives -->
 <section class="work" id="work" data-header-dark>
   <div class="container">
-    <div class="sec-head">
+    <div class="sec-head" data-animate>
       <span class="eyebrow eyebrow--on-dark">Our work</span>
       <h2>Careful Work. Clean Results.</h2>
       <p>A closer look at CopperCraft repairs, installations and completed HVAC projects.</p>
@@ -445,18 +451,18 @@
 <!-- SERVICE AREA — Richmond Hill only until the radius is confirmed -->
 <section class="area" id="area">
   <div class="container">
-    <div class="sec-head">
+    <div class="sec-head" data-animate>
       <span class="eyebrow">Local HVAC service</span>
       <h2>Based in Richmond Hill</h2>
       <p>CopperCraft Heating &amp; Cooling provides dependable heating and cooling service for homes and businesses across Richmond Hill and the surrounding York Region communities.</p>
     </div>
     <ul class="chips">
-      <li class="chip">Richmond Hill</li>
-      <li class="chip">Markham</li>
-      <li class="chip">Vaughan</li>
-      <li class="chip">Thornhill</li>
-      <li class="chip">Aurora</li>
-      <li class="chip">Newmarket</li>
+      <li class="chip" data-animate>Richmond Hill</li>
+      <li class="chip" data-animate>Markham</li>
+      <li class="chip" data-animate>Vaughan</li>
+      <li class="chip" data-animate>Thornhill</li>
+      <li class="chip" data-animate>Aurora</li>
+      <li class="chip" data-animate>Newmarket</li>
     </ul>
     <p class="sec-foot">Outside these areas? Call and we'll confirm whether we cover your location.</p>
     <address class="area__address">
@@ -470,33 +476,33 @@
 <!-- HOMEPAGE FAQ — four questions only -->
 <section class="faq" id="faq">
   <div class="container">
-    <div class="sec-head">
+    <div class="sec-head" data-animate>
       <span class="eyebrow">Common questions</span>
       <h2>Questions Before You Call?</h2>
     </div>
     <div class="faq-list">
-      <details>
+      <details data-animate>
         <summary>Do you offer same-day HVAC service?</summary>
         <div class="faq-body">
           <p>Same-day service may be available during business hours, depending on technician availability, location and the type of problem.</p>
           <p><a href="tel:+16472506072">Call (647)&nbsp;250-6072</a> for the fastest response.</p>
         </div>
       </details>
-      <details>
+      <details data-animate>
         <summary>Will you tell me whether I should repair or replace my system?</summary>
         <div class="faq-body">
           <p>Yes. We inspect the system, explain what we find and outline the practical options.</p>
           <p>When a repair makes more sense than replacement, we will tell you.</p>
         </div>
       </details>
-      <details>
+      <details data-animate>
         <summary>Will I be pressured into purchasing a new system?</summary>
         <div class="faq-body">
           <p>No. CopperCraft focuses on honest recommendations and solving the actual problem.</p>
           <p>We do not recommend equipment or services simply because they cost more.</p>
         </div>
       </details>
-      <details>
+      <details data-animate>
         <summary>How much will my HVAC repair cost?</summary>
         <div class="faq-body">
           <p>The cost depends on the issue, equipment and required parts.</p>
@@ -511,7 +517,7 @@
 <!-- LOW-PRESSURE CONTACT -->
 <section class="contact" id="contact">
   <div class="container">
-    <div class="sec-head">
+    <div class="sec-head" data-animate>
       <span class="eyebrow">Here when you need us</span>
       <h2>Not Ready to Call? Send Us a Message.</h2>
       <p>Tell us what is happening and when you would prefer to be contacted. There is no obligation, and submitting the form does not commit you to any service.</p>
@@ -568,20 +574,20 @@
   <div class="container contact-grid">
     <div>
       <h2>Contact</h2>
-      <ul class="plain">
+      <ul class="plain" data-animate>
         <li><strong>Phone:</strong> <a href="tel:+16472506072">(647)&nbsp;250-6072</a></li>
         <li><strong>Email:</strong> <a href="mailto:info@coppercraft.ca">info@coppercraft.ca</a></li>
       </ul>
       <h2>Address</h2>
       <address>9555 Yonge Street<br>Richmond Hill, Ontario L4C 9M5</address>
       <h2>Hours</h2>
-      <ul class="plain">
+      <ul class="plain" data-animate>
         <li>Monday–Friday: 9:00 a.m.–10:00 p.m.</li>
         <li>Saturday: 10:00 a.m.–3:30 p.m.</li>
         <li>Sunday: Closed</li>
       </ul>
     </div>
-    <div class="map">
+    <div class="map" data-animate>
       <iframe title="Map showing CopperCraft Heating &amp; Cooling at 9555 Yonge Street, Richmond Hill"
               src="https://www.google.com/maps?q=9555+Yonge+St,+Richmond+Hill,+ON+L4C+9M5&amp;output=embed"
               loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -656,7 +662,7 @@
   <a class="btn btn-ghost" href="contact/">Book a Visit</a>
 </div>
 
-<script src="shared/main.js?v=0bb8848e"></script>
+<script src="shared/main.js?v=d16f94d2"></script>
 <script src="script.js?v=952a8213"></script>
 </body>
 </html>

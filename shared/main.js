@@ -1,19 +1,45 @@
-// Shared init: preloader (with returning-visitor skip) + mobile nav toggle.
+// Shared init: preloader + staged hero entrance + mobile nav toggle.
 (function () {
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ==========================================================
+     PRELOADER + HERO ENTRANCE
+
+     Runs on EVERY visit. The returning-visitor localStorage skip that
+     client.md offered as optional is deliberately gone — the operator wants
+     the curtain every time.
+
+     Timings are the knobs worth tuning:
+     ========================================================== */
+  var PRELOADER_HOLD_MS = 1200;  // beat held after load before the curtain lifts
+  var PRELOADER_MAX_MS  = 4000;  // hard cap: never trap a visitor behind it
+  var CURTAIN_LEAD_MS   = 260;   // let the curtain start lifting before copy moves
+
+  function revealHero() {
+    var intro = document.querySelector('.hero-intro');
+    if (intro) intro.classList.add('is-revealed');
+  }
+
   var pre = document.getElementById('preloader');
-  if (pre) {
-    if (reduce || localStorage.getItem('coppercraft_seen')) {
-      pre.remove();
-    } else {
-      window.addEventListener('load', function () {
-        setTimeout(function () {
-          pre.classList.add('hidden');
-          localStorage.setItem('coppercraft_seen', '1');
-        }, 1400);
-      });
+  if (!pre) {
+    revealHero();                       // sub-pages: nothing to wait for
+  } else if (reduce) {
+    pre.remove();                       // no curtain, no stagger — show it all
+    revealHero();
+  } else {
+    var lifted = false;
+    function lift() {
+      if (lifted) return;               // load + cap can both fire
+      lifted = true;
+      pre.classList.add('hidden');
+      setTimeout(revealHero, CURTAIN_LEAD_MS);
     }
+    // `load` waits on the hero video and every image, which can be a long
+    // time on a slow connection — the cap guarantees the page appears.
+    window.addEventListener('load', function () {
+      setTimeout(lift, PRELOADER_HOLD_MS);
+    });
+    setTimeout(lift, PRELOADER_MAX_MS);
   }
 
   /* Header state: stay transparent (knockout logo, light nav) while a
@@ -201,6 +227,71 @@
       });
       io.observe(band);
     });
+  })();
+
+  /* ==========================================================
+     SCROLL ENTRANCES — [data-animate]
+     Per frontend-animation references/css-only.md: add .anim-ready at init,
+     observe at threshold .2, add .is-visible, unobserve. The hidden state is
+     never in a stylesheet on its own, so JS off = fully visible content.
+
+     Reveals fire ONCE and are not reversed on the way out. Content that fades
+     away while it is still on screen is content you cannot finish reading, and
+     it re-animates on every scroll direction change — the skill's rule 4
+     ("once") exists for that reason.
+
+     Deliberately NOT applied to: the hero stage and its trust band (the scroll
+     driver in script.js owns those layers' opacity and transform — a second
+     writer would fight it), the Our Work marquee, and the testimonial carousel
+     slides (both already move, and the marquee's duplicate set is aria-hidden).
+     ========================================================== */
+  (function revealOnScroll() {
+    var items = document.querySelectorAll('[data-animate]');
+    if (!items.length || reduce || !('IntersectionObserver' in window)) return;
+    document.body.classList.add('anim-ready');
+
+    /* Stagger by VISUAL ROW, not by index among all siblings. The services
+       grid has ten cards: indexing 0..9 would hold the last one back 675ms
+       after it is already sitting on screen, which reads as jank rather than
+       choreography. Cards on one row share an offsetTop, so bucket on that —
+       the delay then never exceeds (columns - 1) steps, whatever the
+       breakpoint's column count happens to be.
+
+       Recomputed on resize: the row buckets describe the CURRENT column count,
+       so indices measured at one breakpoint are wrong at another (a 3-col grid
+       re-flowed to 2 would keep staggering 0,1,2 across rows of two). Only
+       un-revealed elements are touched — a delay on something already on
+       screen is spent. */
+    function assignStagger() {
+      for (var i = 0; i < items.length; i++) {
+        var el = items[i];
+        if (el.classList.contains('is-visible')) continue;
+        var parent = el.parentElement, idx = 0;
+        if (parent) {
+          var sibs = [], row = [], k;
+          for (k = 0; k < parent.children.length; k++) {
+            if (parent.children[k].hasAttribute('data-animate')) sibs.push(parent.children[k]);
+          }
+          for (k = 0; k < sibs.length; k++) {
+            if (Math.abs(sibs[k].offsetTop - el.offsetTop) < 8) row.push(sibs[k]);
+          }
+          idx = row.indexOf(el);
+        }
+        el.style.setProperty('--stagger-i', idx < 0 ? 0 : idx);
+      }
+    }
+    assignStagger();
+    addEventListener('resize', assignStagger);
+
+    var io = new IntersectionObserver(function (entries) {
+      for (var n = 0; n < entries.length; n++) {
+        if (!entries[n].isIntersecting) continue;
+        entries[n].target.classList.add('is-visible');
+        io.unobserve(entries[n].target);      // once
+      }
+    }, { threshold: 0.2 });
+
+    for (var j = 0; j < items.length; j++) io.observe(items[j]);
   })();
 
   makeCarousel(document.getElementById('track'),

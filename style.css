@@ -35,7 +35,9 @@
    reverse scrubbing. */
 .hero-stage__canvas{opacity:0}
 .hero-stage__scrim{position:absolute;inset:0}
-/* Left-weighted gradient: contrast for the left-aligned lead copy. */
+/* Left-weighted gradient: contrast for the lead copy, which is flush left at
+   phone/tablet widths. The desktop block below re-aims it — the scrim has to
+   follow the copy, or the text lands on the bright end of the ramp. */
 .hero-stage__scrim--lead{background:linear-gradient(90deg,rgba(17,20,22,.82),rgba(17,20,22,.38));
      opacity:var(--hero-scrim,1)}
 /* Flat wash: contrast for the centred copy layers over the interior shots. */
@@ -56,6 +58,31 @@
 .hero-stage h1{font-size:var(--text-hero);margin-block:var(--space-4) var(--space-5);
                text-shadow:0 2px 24px rgba(0,0,0,.45)}
 .hero-sub{font-size:var(--text-lg);color:#f0f0f0;margin-bottom:var(--space-7)}
+
+/* ===== Staged hero entrance =====
+   Each element lifts in after the one before it, with a real pause between,
+   so the opening reads as deliberate rather than everything arriving at once.
+   The LAYER's opacity belongs to the scroll driver — this only ever touches
+   the children, so the two never fight.
+   Hidden by default and revealed by .is-revealed from shared/main.js; the
+   <noscript> block in index.html un-hides them when the script never runs. */
+.hero-intro > *{opacity:0;transform:translateY(26px)}
+@media(prefers-reduced-motion:no-preference){
+  .hero-intro > *{transition:opacity 700ms var(--ease-out-expo),
+                             transform 700ms var(--ease-out-expo)}
+  .hero-intro.is-revealed > *{opacity:1;transform:none}
+  /* 240ms between beats — long enough to read as a sequence, short enough
+     that the phone CTA is not held back on an emergency visit. */
+  .hero-intro.is-revealed > :nth-child(1){transition-delay:0ms}
+  .hero-intro.is-revealed > :nth-child(2){transition-delay:240ms}
+  .hero-intro.is-revealed > :nth-child(3){transition-delay:480ms}
+  .hero-intro.is-revealed > :nth-child(4){transition-delay:720ms}
+  .hero-intro.is-revealed > :nth-child(5){transition-delay:960ms}
+}
+/* Reduced motion: no curtain, no stagger, no transform — just the hero. */
+@media(prefers-reduced-motion:reduce){
+  .hero-intro > *{opacity:1;transform:none}
+}
 .hero-actions{display:flex;gap:var(--space-3);flex-wrap:wrap}
 .hero-trust{margin-top:var(--space-6);font-size:var(--text-sm);color:#d8dade;
             text-shadow:0 1px 8px rgba(0,0,0,.5)}
@@ -86,6 +113,22 @@
 /* Closing line — resolves the beat. Sentence case and quieter than the
    uppercase strapline above it, so the two don't read as the same thing
    twice (which is what made the promise layer feel cluttered). */
+/* ===== Story 1 emphasis =====
+   The beat is an argument — "not this / but THIS" — so the two halves are
+   typographically opposed instead of one flat grey block:
+     .line__aside  the thing they DON'T need — smaller, dimmer, set back
+     strong        what they DO get — copper, the only saturated thing here
+   All colour sits on --color-primary-light, never --color-primary: the deep
+   copper goes muddy against dark footage. */
+.hero-stage__layer h2 em{font-style:normal;color:var(--color-primary-light)}
+/* em, not a token: the parent is --text-lg on desktop and --text-base on
+   mobile, so a fixed size would collapse the contrast on phones. */
+.hero-stage__layer p.line .line__aside{display:block;font-size:.82em;
+     color:#a9b0b7;margin-bottom:var(--space-3)}
+.hero-stage__layer p.line strong{color:var(--color-primary-light);font-weight:600}
+/* Copper separators turn three clipped sentences into one cadenced line. */
+.hero-stage__layer p.line--muted span{color:var(--color-primary-light);
+     margin-inline:var(--space-2);font-weight:400}
 .hero-stage__layer p.line--close{font-size:var(--text-base);color:#cfd4d9;
      max-width:46ch;margin-inline:auto;margin-top:var(--space-6)}
 /* The story layers are pointer-events:none so they never swallow clicks on
@@ -200,6 +243,48 @@
 @media(min-width:1024px){
   .problem-grid{grid-template-columns:repeat(3,1fr)}
   .why-grid{grid-template-columns:repeat(4,1fr)}
+
+  /* ===== Hero lead — desktop composition =====
+     Flush left is a phone composition: on a wide screen it strands the copy
+     against the bezel and leaves the middle of the frame empty. On desktop the
+     block centres and the copy centre-aligns with it, so the hero reads as a
+     symmetrical title card over the footage.
+     The block widens to 900px purely to hold the enlarged eyebrow on ONE line
+     — a wrapped eyebrow reads as a sentence instead of a label. The h1 still
+     breaks to two lines at every desktop width, which is the intended shape. */
+  .hero-stage__layer--lead{text-align:center}
+  .hero-stage__layer--lead .container{max-width:900px;margin-inline:auto}
+  .hero-stage__layer--lead .hero-actions{justify-content:center}
+
+  /* The 900px measure is wide enough that the h1 would otherwise break as
+     "Comfort Down? We'll Make / It Right." — mid-clause. Making each clause an
+     inline-block moves the preferred break to the space BETWEEN them, so it
+     reads "Comfort Down? / We'll Make It Right."
+     Done this way rather than with an h1 max-width because the width window
+     that produces the right break is only ~67px wide and was measured in the
+     fallback font — the real Poppins metrics could flip it. This is font-
+     independent. Desktop-only: below 1024px the spans stay plain inline and
+     the signed-off phone wrap is byte-identical. */
+  .hero-stage__layer--lead h1 span{display:inline-block}
+
+  /* Eyebrow scaled up from --text-sm. Capped at --text-xl so it stays firmly
+     subordinate to the h1 (~35% of it at 1024, ~42% at 1920) — it is a label
+     above the headline, never a competing line. Tracking drops .08em -> .055em
+     because letter-spacing tuned for 14px reads as gappy at 28px. */
+  .hero-stage__layer--lead .eyebrow{
+    font-size:clamp(var(--text-lg),1.9vw,var(--text-xl));
+    letter-spacing:.055em}
+
+  /* The copy no longer sits on the dark end of the 90deg ramp, so the lead
+     scrim becomes a soft vignette on the frame's centre: darkest exactly under
+     the text, falling off to the corners so the shot still reads as footage
+     rather than a flat wash. Measured over the brightest hero frame — see the
+     contrast check in the build notes. */
+  .hero-stage__scrim--lead{
+    background:radial-gradient(120% 90% at 50% 50%,
+                               rgba(17,20,22,.80) 0%,
+                               rgba(17,20,22,.66) 45%,
+                               rgba(17,20,22,.34) 100%)}
 }
 
 /* ===== Hero stage — portrait =====
