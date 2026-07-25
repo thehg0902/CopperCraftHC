@@ -74,6 +74,46 @@ dark cinematic sequence: the near-black glyphs are recoloured to warm white
 untouched. Mechanical recolour of the operator's own artwork — no redraw.
 PROMPT -> n/a — client-provided, no generation needed.
 
+<!-- "Honest, Quality Work" gallery — the operator's own job-site photos
+     (supplied 2026-07-24). Real work, no stock and no stand-ins, which is the
+     point of the section: the audience brief's loudest trust blocker is "can I
+     trust a smaller outfit," and photographs of actual installs answer that
+     better than any claim can. All portrait (~765x1020, one 565x862); /ingest
+     converts to WebP. Ordered residential -> light commercial so the set reads
+     as range. No people in any frame (Overrides: People in imagery = no), and
+     nothing identifies a customer — no faces, addresses or paperwork (checked
+     before these went to a GitHub remote). None need generation. -->
+
+## gallery-01.jpeg        [x] filled
+folder: Home - Honest Work Gallery/
+treatment: image - outdoor A/C condenser on its pad beside a brick house, gauges attached
+PROMPT -> n/a — client-provided, no generation needed.
+
+## gallery-02.jpeg        [x] filled
+folder: Home - Honest Work Gallery/
+treatment: image - wall-mounted A.O. Smith ProLine XE water heater, tidy copper + gas run
+PROMPT -> n/a — client-provided, no generation needed.
+
+## gallery-03.jpeg        [x] filled
+folder: Home - Honest Work Gallery/
+treatment: image - basement gas water heater with power-vent piping
+PROMPT -> n/a — client-provided, no generation needed.
+
+## gallery-04.jpeg        [x] filled
+folder: Home - Honest Work Gallery/
+treatment: image - mechanical room: water softeners, boiler and insulated ducting
+PROMPT -> n/a — client-provided, no generation needed.
+
+## gallery-05.jpeg        [x] filled
+folder: Home - Honest Work Gallery/
+treatment: image - three commercial A.O. Smith Cyclone water heaters in a plant room
+PROMPT -> n/a — client-provided, no generation needed.
+
+## gallery-06.jpeg        [x] filled
+folder: Home - Honest Work Gallery/
+treatment: image - rooftop commercial packaged HVAC unit
+PROMPT -> n/a — client-provided, no generation needed.
+
 ---
 
 ## Not slotted (no action needed)

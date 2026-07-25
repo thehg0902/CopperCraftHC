@@ -100,10 +100,30 @@ def report_kept(name, level, size, budget):
     print(f"  kept {level} - {size // KB}KB, budget {budget // KB}KB [{PROFILE} profile]")
 
 
+def image_width(src):
+    """Source width, or None if it can't be determined."""
+    if not which("ffprobe"):
+        return None
+    try:
+        out = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0",
+                              "-show_entries", "stream=width", "-of", "csv=p=0",
+                              str(src)], check=True, capture_output=True,
+                             text=True).stdout
+        return int(out.strip().split(",")[0])
+    except Exception:
+        return None
+
+
 def encode_image(src, out, q):
     """One encode attempt at quality q. True = encoded, None = no tool."""
     if which("cwebp"):
-        run(["cwebp", "-q", q, "-resize", MAX_W, 0, src, "-o", out])
+        # MAX_W is a CAP, never a target: `-resize MAX_W 0` unconditionally
+        # would UPSCALE a smaller source (a 565px photo blown to 1440px costs
+        # bytes and adds no detail). Only downscale — matching what the Pillow
+        # branch below already does.
+        w = image_width(src)
+        resize = ["-resize", MAX_W, 0] if (w is None or w > MAX_W) else []
+        run(["cwebp", "-q", q, *resize, src, "-o", out])
         return True
     if has_pillow():
         from PIL import Image

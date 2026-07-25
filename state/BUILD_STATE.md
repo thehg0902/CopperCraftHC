@@ -124,6 +124,17 @@ Notes:
   desyncing the runway, (2) a stray comment terminator I introduced silently
   invalidated `.hero-stage`, collapsing 340svh to 908px — caught because the
   measured stage height did not match 340svh.
+- P5 "Honest, Quality Work" gallery (2026-07-24, operator request): the six
+  operator job photos went through the pipeline properly — moved out of
+  site/assets/ into slots/Home - Honest Work Gallery/ as gallery-01..06,
+  SHOPPING_LIST blocks + MEDIA_LOG rows written, /ingest converted them to
+  WebP. New dark section between service-area and testimonials; nav gains
+  "Our Work". Fixed an OS-level ingest bug while doing it: the cwebp branch
+  UPSCALED sources smaller than the 1440 cap (Pillow branch already guarded) —
+  gallery set went 1624KB -> 1048KB while rising from mixed q75/q90 to all q90.
+  Verified: 3 cols desktop / 2 cols mobile with no widow at either breakpoint,
+  all 6 lazy-loaded with alt text and width/height, header correctly
+  transparent over the dark band, 0 console errors.
 - NOTE (env): .claude/launch.json had hardcoded Windows Python paths — fixed
   to python3. preview_start still cannot launch the server on this Mac (the
   launcher process has no Desktop access: getcwd/chdir "Operation not

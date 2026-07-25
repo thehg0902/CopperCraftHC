@@ -10,3 +10,9 @@ See contracts/media-log.md for format and rules.
 | logo-mark.png | 2026-07-24 | image | client | n/a — operator logo-Image.png, cropped to content bounds | 0 | n/a (not paid gen) | site/assets/images/logo-mark.png | in-use |
 | logo-wordmark.png | 2026-07-24 | image | client | n/a — operator logo-text.png, cropped to content bounds | 0 | n/a (not paid gen) | site/assets/images/logo-wordmark.png | in-use |
 | logo-wordmark-light.png | 2026-07-24 | image | client | n/a — operator wordmark, neutral glyphs recoloured warm-white for dark bg | 0 | n/a (not paid gen) | site/assets/images/logo-wordmark-light.png | in-use |
+| gallery-01.jpeg | 2026-07-24 | image | client | n/a — operator job photo: outdoor A/C condenser, brick house | 0 | n/a (not paid gen) | site/assets/images/gallery-01.webp | in-use |
+| gallery-02.jpeg | 2026-07-24 | image | client | n/a — operator job photo: wall-mounted ProLine XE water heater | 0 | n/a (not paid gen) | site/assets/images/gallery-02.webp | in-use |
+| gallery-03.jpeg | 2026-07-24 | image | client | n/a — operator job photo: basement gas water heater, power-vent piping | 0 | n/a (not paid gen) | site/assets/images/gallery-03.webp | in-use |
+| gallery-04.jpeg | 2026-07-24 | image | client | n/a — operator job photo: mechanical room, softeners + boiler | 0 | n/a (not paid gen) | site/assets/images/gallery-04.webp | in-use |
+| gallery-05.jpeg | 2026-07-24 | image | client | n/a — operator job photo: three commercial Cyclone water heaters | 0 | n/a (not paid gen) | site/assets/images/gallery-05.webp | in-use |
+| gallery-06.jpeg | 2026-07-24 | image | client | n/a — operator job photo: rooftop commercial packaged unit | 0 | n/a (not paid gen) | site/assets/images/gallery-06.webp | in-use |
