@@ -225,12 +225,30 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
    anywhere without a second asset. Matches the trust band's stat icons. */
 .card-icon{width:32px;height:32px;color:var(--color-primary);
      margin-bottom:var(--space-3);flex:0 0 auto}
-.service-card h3{font-size:var(--text-lg);margin-bottom:var(--space-2)}
+/* break-word is a guarantee, not a nicety: now that grid tracks are
+   minmax(0,1fr) they can shrink below their content's min-content width, so a
+   long word ("Air-Conditioning", "Maintenance") would otherwise render OUTSIDE
+   the card instead of widening it. hyphens:auto gives a proper hyphenated
+   break where the language allows (<html lang="en">), break-word is the
+   fallback when it does not. */
+.service-card h3{font-size:var(--text-lg);margin-bottom:var(--space-2);
+     overflow-wrap:break-word;hyphens:auto}
 .service-card p{color:var(--color-text-muted);font-size:var(--text-sm)}
 
 /* ===== Testimonials carousel ===== */
 .rating{margin-top:var(--space-4);font-size:var(--text-lg)}
+/* contain:paint is load-bearing, NOT an optimisation. Without it this flex
+   scroll container leaks its intrinsic (max-content) width to the document:
+   the three 420px cards made <html> report a 3649px scrollWidth against a
+   1280px viewport, which gave desktop a horizontal scrollbar and let a phone
+   pinch-zoom far out of the design. overflow-x:auto does NOT stop it, and
+   neither does overflow:hidden or overflow:clip on this element or its
+   wrapper — measured, all three left scrollWidth at 3649. Paint containment
+   is what actually caps the contribution.
+   It clips DESCENDANTS to the padding box, not the element's own outline, so
+   .track:focus-visible below still renders. */
 .track{display:flex;gap:var(--space-5);overflow-x:auto;scroll-snap-type:x mandatory;
+       contain:paint;
        padding-block:var(--space-3);cursor:grab;scrollbar-width:none}
 /* smooth scrolling is motion: gate it, and drop it while dragging or every
    pointermove animates and the grab feels rubbery instead of 1:1. */
