@@ -171,3 +171,36 @@ Shifted from flat orange to a PREMIUM METALLIC COPPER — deeper, browner/rosier
   layers), the Our Work marquee and testimonial carousel (already moving),
   <form> elements (conversion path stays instant), the site footer (persistent
   chrome), and the legal pages. | operator | frontend-animation rules 1-5
+- All grid track lists use repeat(N,minmax(0,1fr)), never repeat(N,1fr).
+  BUG FOUND on mobile: `1fr` is shorthand for `minmax(auto,1fr)`, so a track
+  cannot shrink below its content's min-content width. Service cards have a
+  min-content of 179-188px but only 158px of track at 375px, so the two
+  columns grew to 191.9px each and .service-grid overflowed its 327px
+  container by 67px — which pushes the layout viewport past the device width
+  and lets a phone pinch-zoom out past the design. Hardened all 11 grids
+  across shared/base.css, style.css and reviews/style.css. Verified: tracks
+  now 157.5+157.5=327 exactly with zero card content spilling (long words
+  break on their own, so no overflow-wrap was needed), and desktop is
+  unchanged because minmax(0,1fr) only differs from 1fr when content would
+  otherwise force overflow. Same family as the flex min-width:auto traps in
+  the announce bar and trust band. | claude | mobile QA
+- .track (testimonials carousel) carries contain:paint — load-bearing, not an
+  optimisation. ROOT CAUSE of the operator's "zoom out extremely far" on phone
+  and "strange horizontal scroll bar" on desktop: this flex scroll container
+  leaked its intrinsic max-content width to the document, so <html> reported
+  scrollWidth 3649 against a 1280px viewport (2369px of phantom overflow).
+  That inflates the layout viewport past device width, which is exactly what
+  lets a phone pinch-zoom out of the design. Isolated by hiding candidates and
+  re-measuring documentElement.scrollWidth: body -> main -> .reviews ->
+  .container -> .tcar -> .track -> figure.review. Measured, overflow-x:auto
+  did NOT contain it, and neither did overflow:hidden or overflow:clip on
+  .track or on the .tcar wrapper — all three left scrollWidth at 3649. Only
+  paint containment capped the contribution. Verified after: 1280/1280 and
+  375/375 with zero sections leaking, and the carousel still scrolls (its
+  refusal of programmatic scrollLeft is scroll-snap-type:x mandatory snapping
+  back, identical with and without contain). NOTE the earlier grid entry above
+  fixed a REAL but separate 67px .service-grid overflow; it was not the cause
+  of the zoom-out. I had also seen scrollWidth 3969 vs 1920 during the desktop
+  hero pass and wrongly dismissed it as a false alarm because scrollLeft would
+  not move — but this pane cannot scroll anything programmatically, so that
+  was a broken signal, not evidence. | claude | operator bug report

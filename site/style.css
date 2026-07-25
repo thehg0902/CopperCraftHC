@@ -228,7 +228,7 @@
 .why-grid p{color:var(--color-text-muted)}
 
 @media(min-width:820px){
-  .trust-stats{grid-template-columns:repeat(3,1fr);gap:0}
+  .trust-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
   .stat{padding:var(--space-2) var(--space-6)}
   /* rule flips: stacked -> side-by-side */
   .stat + .stat{border-top:0;border-left:1px solid rgba(255,255,255,.22)}
@@ -236,13 +236,13 @@
 
 /* ===== Breakpoints ===== */
 @media(min-width:640px){
-  .problem-grid{grid-template-columns:repeat(2,1fr)}
-  .why-grid{grid-template-columns:repeat(2,1fr);gap:var(--space-7)}
+  .problem-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .why-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-7)}
   .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
 }
 @media(min-width:1024px){
-  .problem-grid{grid-template-columns:repeat(3,1fr)}
-  .why-grid{grid-template-columns:repeat(4,1fr)}
+  .problem-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .why-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
 
   /* ===== Hero lead — desktop composition =====
      Flush left is a phone composition: on a wide screen it strands the copy
@@ -293,6 +293,29 @@
    inside -> wall unit). Track it with the driver-published --hero-focal-x so
    the subject stays in the crop instead of sliding out of frame. */
 @media(max-width:640px){
+  /* ===== Services on the phone: icon + label only =====
+     Two cards across 375px leaves each one 158px wide. With the inherited
+     32px padding that is 92px of text column — narrower than the word
+     "Maintenance" at --text-lg (126px), so headings spilled past the card
+     edge and the one-line descriptions stacked into six-line columns.
+     Fixes, in order of effect: drop the description, halve the padding
+     (92px -> 124px of text), and step the label down to --text-base, whose
+     widest word measures 98px and now fits with room to spare.
+     Scoped to style.css so it applies to the HOME page only — /services/ is
+     the read-everything destination and keeps its copy, the same call made
+     for the reviews page. */
+  .service-card p{display:none}
+  /* Content centres vertically: uniform rows are sized by the tallest label
+     ("Air-Conditioning Repair" runs to three lines), so a one-line card would
+     otherwise sit top-aligned above a block of dead space. No align-items —
+     the h3 must keep the full card width or its wrapping changes. */
+  .service-card{padding:var(--space-4);display:flex;flex-direction:column;
+                justify-content:center}
+  .service-card h3{font-size:var(--text-base);margin-bottom:0}
+  /* Uniform cards: 1fr rows all resolve to the tallest, so a one-line label
+     and a three-line label produce the same box. */
+  .service-grid{grid-auto-rows:1fr}
+
   .hero-stage__video,
   .hero-stage__canvas{object-position:var(--hero-focal-x,40%) center}
   .hero-stage__layer p.line{font-size:var(--text-base)}
