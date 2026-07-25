@@ -68,3 +68,17 @@ Notes:
   12fps) + manifest, scroll-story-2-scrub (61 frames, 12fps) + manifest —
   all DONE, MEDIA_LOG rows flipped to in-use. Phase 4 done. Proceeding to
   Phase 5 build.
+- P5 layout/hero-media/animation (2026-07-24): built out shared/base.css
+  (reset, buttons, header, footer, preloader, mobile nav/call bar) and
+  style.css (hero, scrolly, services, area, testimonials, cta, contact)
+  from the binding layout preview's tokens/spacing/classes. Wired real
+  assets: hero <video> (poster + muted loop), GSAP-pinned scrub player in
+  script.js reading the ingested manifest.json + frame-NNNN.webp sequences
+  (canvas draws the frame matching scroll progress), no-GSAP/reduced-motion
+  fallbacks. GSAP 3.12.5 + ScrollTrigger pinned via cdnjs with SRI hashes.
+  Verified live in-browser: seamless 0px-gap hero→story1→story2 handoff,
+  both scrub sequences play correctly, testimonials carousel (arrows +
+  drag), mobile nav toggle, sticky mobile call bar, contact form — 0
+  console errors. forms/maps sections remain placeholder pending Phase 5
+  forms/maps-gbp integration pass. Continuing Phase 5 (accessibility,
+  performance, mobile-polish, integrations) before QA.

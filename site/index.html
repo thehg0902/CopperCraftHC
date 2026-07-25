@@ -37,11 +37,9 @@
 
 <!-- HERO -->
 <section class="hero" id="top">
-  <div class="slot" aria-hidden="true">
-    <video class="hero-video" autoplay muted loop playsinline poster="assets/images/hero-loop-poster.webp">
-      <source src="assets/video/hero-loop.mp4" type="video/mp4">
-    </video>
-  </div>
+  <video class="hero-video" autoplay muted loop playsinline aria-hidden="true" poster="assets/images/hero-loop-poster.webp">
+    <source src="assets/video/hero-loop.mp4" type="video/mp4">
+  </video>
   <div class="container hero-inner">
     <span class="eyebrow" style="color:var(--color-primary-light)">Richmond Hill &amp; York Region</span>
     <h1>Honest Heating &amp; Cooling, Right Here in Richmond Hill</h1>
@@ -54,7 +52,7 @@
 </section>
 
 <!-- SCROLL-STORY 1 — problem / empathy -->
-<section class="scrolly" id="story1" data-scrub aria-label="The problem">
+<section class="scrolly" id="story1" data-scrub="scroll-story-1-scrub" aria-label="The problem">
   <div class="stage">
     <canvas aria-hidden="true"></canvas>
     <div class="floating">
@@ -67,7 +65,7 @@
 </section>
 
 <!-- SCROLL-STORY 2 — promise (seam-continuous with story 1) -->
-<section class="scrolly" id="story2" data-scrub aria-label="The promise">
+<section class="scrolly" id="story2" data-scrub="scroll-story-2-scrub" aria-label="The promise">
   <div class="stage">
     <canvas aria-hidden="true"></canvas>
     <div class="floating">
@@ -249,6 +247,12 @@
 
 <a class="mobile-call" href="tel:+16472506072">📞 Call CopperCraft — (647) 250-6072</a>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+        integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+        integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="shared/main.js"></script>
 <script src="script.js"></script>
 </body>

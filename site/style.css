@@ -1,1 +1,93 @@
-/* Home page styles — built out in Phase 5 (layout-systems, components, hero-media). */
+/* Home page — hero, scroll-scrub stories, services, service area,
+   testimonials carousel, CTA band, contact. Shared reset/header/footer/
+   buttons live in shared/base.css. */
+
+/* ===== Hero ===== */
+.hero{position:relative;min-height:92vh;display:flex;align-items:center;color:#fff;overflow:hidden}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,20,22,.78),rgba(17,20,22,.35))}
+.hero-inner{position:relative;z-index:2;max-width:640px}
+.hero h1{font-size:var(--text-hero);margin-block:var(--space-3) var(--space-4);text-shadow:0 2px 24px rgba(0,0,0,.4)}
+.hero p{font-size:var(--text-lg);color:#f0f0f0;margin-bottom:var(--space-6);max-width:52ch}
+.hero-actions{display:flex;gap:var(--space-3);flex-wrap:wrap}
+
+/* ===== Trust bar ===== */
+.trust{background:var(--color-dark-bg);color:var(--color-dark-text);padding-block:var(--space-5)}
+.trust .container{display:flex;flex-wrap:wrap;gap:var(--space-6);align-items:center;justify-content:center;text-align:center}
+.trust .stars{font-size:var(--text-lg);font-weight:600;background:var(--gradient-copper);
+     -webkit-background-clip:text;background-clip:text;color:transparent}
+.trust b{color:var(--color-dark-text)} .trust span{color:var(--color-dark-text-muted)}
+
+/* ===== Scroll-scrub story sections ===== */
+.scrolly{position:relative;height:300vh;background:var(--color-dark-bg)}
+/* GSAP ScrollTrigger `pin` holds .stage for the section's FULL scroll range
+   (end:'+='+sectionHeight, per DECISIONS.md P2 scroll-scrub pin technique) —
+   zero release runway, so back-to-back scrub sections hand off with no gap.
+   The no-GSAP fallback applies position:sticky via JS only. */
+.scrolly .stage{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.scrolly canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.floating{position:relative;z-index:4;max-width:760px;text-align:center;padding-inline:var(--space-5)}
+.floating .line{font-family:var(--font-heading);font-weight:600;color:#fff;font-size:var(--text-2xl);
+                margin-block:var(--space-4);opacity:.15;transform:translateY(24px)}
+.scrub-progress{position:absolute;bottom:0;left:0;height:4px;width:0;background:var(--gradient-cool);z-index:5}
+
+/* ===== Services ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-5)}
+.card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);
+      padding:var(--space-6);box-shadow:var(--shadow-sm)}
+.card .ico{width:48px;height:48px;border-radius:var(--radius-md);background:var(--color-bg-alt);
+           display:flex;align-items:center;justify-content:center;color:var(--color-accent);margin-bottom:var(--space-4);font-weight:600}
+.card h3{font-size:var(--text-lg);margin-bottom:var(--space-2)}
+.card p{color:var(--color-text-muted);font-size:var(--text-sm)}
+
+/* ===== Service area ===== */
+.area{background:var(--color-bg-alt)}
+.chips{display:flex;flex-wrap:wrap;gap:var(--space-3);justify-content:center;margin-top:var(--space-5)}
+.chip{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);
+      padding:var(--space-2) var(--space-4);font-size:var(--text-sm);font-weight:500}
+
+/* ===== Testimonials carousel ===== */
+.track{display:flex;gap:var(--space-5);overflow-x:auto;scroll-snap-type:x mandatory;
+       scroll-behavior:smooth;padding-block:var(--space-3);cursor:grab;
+       scrollbar-width:none}
+.track::-webkit-scrollbar{display:none}
+.review{scroll-snap-align:center;flex:0 0 min(420px,86vw);background:var(--color-surface);
+        border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
+.review .stars{font-weight:600;margin-bottom:var(--space-3);background:var(--gradient-copper);
+     -webkit-background-clip:text;background-clip:text;color:transparent}
+.review p{font-size:var(--text-base);margin-bottom:var(--space-4)}
+.review .who{font-family:var(--font-heading);font-weight:600;font-size:var(--text-sm)}
+.car-nav{display:flex;gap:var(--space-3);justify-content:center;margin-top:var(--space-5)}
+.car-nav button{width:44px;height:44px;border-radius:var(--radius-full);border:1px solid var(--color-border);
+                background:var(--color-surface);cursor:pointer;font-size:var(--text-lg)}
+.car-nav button:hover{background:var(--color-bg-alt);border-color:var(--color-primary)}
+
+/* ===== CTA band ===== */
+.cta-band{position:relative;overflow:hidden;text-align:center;color:#fff;
+     background:linear-gradient(120deg,var(--metal-copper-shade) 0%,#8F5227 38%,
+               var(--metal-copper-core) 55%,var(--color-primary-dark) 100%)}
+.cta-band::before{content:"";position:absolute;inset:0;pointer-events:none;background:var(--sheen-sweep);
+     background-size:220% 100%;mix-blend-mode:screen;opacity:.6}
+.cta-band .container{position:relative;z-index:1}
+.cta-band h2{font-size:var(--text-2xl);margin-bottom:var(--space-5);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.32)}
+
+/* ===== Contact ===== */
+.contact-grid{display:grid;grid-template-columns:1fr;gap:var(--space-8)}
+.nap p{margin-bottom:var(--space-3);color:var(--color-text-muted)}
+.nap b{color:var(--color-text)}
+.field{display:flex;flex-direction:column;gap:var(--space-2);margin-bottom:var(--space-4)}
+.field label{font-size:var(--text-sm);font-weight:600}
+.field input,.field textarea{border:1px solid var(--color-border);border-radius:var(--radius-md);
+      padding:var(--space-3);font-family:var(--font-body);font-size:var(--text-base)}
+.form-note{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-2)}
+
+@media(min-width:640px){
+  .contact-grid{grid-template-columns:1fr 1fr}
+}
+
+@media(prefers-reduced-motion:no-preference){
+  .cta-band::before{animation:sheen 9s ease-in-out infinite}
+}
+@media(prefers-reduced-motion:reduce){
+  .floating .line{opacity:1!important;transform:none!important}
+}
