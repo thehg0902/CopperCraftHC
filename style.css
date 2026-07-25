@@ -59,23 +59,108 @@
 .hero-actions{display:flex;gap:var(--space-3);flex-wrap:wrap}
 .hero-trust{margin-top:var(--space-6);font-size:var(--text-sm);color:#d8dade;
             text-shadow:0 1px 8px rgba(0,0,0,.5)}
+/* Solid, not the copper gradient-clip: at 14px over moving footage the
+   gradient reads as muddy grey. Solid light copper stays crisp. */
+.hero-trust .stars{background:none;-webkit-background-clip:border-box;
+     background-clip:border-box;color:var(--color-primary-light)}
 
-/* Story layers: h2 + copy lines, staggered in by the driver via .line */
+/* ===== Story layers =====
+   Four distinct roles so the beat reads as a hierarchy rather than four
+   paragraphs of similar weight (which is what felt messy):
+     h2.line       headline, hero-weight
+     p.line        body, held to a comfortable measure
+     .line--muted  strapline — smaller, letter-spaced, quieter
+     .btn          the CTA, a real button
+   Every one keeps .line so the driver's stagger still picks it up. */
 .hero-stage__layer--next .line,
 .hero-stage__layer--promise .line{margin-block:var(--space-4);
      text-shadow:0 2px 24px rgba(0,0,0,.55)}
-.hero-stage__layer h2.line{font-size:var(--text-xl);font-weight:600}
-.hero-stage__layer p.line{font-size:var(--text-lg);color:#eceef0}
-.hero-stage__layer .line--muted{font-size:var(--text-base);color:#c3c8cd}
-.line-cta{pointer-events:auto;color:var(--color-primary-light);font-weight:600;
-          border-bottom:1px solid currentColor;padding-bottom:2px}
-.line-cta:hover{color:#fff}
+.hero-stage__layer h2.line{font-size:var(--text-2xl);font-weight:600;
+     line-height:var(--leading-tight);margin-bottom:var(--space-5);
+     text-shadow:0 2px 28px rgba(0,0,0,.6)}
+.hero-stage__layer p.line{font-size:var(--text-lg);color:#eceef0;
+     max-width:52ch;margin-inline:auto}
+.hero-stage__layer p.line--muted{font-size:var(--text-sm);color:#b9c0c6;
+     letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+     max-width:44ch;margin-inline:auto}
+/* Closing line — resolves the beat. Sentence case and quieter than the
+   uppercase strapline above it, so the two don't read as the same thing
+   twice (which is what made the promise layer feel cluttered). */
+.hero-stage__layer p.line--close{font-size:var(--text-base);color:#cfd4d9;
+     max-width:46ch;margin-inline:auto;margin-top:var(--space-6)}
+/* The story layers are pointer-events:none so they never swallow clicks on
+   the hero buttons underneath — the CTA has to opt back in. */
+.line-cta{pointer-events:auto}
+.hero-stage__layer .line-cta{margin-top:var(--space-6)}
 
-/* ===== Trust bar ===== */
-.trustbar{background:var(--color-bg-alt);padding-block:var(--space-9)}
-.trustbar__grid{display:grid;grid-template-columns:1fr;gap:var(--space-6)}
-.trustbar h3{font-size:var(--text-base);margin-bottom:var(--space-2)}
-.trustbar p{font-size:var(--text-sm);color:var(--color-text-muted)}
+/* ===== Trust band =====
+   Borderless social proof floating ON the footage — no card, no panel. It is
+   type on film, so every text layer carries its own shadow and the stats are
+   separated by hairline rules rather than boxes.
+
+   Placement-agnostic by design: inside a pinned hero stage it inherits the
+   layer's absolute positioning and the scroll driver fades it in; dropped into
+   normal flow as a standalone section it lays out identically (see the
+   .trust-band:not(.hero-stage__layer) rules and the IntersectionObserver
+   entrance in shared/main.js). */
+/* width:100% + min-width:0 are load-bearing. The layer is display:flex, so
+   the container is a flex item and defaults to sizing on its CONTENT — and
+   its content includes the marquee track at width:max-content (~3800px).
+   Without these it blows out to the 960px cap inside a 418px stage and the
+   copy runs off the right edge. Same flex trap as the announce bar. */
+.trust-band .container{max-width:960px;width:100%;min-width:0}
+.marquee,.trust-stats{min-width:0}
+.trust-band h2{font-size:var(--text-2xl);margin-top:var(--space-3);
+     text-shadow:0 2px 28px rgba(0,0,0,.6)}
+
+/* 3 stats. auto-fit would drop to 2 columns mid-range and strand a widow
+   (3 mod 2 = 1), so the counts are explicit: 1 up, then straight to 3.
+   See .claude/rules/css.md. */
+.trust-stats{display:grid;grid-template-columns:1fr;gap:var(--space-3);
+     margin-top:var(--space-6);text-align:left}
+.stat{padding:var(--space-3) 0}
+/* Separation by hairline rule, never a box. Sibling selector so the first
+   stat never gets an edge: top rules stacked, left rules side-by-side. */
+.stat + .stat{border-top:1px solid rgba(255,255,255,.22)}
+.stat__icon{width:22px;height:22px;color:var(--color-primary-light);
+     filter:drop-shadow(0 1px 4px rgba(0,0,0,.55));margin-bottom:var(--space-3)}
+.stat__fact{font-family:var(--font-heading);font-weight:600;
+     font-size:var(--text-lg);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.stat__note{font-size:var(--text-sm);color:#cdd3d8;margin-top:var(--space-2);
+     text-shadow:0 1px 4px rgba(0,0,0,.5)}
+
+/* ===== Review marquee =====
+   The track holds the chip set TWICE and travels exactly -50%, so the loop
+   returns to a pixel-identical position — that is what makes it seamless.
+   The duplicate set is aria-hidden so the a11y tree counts each review once. */
+.marquee{margin-top:var(--space-6);overflow:hidden;
+     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);
+     mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%)}
+.marquee__track{display:flex;width:max-content;gap:var(--space-4)}
+.chip-review{flex:none;width:min(80vw,20rem);padding:var(--space-4);
+     border-radius:var(--radius-lg);
+     background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);
+     backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.chip-review blockquote p{font-size:var(--text-sm);color:#f2f4f5;
+     text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.chip-review figcaption{margin-top:var(--space-3);font-family:var(--font-heading);
+     font-weight:600;font-size:var(--text-xs);color:var(--color-primary-light);
+     text-shadow:0 1px 4px rgba(0,0,0,.5)}
+
+@media(prefers-reduced-motion:no-preference){
+  .marquee__track{animation:marquee 28s linear infinite}
+  .marquee:hover .marquee__track{animation-play-state:paused}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+}
+/* No animation under reduce — but the row must stay browsable, so hand it
+   back to the user as a normal horizontal scroller. */
+@media(prefers-reduced-motion:reduce){
+  .marquee{overflow-x:auto}
+  .marquee__track{width:auto}
+}
+
+/* Placement B: same markup in normal flow. */
+.trust-band:not(.hero-stage__layer){position:static;padding-block:var(--section-pad-y)}
 
 /* ===== Problem selector ===== */
 .problem-grid{display:grid;grid-template-columns:1fr;gap:var(--space-5)}
@@ -95,18 +180,21 @@
 .why-grid h3{font-size:var(--text-lg);margin-bottom:var(--space-2)}
 .why-grid p{color:var(--color-text-muted)}
 
+@media(min-width:820px){
+  .trust-stats{grid-template-columns:repeat(3,1fr);gap:0}
+  .stat{padding:var(--space-2) var(--space-6)}
+  /* rule flips: stacked -> side-by-side */
+  .stat + .stat{border-top:0;border-left:1px solid rgba(255,255,255,.22)}
+}
+
 /* ===== Breakpoints ===== */
 @media(min-width:640px){
-  .trustbar__grid{grid-template-columns:repeat(2,1fr)}
-  .problem-grid,.service-grid{grid-template-columns:repeat(2,1fr)}
+  .problem-grid{grid-template-columns:repeat(2,1fr)}
   .why-grid{grid-template-columns:repeat(2,1fr);gap:var(--space-7)}
-  .work-grid{grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
   .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
 }
 @media(min-width:1024px){
-  /* 5 trust points: an explicit 5-column track avoids stranding a widow. */
-  .trustbar__grid{grid-template-columns:repeat(5,1fr)}
-  .problem-grid,.service-grid{grid-template-columns:repeat(3,1fr)}
+  .problem-grid{grid-template-columns:repeat(3,1fr)}
   .why-grid{grid-template-columns:repeat(4,1fr)}
 }
 
@@ -119,9 +207,33 @@
   .hero-stage__video,
   .hero-stage__canvas{object-position:var(--hero-focal-x,40%) center}
   .hero-stage__layer p.line{font-size:var(--text-base)}
-  .hero-stage__layer h2.line{font-size:var(--text-lg)}
-  .hero-actions .btn{flex:1 1 100%}
+  .hero-stage__layer h2.line{font-size:var(--text-xl)}
+  .hero-stage__layer p.line--muted{font-size:var(--text-xs)}
+  /* Buttons size to their label — never stretched to the full column. */
+  .hero-actions{gap:var(--space-3)}
+  .hero-actions .btn{flex:0 1 auto}
+  /* Centred on phones so the proof line reads as a footer to the CTAs
+     rather than a stray fragment hanging off the left edge. */
+  .hero-trust{text-align:center}
+  /* The band is the densest layer in the run (eyebrow + h2 + 3 stats +
+     marquee) and the stage clips at 100svh, so it has to fit inside one
+     phone viewport with no scroll of its own. */
+  .trust-band h2{font-size:var(--text-xl)}
+  .trust-stats{margin-top:var(--space-5);gap:var(--space-2)}
+  .stat{padding:var(--space-2) 0}
+  .stat__icon{width:20px;height:20px;margin-bottom:var(--space-2)}
+  .stat__fact{font-size:var(--text-base)}
+  .stat__note{font-size:var(--text-xs);margin-top:var(--space-1)}
+  .marquee{margin-top:var(--space-5)}
+  .chip-review blockquote p{font-size:var(--text-xs)}
 }
+
+/* ===== Service-area chips ===== */
+.chips{display:flex;flex-wrap:wrap;gap:var(--space-3);justify-content:center;
+       margin-top:var(--space-6)}
+.chip{background:var(--color-surface);border:1px solid var(--color-border);
+      border-radius:var(--radius-full);padding:var(--space-2) var(--space-5);
+      font-size:var(--text-sm);font-weight:500;box-shadow:var(--shadow-sm)}
 
 /* ===== Hero stage — reduced motion =====
    The scroll driver never runs (see script.js). Collapse the 340svh runway

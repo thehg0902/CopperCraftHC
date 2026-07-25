@@ -12,8 +12,8 @@ ul{list-style:none}
 /* ===== Utilities ===== */
 .container{max-width:var(--container-max);margin-inline:auto;padding-inline:var(--space-5)}
 section{padding-block:var(--section-pad-y)}
-/* Anchor targets clear the fixed announce bar + header when jumped to. */
-[id]{scroll-margin-top:calc(var(--announce-h) + var(--header-h) + var(--space-4))}
+/* Anchor targets clear the fixed header when jumped to. */
+[id]{scroll-margin-top:calc(var(--header-h) + var(--space-4))}
 .eyebrow{display:block;font-size:var(--text-sm);font-weight:600;letter-spacing:.08em;
          text-transform:uppercase;color:var(--color-primary)}
 .eyebrow--on-dark{color:var(--color-primary-light)}
@@ -21,8 +21,16 @@ section{padding-block:var(--section-pad-y)}
 .sec-head h2{font-size:var(--text-2xl);margin-top:var(--space-2)}
 .sec-head p{color:var(--color-text-muted);margin-top:var(--space-4)}
 .sec-foot{text-align:center;margin-top:var(--space-7);color:var(--color-text-muted)}
-.sec-foot a{color:var(--color-primary);font-weight:600}
+/* :not(.btn) is load-bearing. A scoped `<container> a{color:…}` rule has
+   higher specificity (0,1,1) than `.btn-primary` (0,1,0), so without the
+   guard any button placed inside this container renders copper-on-copper and
+   the label disappears. Every scoped link rule in this file carries it. */
+.sec-foot a:not(.btn){color:var(--color-primary);font-weight:600}
 .plain li{margin-bottom:var(--space-2)}
+/* Visually hidden but announced — used for star-rating equivalents so a
+   screen reader hears "5.0 out of 5" instead of a run of glyphs. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+         overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .stars{background:var(--gradient-copper);-webkit-background-clip:text;background-clip:text;
        color:transparent;font-weight:600}
 .link-cta{color:var(--color-primary);font-weight:600;border-bottom:1px solid currentColor;
@@ -48,6 +56,21 @@ section{padding-block:var(--section-pad-y)}
 .btn-ghost{background:var(--color-surface);color:var(--color-text);border-color:var(--color-border)}
 .btn-ghost:hover{border-color:var(--color-primary)}
 
+/* Glass — for buttons sitting ON the cinematic footage. A solid slab reads as
+   a cut-out over video; a translucent pane sits in the image instead. Carries
+   its own dark backing so white text stays legible whatever frame is behind. */
+.btn-glass{background:rgba(255,255,255,.13);color:#fff;
+     border-color:rgba(255,255,255,.42);backdrop-filter:blur(10px);
+     -webkit-backdrop-filter:blur(10px);text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.btn-glass:hover{background:rgba(255,255,255,.22);border-color:#fff}
+
+/* Softer copper — same fill, none of the hard metal. Used in the hero where
+   the heavy inset/specular treatment fought the footage. */
+.btn-soft{position:relative;overflow:hidden;color:#fff;
+     background-color:var(--color-primary);border-color:transparent;
+     box-shadow:0 2px 14px rgba(17,20,22,.28)}
+.btn-soft:hover{background-color:var(--color-primary-dark)}
+
 /* ===== Preloader ===== */
 #preloader{position:fixed;inset:0;z-index:1000;background:var(--color-dark-bg);display:flex;
            flex-direction:column;align-items:center;justify-content:center;gap:var(--space-5);
@@ -58,33 +81,13 @@ section{padding-block:var(--section-pad-y)}
 .pl-bar span{display:block;height:100%;width:0;background:var(--gradient-copper)}
 .pl-text{color:var(--color-dark-text-muted);font-size:var(--text-sm);letter-spacing:.1em;text-transform:uppercase}
 
-/* ===== Announcement bar =====
-   Fixed above the header as one top unit, so the hero still runs full-bleed
-   from y=0 underneath. Kept dark so it blends into the cinematic opening
-   instead of cutting a light strip across it.
-   Its height is a fixed token because the header's `top` offset and every
-   anchor's scroll-margin are derived from it — so the content must never
-   wrap. A shorter message swaps in on narrow screens instead. */
-.announce{position:fixed;top:0;left:0;right:0;z-index:101;height:var(--announce-h);
-          background:var(--color-dark-bg);color:var(--color-dark-text-muted);
-          font-size:var(--text-sm);display:flex;align-items:center;overflow:hidden}
-.announce .container{display:flex;align-items:center;justify-content:center;
-                     gap:var(--space-3);text-align:center}
-.announce p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.announce__short{display:none}
-.announce a{color:var(--color-primary-light);font-weight:600;white-space:nowrap;flex:0 0 auto}
-.announce a:hover{color:var(--color-dark-text)}
-@media(max-width:860px){
-  .announce__long{display:none}
-  .announce__short{display:block}
-}
 
 /* ===== Header =====
    Fixed and fully transparent so the cinematic sequence runs edge-to-edge
    under it. It only materializes a surface once it floats over light
    content — sections flagged [data-header-dark] keep it transparent,
    everything else adds `.scrolled` (see shared/main.js). */
-header{position:fixed;top:var(--announce-h);left:0;right:0;z-index:100;background:transparent;
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:transparent;
        border-bottom:1px solid transparent;
        transition:background var(--duration-base) var(--ease-standard),
                   border-color var(--duration-base) var(--ease-standard)}
@@ -124,7 +127,7 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 .site-footer h2{font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase;
                 color:var(--color-dark-text);margin-bottom:var(--space-4);margin-top:var(--space-6)}
 .site-footer h2:first-child{margin-top:0}
-.site-footer a:hover{color:var(--color-primary-light)}
+.site-footer a:not(.btn):hover{color:var(--color-primary-light)}
 .site-footer__brand img{width:200px;height:auto;margin-bottom:var(--space-4)}
 .site-footer__brand p{max-width:38ch}
 .site-footer__legal{display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:space-between;
@@ -132,9 +135,20 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
      border-top:1px solid var(--color-dark-surface)}
 
 /* ===== Sticky mobile action bar ===== */
+/* Hidden until the pinned hero stage is fully behind the visitor — a fixed
+   bar over the cinematic run would cut the "one continuous shot" the whole
+   opening is built around. shared/main.js adds .is-visible once the stage's
+   bottom edge clears the viewport top (and immediately on pages that have no
+   hero stage at all). */
 .mobile-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:95;
             gap:var(--space-3);padding:var(--space-3) var(--space-4);
-            background:rgba(17,20,22,.92);backdrop-filter:blur(10px)}
+            background:rgba(17,20,22,.92);backdrop-filter:blur(10px);
+            transform:translateY(110%);visibility:hidden}
+.mobile-bar.is-visible{transform:none;visibility:visible}
+@media(prefers-reduced-motion:no-preference){
+  .mobile-bar{transition:transform var(--duration-base) var(--ease-out-expo),
+                         visibility var(--duration-base)}
+}
 .mobile-bar .btn{flex:1}
 
 /* ===== Mobile =====
@@ -143,12 +157,12 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
    spare. Any label change would push it into a wrap. Hand over to the drawer
    while there is still real headroom. */
 @media(max-width:1099px){
-  .nav-links{position:fixed;inset:calc(var(--announce-h) + var(--header-h)) 0 auto 0;
+  .nav-links{position:fixed;inset:var(--header-h) 0 auto 0;
              background:var(--color-bg);flex-direction:column;align-items:stretch;
              gap:0;font-size:var(--text-base);margin-inline:0;
              padding:var(--space-4) var(--space-5) var(--space-6);
              border-bottom:1px solid var(--color-border);transform:translateY(-120%);
-             max-height:calc(100svh - var(--announce-h) - var(--header-h));overflow-y:auto;
+             max-height:calc(100svh - var(--header-h));overflow-y:auto;
              transition:transform var(--duration-base) var(--ease-out-expo)}
   .nav-links.open{transform:translateY(0)}
   /* The drawer is always a light surface, so its links stay dark whatever
@@ -157,7 +171,10 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
              padding-block:var(--space-3);border-bottom:1px solid var(--color-border)}
   .nav-links a:hover{color:var(--color-primary)}
   .nav-toggle{display:flex;order:3}
-  .nav{gap:var(--space-3)}
+  /* Brand centred, toggle at the edge. The brand is taken out of flow so it
+     centres on the VIEWPORT, not on the space left over beside the toggle. */
+  .nav{gap:var(--space-3);position:relative;justify-content:flex-end}
+  .brand{position:absolute;left:50%;transform:translateX(-50%)}
   .nav-cta .btn-ghost{display:none}
   .mobile-bar{display:flex}
   body{padding-bottom:76px}
@@ -167,7 +184,6 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 }
 @media(max-width:520px){
   .nav-cta .btn-primary{display:none}
-  .announce .container{font-size:var(--text-xs)}
 }
 @media(min-width:768px){
   .site-footer__grid{grid-template-columns:1.4fr 1fr 1fr 1fr}
@@ -192,13 +208,16 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 
 /* ===== Page hero (every page except Home, which has the cinematic stage) */
 .page-hero{background:var(--color-dark-bg);color:var(--color-dark-text);
-     padding-block:calc(var(--announce-h) + var(--header-h) + var(--space-9)) var(--space-9)}
+     padding-block:calc(var(--header-h) + var(--space-9)) var(--space-9)}
 .page-hero .container{max-width:760px;text-align:center}
 .page-hero h1{font-size:var(--text-3xl);margin-top:var(--space-3)}
 .page-hero p{color:var(--color-dark-text-muted);margin-top:var(--space-4);font-size:var(--text-lg)}
 .page-hero .hero-actions{justify-content:center;margin-top:var(--space-7)}
 /* ===== Services ===== */
-.service-grid{display:grid;grid-template-columns:1fr;gap:var(--space-5)}
+/* 2-across even at mobile: 10 cards stacked one-per-row is a wall of text
+   on a phone. 10 divides evenly by 2 and 5, so no breakpoint strands a
+   widow (rules/css.md). */
+.service-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-3)}
 .service-card{background:var(--color-surface);border:1px solid var(--color-border);
      border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
 .service-card h3{font-size:var(--text-lg);margin-bottom:var(--space-2)}
@@ -207,7 +226,13 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 /* ===== Testimonials carousel ===== */
 .rating{margin-top:var(--space-4);font-size:var(--text-lg)}
 .track{display:flex;gap:var(--space-5);overflow-x:auto;scroll-snap-type:x mandatory;
-       scroll-behavior:smooth;padding-block:var(--space-3);cursor:grab;scrollbar-width:none}
+       padding-block:var(--space-3);cursor:grab;scrollbar-width:none}
+/* smooth scrolling is motion: gate it, and drop it while dragging or every
+   pointermove animates and the grab feels rubbery instead of 1:1. */
+@media(prefers-reduced-motion:no-preference){
+  .track{scroll-behavior:smooth}
+  .track.is-dragging{scroll-behavior:auto}
+}
 .track::-webkit-scrollbar{display:none}
 .track:focus-visible{outline:2px solid var(--color-primary);outline-offset:4px}
 .review{scroll-snap-align:center;flex:0 0 min(420px,86vw);background:var(--color-surface);
@@ -215,6 +240,16 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
         padding:var(--space-6);box-shadow:var(--shadow-sm);display:flex;
         flex-direction:column;gap:var(--space-4)}
 .review blockquote p{font-size:var(--text-base)}
+/* Long quotes are clamped so a card is scannable, never a wall of text.
+   Cards that actually overflow carry a Read more link to the Google profile
+   (added in the markup, not detected in JS). The /reviews/ page opts out via
+   .review--full so the "read everything" destination truly shows everything. */
+.review--clamp blockquote p{display:-webkit-box;-webkit-line-clamp:6;
+     -webkit-box-orient:vertical;overflow:hidden}
+.review--full blockquote p{display:block;overflow:visible}
+.review__more{align-self:flex-start;font-size:var(--text-sm);font-weight:600;
+     color:var(--color-primary);border-bottom:1px solid currentColor;padding-bottom:1px}
+.review__more:hover{color:var(--color-primary-dark)}
 .review figcaption{font-family:var(--font-heading);font-weight:600;font-size:var(--text-sm);
                    color:var(--color-text-muted);margin-top:auto}
 .car-nav{display:flex;gap:var(--space-3);justify-content:center;margin-top:var(--space-5)}
@@ -222,21 +257,32 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
                 border:1px solid var(--color-border);background:var(--color-surface);
                 cursor:pointer;font-size:var(--text-lg)}
 .car-nav button:hover{background:var(--color-bg-alt);border-color:var(--color-primary)}
+.car-nav button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 
 /* ===== Our Work gallery =====
    Dark band so the photos carry it. Portrait stills of mixed native aspect
    (565x862 and 765x1020) normalised to a single 3:4 crop.
-   Column counts are explicit, not auto-fit: 6 items divide evenly by 2 and 3,
-   so no breakpoint strands a lone widow (rules/css.md). */
+   Runs on the SAME .track carousel component as the testimonials rather than
+   a second implementation — one player drives both (see script.js). */
 .work{background:var(--color-dark-bg);color:var(--color-dark-text)}
 .work .sec-head h2{color:var(--color-dark-text)}
 .work .sec-head p{color:var(--color-dark-text-muted)}
 .work .sec-foot{color:var(--color-dark-text-muted)}
+.work .car-nav button{background:var(--color-dark-surface);
+     border-color:rgba(255,255,255,.22);color:var(--color-dark-text)}
+.work .car-nav button:hover{background:#232a2f;border-color:var(--color-primary-light)}
+
+/* Grid on /our-work/ (browse everything); marquee cells on the homepage. */
 .work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-4)}
-.work-item img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;
-     border-radius:var(--radius-lg);background:var(--color-dark-surface)}
-.work-item__meta{padding-top:var(--space-3)}
-.work-item__meta h3{font-size:var(--text-base);color:var(--color-dark-text)}
+.work-item{position:relative;border-radius:var(--radius-lg);overflow:hidden;
+     background:var(--color-dark-surface)}
+.marquee--work .work-item{flex:none;width:min(72vw,17rem)}
+.work-item img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover}
+/* Caption sits INSIDE the frame, over a bottom-up scrim so the white title
+   stays readable regardless of how light the photo is underneath. */
+.work-item__meta{position:absolute;inset:auto 0 0 0;padding:var(--space-6) var(--space-4) var(--space-4);
+     background:linear-gradient(to top,rgba(17,20,22,.88) 0%,rgba(17,20,22,.55) 55%,transparent 100%)}
+.work-item__meta h3{font-size:var(--text-base);color:#fff}
 .work-item__meta p{font-size:var(--text-xs);letter-spacing:.06em;text-transform:uppercase;
      color:var(--color-primary-light);margin-top:2px}
 
@@ -257,7 +303,7 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
      line-height:1;flex:0 0 auto}
 .faq-list details[open] summary::after{content:"–"}
 .faq-body{margin-top:var(--space-4);color:var(--color-text-muted);display:grid;gap:var(--space-3)}
-.faq-body a{color:var(--color-primary);font-weight:600}
+.faq-body a:not(.btn){color:var(--color-primary);font-weight:600}
 
 /* ===== Contact form ===== */
 .quote{max-width:760px;margin-inline:auto;background:var(--color-surface);
@@ -283,20 +329,33 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 
 
 @media(min-width:640px){
-  .service-grid{grid-template-columns:repeat(2,1fr)}
+  .service-grid{gap:var(--space-5)}
   .work-grid{grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
   .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
 }
 @media(min-width:1024px){
-  .service-grid{grid-template-columns:repeat(3,1fr)}
+  .service-grid{grid-template-columns:repeat(5,1fr)}
 }
 
 /* ===== Legal pages (privacy policy + terms of use) ===== */
 .legal .container{max-width:720px}
 .legal h2{font-size:var(--text-lg);margin-top:var(--space-8);margin-bottom:var(--space-3)}
 .legal p{color:var(--color-text-muted);margin-bottom:var(--space-4)}
-.legal a{color:var(--color-primary);font-weight:600}
+.legal a:not(.btn){color:var(--color-primary);font-weight:600}
 .legal address{font-style:normal;color:var(--color-text-muted);line-height:var(--leading-loose)}
 .legal-note{background:var(--color-bg-alt);border-left:3px solid var(--color-primary);
      padding:var(--space-4) var(--space-5);border-radius:var(--radius-md);
      font-size:var(--text-sm)}
+
+/* ===== Contact details (contact page + homepage) ===== */
+.contact-details{background:var(--color-bg-alt)}
+.contact-grid{display:grid;grid-template-columns:1fr;gap:var(--space-8);align-items:start}
+.contact-grid h2{font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase;
+     color:var(--color-text-muted);margin-bottom:var(--space-3);margin-top:var(--space-6)}
+.contact-grid h2:first-child{margin-top:0}
+.contact-grid a:not(.btn){color:var(--color-primary);font-weight:600}
+.contact-grid address{font-style:normal;line-height:var(--leading-loose)}
+.map{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);
+     border:1px solid var(--color-border);background:var(--color-surface)}
+.map iframe{display:block;width:100%;height:420px;border:0}
+@media(min-width:768px){ .contact-grid{grid-template-columns:1fr 1.3fr} }
