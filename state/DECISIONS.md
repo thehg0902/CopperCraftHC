@@ -149,3 +149,25 @@ Shifted from flat orange to a PREMIUM METALLIC COPPER — deeper, browner/rosier
   its write surface (layer opacity/transform/visibility + --hero-scrim /
   --story-scrim / --hero-focal-x) does not intersect either new rule.
   | operator | layout-systems rule 7
+- Scroll entrances added across 7 pages (77 elements) via a single
+  [data-animate] reveal in shared/base.css + shared/main.js, per
+  frontend-animation references/css-only.md (threshold .2, fires once).
+  Values dialled UP from the skill's rule-4 defaults on operator request
+  ("more noticeable, but not too crazy"): 36px travel (default 16-24),
+  0.98->1 scale, 750ms via calc(--duration-slow * 1.25), 110ms stagger
+  (default 60-90). Logged as a deliberate deviation, not drift.
+  CSS-only rather than the Stack's `animation: gsap` flag — consistent with
+  the 2026-07-24 entry recording that no GSAP has shipped since the CSS-sticky
+  rewrite; adding it for this alone would mean a CDN + SRI dependency for one
+  effect. Three judgement calls worth recording: (1) reveals are NOT reversed
+  on scroll-out — content that fades while still on screen cannot be finished
+  reading and re-animates on every direction change (skill rule 4 "once");
+  (2) the resting state flips a --reveal-shift custom property instead of
+  declaring transform:none, because a .is-visible{transform:none} rule scores
+  (0,3,0) and would have permanently killed .problem-card:hover's (0,2,0)
+  lift; (3) stagger buckets by visual row (shared offsetTop) and recomputes on
+  resize, so a 10-card grid never delays its last card 675ms. Excluded on
+  purpose: the hero stage and its trust band (the scroll driver owns those
+  layers), the Our Work marquee and testimonial carousel (already moving),
+  <form> elements (conversion path stays instant), the site footer (persistent
+  chrome), and the legal pages. | operator | frontend-animation rules 1-5

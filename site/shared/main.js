@@ -229,6 +229,71 @@
     });
   })();
 
+  /* ==========================================================
+     SCROLL ENTRANCES — [data-animate]
+     Per frontend-animation references/css-only.md: add .anim-ready at init,
+     observe at threshold .2, add .is-visible, unobserve. The hidden state is
+     never in a stylesheet on its own, so JS off = fully visible content.
+
+     Reveals fire ONCE and are not reversed on the way out. Content that fades
+     away while it is still on screen is content you cannot finish reading, and
+     it re-animates on every scroll direction change — the skill's rule 4
+     ("once") exists for that reason.
+
+     Deliberately NOT applied to: the hero stage and its trust band (the scroll
+     driver in script.js owns those layers' opacity and transform — a second
+     writer would fight it), the Our Work marquee, and the testimonial carousel
+     slides (both already move, and the marquee's duplicate set is aria-hidden).
+     ========================================================== */
+  (function revealOnScroll() {
+    var items = document.querySelectorAll('[data-animate]');
+    if (!items.length || reduce || !('IntersectionObserver' in window)) return;
+    document.body.classList.add('anim-ready');
+
+    /* Stagger by VISUAL ROW, not by index among all siblings. The services
+       grid has ten cards: indexing 0..9 would hold the last one back 675ms
+       after it is already sitting on screen, which reads as jank rather than
+       choreography. Cards on one row share an offsetTop, so bucket on that —
+       the delay then never exceeds (columns - 1) steps, whatever the
+       breakpoint's column count happens to be.
+
+       Recomputed on resize: the row buckets describe the CURRENT column count,
+       so indices measured at one breakpoint are wrong at another (a 3-col grid
+       re-flowed to 2 would keep staggering 0,1,2 across rows of two). Only
+       un-revealed elements are touched — a delay on something already on
+       screen is spent. */
+    function assignStagger() {
+      for (var i = 0; i < items.length; i++) {
+        var el = items[i];
+        if (el.classList.contains('is-visible')) continue;
+        var parent = el.parentElement, idx = 0;
+        if (parent) {
+          var sibs = [], row = [], k;
+          for (k = 0; k < parent.children.length; k++) {
+            if (parent.children[k].hasAttribute('data-animate')) sibs.push(parent.children[k]);
+          }
+          for (k = 0; k < sibs.length; k++) {
+            if (Math.abs(sibs[k].offsetTop - el.offsetTop) < 8) row.push(sibs[k]);
+          }
+          idx = row.indexOf(el);
+        }
+        el.style.setProperty('--stagger-i', idx < 0 ? 0 : idx);
+      }
+    }
+    assignStagger();
+    addEventListener('resize', assignStagger);
+
+    var io = new IntersectionObserver(function (entries) {
+      for (var n = 0; n < entries.length; n++) {
+        if (!entries[n].isIntersecting) continue;
+        entries[n].target.classList.add('is-visible');
+        io.unobserve(entries[n].target);      // once
+      }
+    }, { threshold: 0.2 });
+
+    for (var j = 0; j < items.length; j++) io.observe(items[j]);
+  })();
+
   makeCarousel(document.getElementById('track'),
                document.getElementById('prev'),
                document.getElementById('next'));

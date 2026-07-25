@@ -244,28 +244,44 @@
   .problem-grid{grid-template-columns:repeat(3,1fr)}
   .why-grid{grid-template-columns:repeat(4,1fr)}
 
-  /* ===== Hero lead — desktop placement =====
+  /* ===== Hero lead — desktop composition =====
      Flush left is a phone composition: on a wide screen it strands the copy
-     against the bezel and leaves the middle of the frame empty. Centre the
-     620px block and nudge it right of the optical centre — the footage's
-     subject sits left of frame, so the copy takes the open side instead of
-     covering it.
-     translateX, not a margin: it moves the block without touching the flex
-     line, so nothing about the layer's sizing or the staggered entrance
-     changes. The layer's own transform belongs to the scroll driver; this is
-     a child, so the two never fight.
-     Offset tracks the viewport (41px at 1024 -> 72px capped) so the nudge
-     stays proportional instead of vanishing on a large display. */
-  .hero-stage__layer--lead .container{margin-inline:auto;
-                                      transform:translateX(clamp(0px,4vw,72px))}
+     against the bezel and leaves the middle of the frame empty. On desktop the
+     block centres and the copy centre-aligns with it, so the hero reads as a
+     symmetrical title card over the footage.
+     The block widens to 900px purely to hold the enlarged eyebrow on ONE line
+     — a wrapped eyebrow reads as a sentence instead of a label. The h1 still
+     breaks to two lines at every desktop width, which is the intended shape. */
+  .hero-stage__layer--lead{text-align:center}
+  .hero-stage__layer--lead .container{max-width:900px;margin-inline:auto}
+  .hero-stage__layer--lead .hero-actions{justify-content:center}
+
+  /* The 900px measure is wide enough that the h1 would otherwise break as
+     "Comfort Down? We'll Make / It Right." — mid-clause. Making each clause an
+     inline-block moves the preferred break to the space BETWEEN them, so it
+     reads "Comfort Down? / We'll Make It Right."
+     Done this way rather than with an h1 max-width because the width window
+     that produces the right break is only ~67px wide and was measured in the
+     fallback font — the real Poppins metrics could flip it. This is font-
+     independent. Desktop-only: below 1024px the spans stay plain inline and
+     the signed-off phone wrap is byte-identical. */
+  .hero-stage__layer--lead h1 span{display:inline-block}
+
+  /* Eyebrow scaled up from --text-sm. Capped at --text-xl so it stays firmly
+     subordinate to the h1 (~35% of it at 1024, ~42% at 1920) — it is a label
+     above the headline, never a competing line. Tracking drops .08em -> .055em
+     because letter-spacing tuned for 14px reads as gappy at 28px. */
+  .hero-stage__layer--lead .eyebrow{
+    font-size:clamp(var(--text-lg),1.9vw,var(--text-xl));
+    letter-spacing:.055em}
 
   /* The copy no longer sits on the dark end of the 90deg ramp, so the lead
-     scrim becomes a soft vignette anchored on the copy's new centre (54%):
-     darkest exactly under the text, falling off to the corners so the frame
-     still reads as footage rather than a flat wash. Measured over the
-     brightest hero frame — see the contrast check in the build notes. */
+     scrim becomes a soft vignette on the frame's centre: darkest exactly under
+     the text, falling off to the corners so the shot still reads as footage
+     rather than a flat wash. Measured over the brightest hero frame — see the
+     contrast check in the build notes. */
   .hero-stage__scrim--lead{
-    background:radial-gradient(120% 90% at 54% 50%,
+    background:radial-gradient(120% 90% at 50% 50%,
                                rgba(17,20,22,.80) 0%,
                                rgba(17,20,22,.66) 45%,
                                rgba(17,20,22,.34) 100%)}
