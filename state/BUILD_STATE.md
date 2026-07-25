@@ -10,8 +10,8 @@ Started: 2026-07-24
 | 1     | architecture | done    | -                         | 2026-07-24 |
 | 2     | design       | done    | HUMAN: approve style prev | 2026-07-24 |
 | 3     | content      | done    | -                         | 2026-07-24 |
-| 4     | media        | in-progress | HUMAN: confirm slot mapping | -   |
-| 5     | build        | pending | -                         | -         |
+| 4     | media        | done    | -                         | 2026-07-24 |
+| 5     | build        | in-progress | -                     | -         |
 | 6     | qa           | pending | scripts must pass         | -         |
 | 7     | deploy       | pending | HUMAN: confirm deploy     | -         |
 | 8     | handoff      | pending | -                         | -         |
@@ -56,5 +56,15 @@ Notes:
   footage; moved into placement folders under client/assets-intake/slots/,
   pre-ticked [x], MEDIA_LOG rows model=client/credits=0. ZERO gaps — no
   generation prompts, no paid-media gate needed. logo-*.png files noted as
-  unused (layout uses text logotype, not image). STOPPED for operator to
-  confirm slot mapping, then run /ingest.
+  unused (layout uses text logotype, not image).
+- P4 ingest (2026-07-24): operator confirmed slot mapping, ran /ingest.
+  ffmpeg was missing locally — installed via Homebrew with operator
+  approval; regular ffmpeg formula lacked libwebp support (scrub frames
+  collapsed into one animated .webp instead of a real sequence) — switched
+  to ffmpeg-full (has libwebp) and added an explicit `-c:v libwebp` flag
+  to scripts/ingest-assets.py's do_scrub() so the still-image encoder is
+  always used regardless of the local ffmpeg build's default. Re-ran:
+  hero-loop.mp4 (1.2MB, CRF20) + poster, scroll-story-1-scrub (61 frames,
+  12fps) + manifest, scroll-story-2-scrub (61 frames, 12fps) + manifest —
+  all DONE, MEDIA_LOG rows flipped to in-use. Phase 4 done. Proceeding to
+  Phase 5 build.

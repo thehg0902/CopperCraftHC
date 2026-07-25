@@ -189,7 +189,7 @@ def do_scrub(src, name):
         if slot_dir.exists(): shutil.rmtree(slot_dir)
         slot_dir.mkdir(parents=True, exist_ok=True)
         run(["ffmpeg", "-y", "-i", src, "-vf", f"fps={fps},scale={MAX_W}:-2",
-             "-quality", q, slot_dir / "frame-%04d.webp"])
+             "-c:v", "libwebp", "-quality", q, slot_dir / "frame-%04d.webp"])
         frames = sorted(slot_dir.glob("frame-*.webp"))
         total = sum(f.stat().st_size for f in frames)
         if total <= BUDGET["scrub"]:
