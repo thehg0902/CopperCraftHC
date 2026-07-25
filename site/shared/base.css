@@ -27,6 +27,10 @@ section{padding-block:var(--section-pad-y)}
    the label disappears. Every scoped link rule in this file carries it. */
 .sec-foot a:not(.btn){color:var(--color-primary);font-weight:600}
 .plain li{margin-bottom:var(--space-2)}
+/* Visually hidden but announced — used for star-rating equivalents so a
+   screen reader hears "5.0 out of 5" instead of a run of glyphs. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+         overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .stars{background:var(--gradient-copper);-webkit-background-clip:text;background-clip:text;
        color:transparent;font-weight:600}
 .link-cta{color:var(--color-primary);font-weight:600;border-bottom:1px solid currentColor;

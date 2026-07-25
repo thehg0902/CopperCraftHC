@@ -22,3 +22,14 @@ Thursday	9 a.m.–10 p.m.
 - [x] Q: [CONTACT] Contact/quote FORM or call-only?   A: placeholder form now, add Formspree ID later
 - [ ] Q: Domain for the site (for SEO canonicals/sitemap)?   A: (pending — not blocking until deploy)
 - [ ] Q: [FONTS] Poppins (400/500/600) + Inter (400/500) .woff2 files needed at site/assets/fonts/ (self-hosted per brand board). OK to fetch the OFL webfonts during Phase 5, or will you provide them?   A: (pending — system fallback until then)
+
+## 2026-07-25 — Google review count (blocks aggregateRating schema)
+The trust band publishes "5.0 on Google" with NO review count, because the
+count has never been verified. client.md Auto records it as [unconfirmed]:
+the original GBP paste showed 11 reviews with a note that the number had
+since grown. Operator chose to ship without a count rather than a placeholder.
+
+To add it later: confirm the live count from the Google Business Profile,
+put it in client.md Overrides, and the stat becomes "5.0 · N Google reviews".
+Until then seo-technical must NOT emit aggregateRating/reviewCount schema —
+the rating is asserted as on-page text only.

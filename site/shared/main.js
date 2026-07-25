@@ -144,6 +144,35 @@
     start();
   }
 
+  /* ==========================================================
+     TRUST BAND — Placement B entrance.
+     Inside a pinned hero stage the scroll driver already owns this layer, so
+     only a standalone instance (one NOT inside .hero-stage__layer) gets an
+     IntersectionObserver entrance. Same markup, same CSS, no rewrite.
+     ========================================================== */
+  (function trustBandEntrance() {
+    var bands = document.querySelectorAll('.trust-band:not(.hero-stage__layer)');
+    if (!bands.length || reduce || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var kids = e.target.querySelectorAll('.line');
+        for (var i = 0; i < kids.length; i++) {
+          kids[i].style.transition = 'opacity .6s ease ' + (i * 90) + 'ms, transform .6s ease ' + (i * 90) + 'ms';
+          kids[i].style.opacity = 1;
+          kids[i].style.transform = 'none';
+        }
+        io.unobserve(e.target);           // fire once
+      });
+    }, { threshold: 0.25 });
+    bands.forEach(function (band) {
+      band.querySelectorAll('.line').forEach(function (k) {
+        k.style.opacity = 0; k.style.transform = 'translateY(60px)';
+      });
+      io.observe(band);
+    });
+  })();
+
   makeCarousel(document.getElementById('track'),
                document.getElementById('prev'),
                document.getElementById('next'));

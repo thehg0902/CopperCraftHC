@@ -55,7 +55,12 @@
 
   var SCRIM_START    = 1.00;  // gradient scrim at rest (lead copy contrast)
   var SCRIM_END      = 0.55;  // ...lifted as the interior warms up
-  var FLAT_SCRIM_MAX = 0.45;  // flat wash behind the centred copy layers
+  var FLAT_SCRIM_MAX = 0.45;  // flat wash behind the problem copy
+  /* The trust band carries the smallest type on the page (12px stat notes and
+     chip captions) and sits over the BRIGHTEST footage in the run — the
+     white-walled wall-unit shot. Contrast has to hold against that frame, not
+     the average one, so the scrim ramps toward full as the band scrolls in. */
+  var BAND_SCRIM_MAX = 0.74;
 
   var PRELOAD_STRIDE = 4;     // load every Nth frame, then backfill
   var PRELOAD_B_AT   = 0.25;  // defer B's bulk preload until the run is
@@ -257,7 +262,8 @@
 
       // Published per tick, no CSS transition, or they lag the scroll.
       inner.style.setProperty('--hero-scrim', lerp(SCRIM_START, SCRIM_END, scrubA).toFixed(3));
-      inner.style.setProperty('--story-scrim', (FLAT_SCRIM_MAX * Math.max(nextIn, promiseIn)).toFixed(3));
+      inner.style.setProperty('--story-scrim',
+        Math.max(nextIn * FLAT_SCRIM_MAX, promiseIn * BAND_SCRIM_MAX).toFixed(3));
       inner.style.setProperty('--hero-focal-x',
         (fadeB > 0 ? lerp(FOCAL_B_START, FOCAL_B_END, scrubB)
                    : lerp(FOCAL_A_START, FOCAL_A_END, scrubA)).toFixed(2) + '%');
