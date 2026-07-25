@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CopperCraft Heating &amp; Cooling — Honest HVAC in Richmond Hill &amp; York Region</title>
-<meta name="description" content="Honest furnace and A/C repair, installation, heat pumps and maintenance for Richmond Hill and York Region. 5.0-star rated, no overselling, fast response.">
+<title>CopperCraft Heating &amp; Cooling — Honest HVAC Service in Richmond Hill</title>
+<meta name="description" content="Honest heating and cooling service in Richmond Hill. Furnace and A/C repair, installation, heat pumps and water heaters. 5.0★ on Google. Same-day service when available.">
 <link rel="stylesheet" href="shared/tokens.css">
 <link rel="stylesheet" href="shared/base.css">
 <link rel="stylesheet" href="style.css">
@@ -26,6 +26,14 @@
   <div class="pl-text">Warming up…</div>
 </div>
 
+<div class="announce">
+  <div class="container">
+    <p class="announce__long">No heat or no cooling? Same-day service may be available during business hours.</p>
+    <p class="announce__short">Same-day service may be available.</p>
+    <a href="tel:+16472506072">Call (647)&nbsp;250-6072</a>
+  </div>
+</div>
+
 <header id="siteHeader">
   <div class="container nav">
     <a class="brand" href="#top" aria-label="CopperCraft Heating &amp; Cooling — home">
@@ -36,14 +44,17 @@
       </span>
     </a>
     <nav class="nav-links" id="menu" aria-label="Primary">
-      <a href="#services">Services</a>
-      <a href="#work">Our Work</a>
-      <a href="#reviews">Reviews</a>
-      <a href="#area">Service Area</a>
-      <a href="#contact">Contact</a>
+      <a href="#top">Home</a>
+      <a href="services/">Services</a>
+      <a href="what-to-expect/">What to Expect</a>
+      <a href="our-work/">Our Work</a>
+      <a href="reviews/">Reviews</a>
+      <a href="#faq">FAQs</a>
+      <a href="contact/">Contact</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-primary" href="tel:+16472506072">📞 (647) 250-6072</a>
+      <a class="btn btn-ghost btn-sm" href="contact/">Book a Visit</a>
+      <a class="btn btn-primary btn-sm" href="tel:+16472506072">Call (647)&nbsp;250-6072</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -57,7 +68,9 @@
      crossfade only — idle loop -> hero-transition -> story-2 — so there is
      never a cut or a slide between them.
      data-scrub-* mirror each scrub/<slot>/manifest.json: read from
-     attributes, never fetch()ed, so the page still scrubs from file://. -->
+     attributes, never fetch()ed, so the page still scrubs from file://.
+     MEDIA WELL AND DRIVER ARE FROZEN — copy inside the layers is the only
+     thing that changes here. -->
 <section class="hero-stage" id="top" data-hero-stage data-header-dark>
   <div class="hero-stage__inner">
 
@@ -83,233 +96,448 @@
 
     <div class="hero-stage__layer hero-stage__layer--lead" data-hero-layer="lead">
       <div class="container">
-        <span class="eyebrow eyebrow--on-dark">Richmond Hill &amp; York Region</span>
-        <h1>Honest Heating &amp; Cooling, Right Here in Richmond Hill</h1>
-        <p>No-heat night or A/C emergency — we answer, show up fast, and tell you the truth about what your system actually needs. No upselling. Ever.</p>
+        <span class="eyebrow eyebrow--on-dark">Heating &amp; Cooling Service in Richmond Hill</span>
+        <h1>Comfort Down? We'll Make It Right.</h1>
+        <p class="hero-sub">Honest advice. Quality work. No pressure.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="tel:+16472506072">Call Now — Fast Response</a>
-          <a class="btn btn-ghost" href="#contact">Book a Visit</a>
+          <a class="btn btn-primary" href="tel:+16472506072">Call (647)&nbsp;250-6072</a>
+          <a class="btn btn-ghost" href="contact/">Book a Service Visit</a>
         </div>
+        <p class="hero-trust"><span class="stars">5.0★ on Google</span> · Same-day service when available</p>
       </div>
     </div>
 
     <div class="hero-stage__layer hero-stage__layer--next" data-hero-layer="next"
-         role="group" aria-label="The problem">
+         role="group" aria-label="Your home should feel like home again">
       <div class="container">
-        <p class="line">It's the coldest night of the year — and the furnace won't fire.</p>
-        <p class="line">You start calling around. Nobody calls back.</p>
-        <p class="line">Or worse — someone shows up and tries to sell you a system you don't need.</p>
+        <h2 class="line">Your Home Should Feel Like Home Again.</h2>
+        <p class="line">When the heat stops or the AC fails, you do not need a sales pitch. You need someone who will find the problem and explain what should happen next.</p>
+        <p class="line line--muted">Clear answers. Careful diagnosis. Comfort restored.</p>
+        <p class="line"><a class="line-cta" href="tel:+16472506072">Need help now? Call (647)&nbsp;250-6072</a></p>
       </div>
     </div>
 
     <div class="hero-stage__layer hero-stage__layer--promise" data-hero-layer="promise"
-         role="group" aria-label="The promise">
+         role="group" aria-label="A repair when a repair is enough">
       <div class="container">
-        <p class="line">CopperCraft answers the phone.</p>
-        <p class="line">We show up fast, explain what's actually wrong, and fix it right the first time.</p>
-        <p class="line">No fear of upsells. Just honest work — guaranteed.</p>
+        <h2 class="line">A Repair When a Repair Is Enough.</h2>
+        <p class="line">Not every breakdown means you need a new system. CopperCraft identifies the issue, explains your options and tells you when a simpler repair makes more sense.</p>
+        <p class="line line--muted">No unnecessary work. No confusing explanations. No pressure.</p>
+        <p class="line line--muted">Honest HVAC service from someone who takes pride in doing the job properly.</p>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- TRUST BAR (after the seamless cinematic sequence) -->
-<div class="trust" data-header-dark>
+<!-- TRUST BAR — first light section after the cinematic sequence -->
+<section class="trustbar" aria-label="Why customers choose CopperCraft">
   <div class="container">
-    <span class="stars">★★★★★ 5.0</span>
-    <span><b>Dozens of 5-star Google reviews</b></span>
-    <span>Honest &amp; upfront — <b>no overselling</b></span>
-    <span>Serving homes &amp; businesses across York Region</span>
-  </div>
-</div>
-
-<!-- SERVICES -->
-<section id="services">
-  <div class="container">
-    <div class="sec-head"><span class="eyebrow">What we do</span><h2>Furnace, A/C, and everything in between</h2></div>
-    <div class="grid">
-      <div class="card">
-        <div class="ico" aria-hidden="true">🔥</div>
-        <h3>Furnace Repair</h3>
-        <p>Won't start, short-cycling, or blowing cold — we diagnose it fast and fix it right, no guesswork.</p>
-      </div>
-      <div class="card">
-        <div class="ico" aria-hidden="true">❄️</div>
-        <h3>A/C Repair</h3>
-        <p>Not cooling, tripping breakers, or making noise — same-day diagnosis so you're not sweating it out.</p>
-      </div>
-      <div class="card">
-        <div class="ico" aria-hidden="true">⚙️</div>
-        <h3>Installations</h3>
-        <p>New furnace or A/C, sized right for your home — clear options explained plainly, no pressure.</p>
-      </div>
-      <div class="card">
-        <div class="ico" aria-hidden="true">🌡️</div>
-        <h3>Heat Pumps</h3>
-        <p>Year-round comfort in one system, with help understanding the rebate programs available to you.</p>
-      </div>
-      <div class="card">
-        <div class="ico" aria-hidden="true">💨</div>
-        <h3>Ductless / Mini-Split</h3>
-        <p>Zone-by-zone comfort for additions, basements, and rooms ducting can't reach.</p>
-      </div>
-      <div class="card">
-        <div class="ico" aria-hidden="true">🛠️</div>
-        <h3>Maintenance</h3>
-        <p>A seasonal tune-up — and a technician on file — so the next breakdown is a text, not a panic.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SERVICE AREA -->
-<section class="area" id="area">
-  <div class="container sec-head" style="margin-bottom:0">
-    <span class="eyebrow">Where we work</span>
-    <h2>Proudly serving Richmond Hill &amp; York Region</h2>
-    <div class="chips">
-      <span class="chip">Richmond Hill</span>
-      <span class="chip">Markham</span>
-      <span class="chip">Vaughan</span>
-      <span class="chip">Thornhill</span>
-      <span class="chip">Aurora</span>
-      <span class="chip">Newmarket</span>
-      <span class="chip">+ York Region</span>
-    </div>
-  </div>
-</section>
-
-<!-- HONEST, QUALITY WORK — gallery of the operator's own job photos.
-     Dark band: the photos carry the section, and it sets a rhythm between
-     the tinted service-area strip and the light reviews section. -->
-<section class="work" id="work" data-header-dark>
-  <div class="container">
-    <div class="sec-head">
-      <span class="eyebrow eyebrow--on-dark">On the job</span>
-      <h2>Honest, Quality Work</h2>
-      <p>Real jobs, photographed on site — homes and businesses, furnaces to water heaters. No stock photos, no stand-ins.</p>
-    </div>
-    <ul class="work-grid">
-      <li><img src="assets/images/gallery-01.webp" width="565" height="862" loading="lazy" decoding="async"
-               alt="Air-conditioning condenser installed on a concrete pad beside a brick home, with service gauges connected."></li>
-      <li><img src="assets/images/gallery-02.webp" width="765" height="1020" loading="lazy" decoding="async"
-               alt="Wall-mounted high-efficiency water heater with copper water lines and a gas line run neatly to it."></li>
-      <li><img src="assets/images/gallery-03.webp" width="765" height="1020" loading="lazy" decoding="async"
-               alt="Gas water heater installed in a basement with power-vent piping running to the ceiling."></li>
-      <li><img src="assets/images/gallery-04.webp" width="765" height="1020" loading="lazy" decoding="async"
-               alt="Mechanical room with twin water softeners, a wall-mounted boiler and insulated ducting."></li>
-      <li><img src="assets/images/gallery-05.webp" width="765" height="1020" loading="lazy" decoding="async"
-               alt="Three commercial water heaters installed side by side in a plant room."></li>
-      <li><img src="assets/images/gallery-06.webp" width="765" height="1020" loading="lazy" decoding="async"
-               alt="Rooftop commercial packaged heating and cooling unit installed on a flat roof."></li>
+    <ul class="trustbar__grid">
+      <li>
+        <h3><span class="stars">5.0★</span> on Google</h3>
+        <p>Real feedback from customers who value honest and dependable service.</p>
+      </li>
+      <li>
+        <h3>Same-Day When Available</h3>
+        <p>Urgent appointments are prioritized during regular business hours.</p>
+      </li>
+      <li>
+        <h3>No Unnecessary Upselling</h3>
+        <p>We tell you when a repair is enough.</p>
+      </li>
+      <li>
+        <h3>Workmanship Guarantee</h3>
+        <p>Quality work backed by a commitment to doing the job properly.</p>
+      </li>
+      <li>
+        <h3>Richmond Hill Based</h3>
+        <p>Heating and cooling service for local homes and businesses.</p>
+      </li>
     </ul>
   </div>
 </section>
 
-<!-- TESTIMONIALS (horizontal sliding carousel) -->
-<section id="reviews">
+<!-- PROBLEM SELECTOR -->
+<section class="problems" id="help">
   <div class="container">
-    <div class="sec-head"><span class="eyebrow">Real reviews</span><h2>5.0★ on Google, from real customers</h2></div>
+    <div class="sec-head">
+      <span class="eyebrow">How can we help?</span>
+      <h2>What Is Happening With Your System?</h2>
+      <p>You do not need to know the technical name of the problem. Choose what sounds closest to what you are experiencing.</p>
+    </div>
+    <ul class="problem-grid">
+      <li class="problem-card">
+        <h3>My Furnace Is Not Heating</h3>
+        <p>The furnace will not start, shuts off repeatedly or blows cold air.</p>
+        <a class="link-cta" href="contact/?need=furnace-repair">Get Furnace Help</a>
+      </li>
+      <li class="problem-card">
+        <h3>My AC Is Not Cooling</h3>
+        <p>The system is running, but the home is still hot or the airflow feels weak.</p>
+        <a class="link-cta" href="contact/?need=ac-repair">Get AC Help</a>
+      </li>
+      <li class="problem-card">
+        <h3>Something Sounds or Smells Wrong</h3>
+        <p>Unusual noises, burning smells, leaking water or sudden performance changes should be inspected.</p>
+        <a class="link-cta" href="contact/?need=diagnosis">Request a Diagnosis</a>
+      </li>
+      <li class="problem-card">
+        <h3>My System Is Getting Old</h3>
+        <p>The system needs frequent repairs, costs more to operate or may be approaching replacement.</p>
+        <a class="link-cta" href="contact/?need=replacement">Explore Replacement Options</a>
+      </li>
+      <li class="problem-card">
+        <h3>I Am Considering a Heat Pump</h3>
+        <p>Help choosing a heating and cooling system suited to the home.</p>
+        <a class="link-cta" href="contact/?need=heat-pump">Explore Heat Pumps</a>
+      </li>
+      <li class="problem-card">
+        <h3>I Need Seasonal Maintenance</h3>
+        <p>Prepare the system before the next heating or cooling season.</p>
+        <a class="link-cta" href="contact/?need=maintenance">Book Maintenance</a>
+      </li>
+    </ul>
+    <p class="sec-foot">Not sure what you need? <a href="tel:+16472506072">Call (647)&nbsp;250-6072</a> and tell us what is happening.</p>
+  </div>
+</section>
+
+<!-- WHY COPPERCRAFT -->
+<section class="why">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">The CopperCraft difference</span>
+      <h2>HVAC Service Without the Typical Headaches</h2>
+      <p>You should not have to wonder whether a contractor is recommending what is best for your home—or simply what costs the most.</p>
+    </div>
+    <ul class="why-grid">
+      <li>
+        <h3>Honest Recommendations</h3>
+        <p>We tell you when a repair makes more sense than a replacement.</p>
+      </li>
+      <li>
+        <h3>Clear Explanations</h3>
+        <p>Understand what went wrong, what your options are and why a solution is being recommended.</p>
+      </li>
+      <li>
+        <h3>No Unnecessary Upselling</h3>
+        <p>The goal is to solve the actual problem—not add work you do not need.</p>
+      </li>
+      <li>
+        <h3>Careful Workmanship</h3>
+        <p>Repairs and installations are completed carefully, tested and backed by our quality commitment.</p>
+      </li>
+    </ul>
+    <p class="sec-foot"><a class="btn btn-primary" href="tel:+16472506072">Speak With CopperCraft</a></p>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">Heating, cooling &amp; indoor comfort</span>
+      <h2>The Right Service for Every Season</h2>
+      <p>From urgent repairs to planned system upgrades, CopperCraft provides dependable heating and cooling solutions for homes and businesses.</p>
+    </div>
+    <ul class="service-grid">
+      <li class="service-card"><h3>Furnace Repair</h3><p>Diagnosis and repair for furnaces that will not start, stop unexpectedly or fail to heat properly.</p></li>
+      <li class="service-card"><h3>Furnace Installation</h3><p>Replacement options for older, unreliable or inefficient heating systems.</p></li>
+      <li class="service-card"><h3>Air-Conditioning Repair</h3><p>Repair for AC systems that are not cooling, leaking or producing weak airflow.</p></li>
+      <li class="service-card"><h3>Air-Conditioning Installation</h3><p>Professional replacement and installation for dependable summer cooling.</p></li>
+      <li class="service-card"><h3>Heat Pumps</h3><p>Heating and cooling from one efficient system, with help choosing the right option.</p></li>
+      <li class="service-card"><h3>Ductless Systems</h3><p>Flexible heating and cooling for additions, individual rooms and spaces without traditional ductwork.</p></li>
+      <li class="service-card"><h3>Water Heaters</h3><p>Repair and replacement for tank and tankless water heaters, residential and light commercial.</p></li>
+      <li class="service-card"><h3>Thermostats and Controls</h3><p>Installation and troubleshooting for more accurate and convenient comfort control.</p></li>
+      <li class="service-card"><h3>Preventative Maintenance</h3><p>Seasonal inspections designed to identify problems early and improve reliability.</p></li>
+      <li class="service-card"><h3>Light Commercial HVAC</h3><p>Heating and cooling support for offices, shops and other small commercial spaces.</p></li>
+    </ul>
+    <p class="sec-foot">Not sure what your system needs? <a href="tel:+16472506072">Call (647)&nbsp;250-6072</a></p>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="reviews" id="reviews">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">Real customer experiences</span>
+      <h2>The Best Proof Is How Customers Describe the Service</h2>
+      <p>Customers repeatedly mention clear explanations, dependable arrival times, fair recommendations and no unnecessary upselling.</p>
+      <p class="rating"><span class="stars">5.0★ on Google</span></p>
+    </div>
     <div class="tcar">
-      <div class="track" id="track" tabindex="0" aria-label="Customer reviews, scroll sideways">
-        <div class="review">
-          <div class="stars" aria-hidden="true">★★★★★</div>
-          <p>"I had a great experience with CopperCraft Heating &amp; Cooling for my AC service. The team was professional, punctual, and knowledgeable. They took the time to explain everything clearly, completed the work efficiently, and made sure my air conditioner was running perfectly before they left."</p>
-          <div class="who">Shima Bonakdar · Google</div>
-        </div>
-        <div class="review">
-          <div class="stars" aria-hidden="true">★★★★★</div>
-          <p>"I've dealt with a lot of contractors over the years, and these guys were one of the best. They showed up when they said they would, explained everything clearly, and didn't try to upsell me on things I didn't need. […]"</p>
-          <div class="who">Negar Zaraby · Google</div>
-        </div>
-        <div class="review">
-          <div class="stars" aria-hidden="true">★★★★★</div>
-          <p>"Joe was fantastic from start to finish. He was professional, knowledgeable, and took the time to explain everything in a way that made sense. He showed up when he said he would, worked efficiently, and made sure everything was done […]"</p>
-          <div class="who">Shirin Bonakdar · Google</div>
-        </div>
-        <div class="review">
-          <div class="stars" aria-hidden="true">★★★★★</div>
-          <p>"5 star service! If you are looking for an honest, reliable and patient technician, Joe is your guy. My AC was not working and turned out it was just an electrical glitch which was fixed with no fuss and overselling."</p>
-          <div class="who">Anahita B. · Google</div>
-        </div>
-        <div class="review">
-          <div class="stars" aria-hidden="true">★★★★★</div>
-          <p>"Great price. Best service out there. Truly dependable and honest approach. Pricing is fair […]"</p>
-          <div class="who">mehri salmaninejad · Google</div>
-        </div>
-        <div class="review">
-          <div class="stars" aria-hidden="true">★★★★★</div>
-          <p>"Our AC stopped working and they were very quick to respond and were able to fix the unit same day. It was great that they had the required part without having to order it and come back. Extremely reasonable price. […]"</p>
-          <div class="who">Sherri A. · Google</div>
-        </div>
-        <div class="review">
-          <div class="stars" aria-hidden="true">★★★★★</div>
-          <p>"Joe and his team have been extremely helpful and reliable whenever I needed something. You can definitely depend on them in an emergency. […]"</p>
-          <div class="who">Melwin Gonsalves · Google</div>
-        </div>
-        <div class="review">
-          <div class="stars" aria-hidden="true">★★★★★</div>
-          <p>"Great experience from start to finish! The team was professional, knowledgeable, and very efficient. They took the time to explain everything clearly and provided excellent service. Highly recommend this HVAC company to anyone looking for reliable and quality work!"</p>
-          <div class="who">Mehmet Kismetli · Google</div>
-        </div>
-        <div class="review">
-          <div class="stars" aria-hidden="true">★★★★★</div>
-          <p>"It's clear he takes pride in his work and genuinely cares about his customers."</p>
-          <div class="who">Sarah Andrade · Google</div>
-        </div>
+      <div class="track" id="track" tabindex="0" role="group" aria-label="Customer reviews — scroll sideways">
+        <figure class="review">
+          <blockquote><p>“I had a great experience with CopperCraft Heating &amp; Cooling for my AC service. The team was professional, punctual, and knowledgeable. They took the time to explain everything clearly, completed the work efficiently, and made sure my air conditioner was running perfectly before they left. Their attention to detail and commitment to customer satisfaction really stood out. I highly recommend CopperCraft Heating &amp; Cooling to anyone looking for reliable and high-quality AC service.”</p></blockquote>
+          <figcaption>Shima Bonakdar</figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote><p>“I've dealt with a lot of contractors over the years, and these guys were one of the best. They showed up when they said they would, explained everything clearly, and didn't try to upsell me on things I didn't need. …”</p></blockquote>
+          <figcaption>Negar Zaraby</figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote><p>“Joe was fantastic from start to finish. He was professional, knowledgeable, and took the time to explain everything in a way that made sense. He showed up when he said he would, worked efficiently, and made sure everything was done …”</p></blockquote>
+          <figcaption>Shirin Bonakdar</figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote><p>“5 star service! if you are looking for an honest, reliable and patient technician, Joe is your guy. My AC was not working and turned out it was just an electrical glitch which was fixed with no fuss and overselling.”</p></blockquote>
+          <figcaption>ANAHITA B.</figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote><p>“Great price. Best service out there. Truly dependable and honest approach. Pricing is fair …”</p></blockquote>
+          <figcaption>Mehri Salmaninejad</figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote><p>“What a great company. Our AC stopped working and they were very quick to respond and were able to fix the unit same day. It was great that they had the required part without having to order it and come back. Extremely reasonable price. Do not hesitate to use this company. …”</p></blockquote>
+          <figcaption>Sherri A.</figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote><p>“Joe and his team have been extremely helpful and reliable whenever I needed something. You can be definitely depend on them in an emergency. …”</p></blockquote>
+          <figcaption>Melwin Gonsalves</figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote><p>“Great experience from start to finish! The team was professional, knowledgeable, and very efficient. They took the time to explain everything clearly and provided excellent service. Highly recommend this HVAC company to anyone looking for reliable and quality work!”</p></blockquote>
+          <figcaption>Mehmet Kismetli</figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote><p>“It's clear he takes pride in his work and genuinely cares about his customers.”</p></blockquote>
+          <figcaption>Sarah Andrade</figcaption>
+        </figure>
       </div>
       <div class="car-nav">
-        <button id="prev" aria-label="Previous reviews">‹</button>
-        <button id="next" aria-label="Next reviews">›</button>
+        <button id="prev" type="button" aria-label="Previous reviews">‹</button>
+        <button id="next" type="button" aria-label="Next reviews">›</button>
       </div>
     </div>
+    <p class="sec-foot"><a class="link-cta" href="reviews/">Read More Google Reviews</a></p>
   </div>
 </section>
 
-<!-- CTA BAND -->
-<section class="cta-band" data-header-dark>
+<!-- OUR WORK — visual proof only, no case-study narratives -->
+<section class="work" id="work" data-header-dark>
   <div class="container">
-    <h2>Comfort is one honest call away.</h2>
-    <a class="btn btn-ghost" href="tel:+16472506072">Call (647) 250-6072</a>
+    <div class="sec-head">
+      <span class="eyebrow eyebrow--on-dark">Our work</span>
+      <h2>Careful Work. Clean Results.</h2>
+      <p>A closer look at CopperCraft repairs, installations and completed HVAC projects.</p>
+    </div>
+    <ul class="work-grid">
+      <li class="work-item">
+        <img src="assets/images/gallery-01.webp" width="565" height="862" loading="lazy" decoding="async"
+             alt="Air-conditioning condenser installed on a concrete pad beside a brick home, with service gauges connected.">
+        <div class="work-item__meta"><h3>Air-Conditioning Condenser</h3><p>Air Conditioning</p></div>
+      </li>
+      <li class="work-item">
+        <img src="assets/images/gallery-02.webp" width="765" height="1020" loading="lazy" decoding="async"
+             alt="Wall-mounted tankless water heater with copper water lines and a gas line run neatly to it.">
+        <div class="work-item__meta"><h3>Tankless Water Heater</h3><p>Water Heaters</p></div>
+      </li>
+      <li class="work-item">
+        <img src="assets/images/gallery-03.webp" width="765" height="1020" loading="lazy" decoding="async"
+             alt="Gas water heater installed in a basement with power-vent piping running to the ceiling.">
+        <div class="work-item__meta"><h3>Gas Water Heater</h3><p>Water Heaters</p></div>
+      </li>
+      <li class="work-item">
+        <img src="assets/images/gallery-04.webp" width="765" height="1020" loading="lazy" decoding="async"
+             alt="Mechanical room with twin water softeners, a wall-mounted boiler and insulated ducting.">
+        <div class="work-item__meta"><h3>Mechanical Room</h3><p>Indoor Comfort</p></div>
+      </li>
+      <li class="work-item">
+        <img src="assets/images/gallery-05.webp" width="765" height="1020" loading="lazy" decoding="async"
+             alt="Three commercial water heaters installed side by side in a plant room.">
+        <div class="work-item__meta"><h3>Commercial Water Heaters</h3><p>Light Commercial</p></div>
+      </li>
+      <li class="work-item">
+        <img src="assets/images/gallery-06.webp" width="765" height="1020" loading="lazy" decoding="async"
+             alt="Rooftop commercial packaged heating and cooling unit installed on a flat roof.">
+        <div class="work-item__meta"><h3>Rooftop Packaged Unit</h3><p>Light Commercial</p></div>
+      </li>
+    </ul>
+    <p class="sec-foot"><a class="link-cta link-cta--on-dark" href="our-work/">View All Projects</a></p>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
+<!-- SERVICE AREA — Richmond Hill only until the radius is confirmed -->
+<section class="area" id="area">
   <div class="container">
-    <div class="sec-head"><span class="eyebrow">Get in touch</span><h2>Talk to a real technician, not a call centre</h2></div>
-    <div class="contact-grid">
-      <div class="nap">
-        <p><b>CopperCraft Heating &amp; Cooling</b></p>
-        <p>9555 Yonge St, Richmond Hill, ON L4C 9M5</p>
-        <p><b>Phone:</b> <a href="tel:+16472506072">(647) 250-6072</a> &nbsp; <b>Email:</b> <a href="mailto:info@coppercraft.ca">info@coppercraft.ca</a></p>
-        <p><b>Hours:</b> Mon–Fri 9am–10pm · Sat 10am–3:30pm · Sun closed</p>
-        <div class="slot" aria-label="Google Map embed of 9555 Yonge St, Richmond Hill, ON">Map embed placeholder — Phase 5 (maps-gbp)</div>
-      </div>
-      <form class="quote" action="#" method="post">
-        <div class="field"><label for="q-name">Name</label><input id="q-name" name="name" type="text" placeholder="Your name" required></div>
-        <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" placeholder="Best number to reach you" required></div>
-        <div class="field"><label for="q-issue">What's going on?</label><textarea id="q-issue" name="issue" rows="4" placeholder="e.g. AC not cooling"></textarea></div>
-        <button class="btn btn-primary" type="submit">Request a Callback</button>
-        <p class="form-note">Placeholder form — provider wired in Phase 5 (forms: placeholder).</p>
-      </form>
+    <div class="sec-head">
+      <span class="eyebrow">Local HVAC service</span>
+      <h2>Based in Richmond Hill</h2>
+      <p>CopperCraft Heating &amp; Cooling provides dependable heating and cooling service for homes and businesses in Richmond Hill. For service outside Richmond Hill, call to confirm whether your location is currently covered.</p>
     </div>
+    <address class="area__address">
+      9555 Yonge Street<br>
+      Richmond Hill, Ontario L4C 9M5
+    </address>
+    <p class="sec-foot"><a class="btn btn-primary" href="tel:+16472506072">Call to Confirm Your Area</a></p>
+  </div>
+</section>
+
+<!-- HOMEPAGE FAQ — four questions only -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">Common questions</span>
+      <h2>Questions Before You Call?</h2>
+    </div>
+    <div class="faq-list">
+      <details>
+        <summary>Do you offer same-day HVAC service?</summary>
+        <div class="faq-body">
+          <p>Same-day service may be available during business hours, depending on technician availability, location and the type of problem.</p>
+          <p><a href="tel:+16472506072">Call (647)&nbsp;250-6072</a> for the fastest response.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Will you tell me whether I should repair or replace my system?</summary>
+        <div class="faq-body">
+          <p>Yes. We inspect the system, explain what we find and outline the practical options.</p>
+          <p>When a repair makes more sense than replacement, we will tell you.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Will I be pressured into purchasing a new system?</summary>
+        <div class="faq-body">
+          <p>No. CopperCraft focuses on honest recommendations and solving the actual problem.</p>
+          <p>We do not recommend equipment or services simply because they cost more.</p>
+        </div>
+      </details>
+      <details>
+        <summary>How much will my HVAC repair cost?</summary>
+        <div class="faq-body">
+          <p>The cost depends on the issue, equipment and required parts.</p>
+          <p>The system must be diagnosed before an accurate recommendation can be provided. The findings and next steps will be explained before additional work proceeds.</p>
+        </div>
+      </details>
+    </div>
+    <p class="sec-foot"><a class="link-cta" href="what-to-expect/">See What to Expect During Your Visit</a></p>
+  </div>
+</section>
+
+<!-- LOW-PRESSURE CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">Here when you need us</span>
+      <h2>Not Ready to Call? Send Us a Message.</h2>
+      <p>Tell us what is happening and when you would prefer to be contacted. There is no obligation, and submitting the form does not commit you to any service.</p>
+      <p>For urgent heating or cooling problems, calling is the fastest option.</p>
+    </div>
+
+    <form class="quote" action="thank-you/" method="post" data-contact-form>
+      <div class="field-row">
+        <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="f-phone">Phone number</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="f-email">Email address</label><input id="f-email" name="email" type="email" autocomplete="email"></div>
+        <div class="field"><label for="f-address">Service address</label><input id="f-address" name="address" type="text" autocomplete="street-address"></div>
+      </div>
+      <div class="field">
+        <label for="f-need">What do you need help with?</label>
+        <select id="f-need" name="need">
+          <option value="">Choose one…</option>
+          <option value="furnace-repair">Furnace repair</option>
+          <option value="furnace-install">Furnace installation</option>
+          <option value="ac-repair">AC repair</option>
+          <option value="ac-install">AC installation</option>
+          <option value="heat-pump">Heat pump</option>
+          <option value="ductless">Ductless system</option>
+          <option value="water-heater">Water heater</option>
+          <option value="thermostat">Thermostat</option>
+          <option value="maintenance">Maintenance</option>
+          <option value="commercial">Light commercial HVAC</option>
+          <option value="not-sure">Not sure</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-message">Tell us what is happening</label>
+        <textarea id="f-message" name="message" rows="4"></textarea>
+      </div>
+      <div class="field-row">
+        <fieldset class="field field--choices">
+          <legend>Preferred contact method</legend>
+          <label class="choice"><input type="radio" name="contact_method" value="phone" checked> Phone call</label>
+          <label class="choice"><input type="radio" name="contact_method" value="text"> Text message</label>
+          <label class="choice"><input type="radio" name="contact_method" value="email"> Email</label>
+        </fieldset>
+        <div class="field"><label for="f-when">Preferred day or time</label><input id="f-when" name="preferred_time" type="text" placeholder="e.g. weekday mornings"></div>
+      </div>
+      <button class="btn btn-primary" type="submit">Send My Request</button>
+      <p class="form-note">No pressure. No commitment. We'll simply contact you to discuss the next step.</p>
+      <p class="form-note form-note--warn">Placeholder form — no submission endpoint is wired yet (client.md Stack: <code>forms: placeholder</code>). Add a provider ID and this posts live.</p>
+    </form>
+
+    <p class="sec-foot">Prefer to speak directly? <a href="tel:+16472506072">Call (647)&nbsp;250-6072</a></p>
   </div>
 </section>
 
 </main>
 
-<footer data-header-dark>
-  <div class="container">
-    <p>© <span id="year">2026</span> CopperCraft Heating &amp; Cooling · 9555 Yonge St, Richmond Hill, ON</p>
-    <nav aria-label="Footer">
-      <a href="#services">Services</a> · <a href="#work">Our Work</a> · <a href="#reviews">Reviews</a> · <a href="#area">Service Area</a> · <a href="#contact">Contact</a>
+<footer class="site-footer" data-header-dark>
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <img src="assets/images/logo-wordmark-light.png" alt="CopperCraft Heating &amp; Cooling" width="680" height="136">
+      <p>Dependable heating, cooling and indoor-comfort service for homes and businesses in Richmond Hill.</p>
+    </div>
+
+    <div>
+      <h2>Contact</h2>
+      <ul class="plain">
+        <li>Phone: <a href="tel:+16472506072">(647)&nbsp;250-6072</a></li>
+        <li>Email: <a href="mailto:info@coppercraft.ca">info@coppercraft.ca</a></li>
+        <li>9555 Yonge Street, Richmond Hill, ON L4C 9M5</li>
+      </ul>
+      <h2>Hours</h2>
+      <ul class="plain">
+        <li>Monday–Friday: 9:00 a.m.–10:00 p.m.</li>
+        <li>Saturday: 10:00 a.m.–3:30 p.m.</li>
+        <li>Sunday: Closed</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>Navigation</h2>
+      <ul class="plain">
+        <li><a href="#top">Home</a></li>
+        <li><a href="services/">Services</a></li>
+        <li><a href="what-to-expect/">What to Expect</a></li>
+        <li><a href="our-work/">Our Work</a></li>
+        <li><a href="reviews/">Reviews</a></li>
+        <li><a href="#faq">FAQs</a></li>
+        <li><a href="contact/">Contact</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>Services</h2>
+      <ul class="plain">
+        <li>Furnace Repair</li>
+        <li>Furnace Installation</li>
+        <li>AC Repair</li>
+        <li>AC Installation</li>
+        <li>Heat Pumps</li>
+        <li>Ductless Systems</li>
+        <li>Water Heaters</li>
+        <li>Thermostats</li>
+        <li>Preventative Maintenance</li>
+        <li>Light Commercial HVAC</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container site-footer__legal">
+    <p>© <span id="year">2026</span> CopperCraft Heating &amp; Cooling. All rights reserved.</p>
+    <nav aria-label="Legal">
+      <a href="privacy-policy/">Privacy Policy</a> · <a href="terms-of-use/">Terms of Use</a>
     </nav>
   </div>
 </footer>
 
-<a class="mobile-call" href="tel:+16472506072">📞 Call CopperCraft — (647) 250-6072</a>
+<div class="mobile-bar">
+  <a class="btn btn-primary" href="tel:+16472506072">Call Now</a>
+  <a class="btn btn-ghost" href="contact/">Book a Visit</a>
+</div>
 
 <script src="shared/main.js"></script>
 <script src="script.js"></script>

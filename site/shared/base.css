@@ -6,29 +6,38 @@ body{font-family:var(--font-body);color:var(--color-text);background:var(--color
 h1,h2,h3{font-family:var(--font-heading);line-height:var(--leading-tight);font-weight:600}
 a{color:inherit;text-decoration:none}
 img,video{max-width:100%;display:block}
-button{font:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+ul{list-style:none}
 
 /* ===== Utilities ===== */
 .container{max-width:var(--container-max);margin-inline:auto;padding-inline:var(--space-5)}
 section{padding-block:var(--section-pad-y)}
-/* Anchor targets clear the fixed header when jumped to from the nav. */
-[id]{scroll-margin-top:calc(var(--header-h) + var(--space-4))}
-.eyebrow{font-size:var(--text-sm);font-weight:600;letter-spacing:.08em;text-transform:uppercase;
-         color:var(--color-primary)}
-.sec-head{text-align:center;max-width:640px;margin:0 auto var(--space-8)}
+/* Anchor targets clear the fixed announce bar + header when jumped to. */
+[id]{scroll-margin-top:calc(var(--announce-h) + var(--header-h) + var(--space-4))}
+.eyebrow{display:block;font-size:var(--text-sm);font-weight:600;letter-spacing:.08em;
+         text-transform:uppercase;color:var(--color-primary)}
+.eyebrow--on-dark{color:var(--color-primary-light)}
+.sec-head{max-width:720px;margin:0 auto var(--space-8);text-align:center}
 .sec-head h2{font-size:var(--text-2xl);margin-top:var(--space-2)}
-
-/* Grey labeled asset-slot placeholder (only used where a real asset isn't wired yet) */
-.slot{position:relative;background:repeating-linear-gradient(45deg,#e4e7ea,#e4e7ea 12px,#dcdfe3 12px,#dcdfe3 24px);
-      border:2px dashed #b6bcc2;border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;
-      text-align:center;color:#566;font-size:var(--text-sm);font-weight:600;min-height:220px}
+.sec-head p{color:var(--color-text-muted);margin-top:var(--space-4)}
+.sec-foot{text-align:center;margin-top:var(--space-7);color:var(--color-text-muted)}
+.sec-foot a{color:var(--color-primary);font-weight:600}
+.plain li{margin-bottom:var(--space-2)}
+.stars{background:var(--gradient-copper);-webkit-background-clip:text;background-clip:text;
+       color:transparent;font-weight:600}
+.link-cta{color:var(--color-primary);font-weight:600;border-bottom:1px solid currentColor;
+          padding-bottom:2px}
+.link-cta:hover{color:var(--color-primary-dark)}
+.link-cta--on-dark{color:var(--color-primary-light)}
 
 /* ===== Buttons ===== */
-.btn{display:inline-flex;align-items:center;gap:var(--space-2);font-family:var(--font-heading);
-     font-weight:600;font-size:var(--text-base);padding:var(--space-3) var(--space-5);
-     border-radius:var(--radius-md);cursor:pointer;border:2px solid transparent;
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);
+     font-family:var(--font-heading);font-weight:600;font-size:var(--text-base);
+     padding:var(--space-3) var(--space-5);border-radius:var(--radius-md);cursor:pointer;
+     border:2px solid transparent;text-align:center;
      transition:transform var(--duration-fast) var(--ease-standard),background var(--duration-fast)}
 .btn:hover{transform:translateY(-2px)}
+.btn-sm{padding:var(--space-2) var(--space-4);font-size:var(--text-sm)}
 .btn-primary{position:relative;overflow:hidden;color:#fff;background-color:var(--color-primary);
      background-image:var(--sheen-soft);border-top:1px solid rgba(255,255,255,.42);
      box-shadow:inset 0 1px 0 rgba(255,255,255,.25),inset 0 -3px 8px rgba(0,0,0,.16),var(--shadow-sm);
@@ -36,8 +45,8 @@ section{padding-block:var(--section-pad-y)}
 .btn-primary::after{content:"";position:absolute;inset:0;pointer-events:none;background:var(--sheen-sweep);
      background-size:230% 100%;background-position:180% 0;mix-blend-mode:screen}
 .btn-primary:hover{background-color:var(--color-primary-dark)}
-.btn-secondary{background:transparent;color:var(--color-accent);border-color:var(--color-accent)}
 .btn-ghost{background:var(--color-surface);color:var(--color-text);border-color:var(--color-border)}
+.btn-ghost:hover{border-color:var(--color-primary)}
 
 /* ===== Preloader ===== */
 #preloader{position:fixed;inset:0;z-index:1000;background:var(--color-dark-bg);display:flex;
@@ -49,69 +58,115 @@ section{padding-block:var(--section-pad-y)}
 .pl-bar span{display:block;height:100%;width:0;background:var(--gradient-copper)}
 .pl-text{color:var(--color-dark-text-muted);font-size:var(--text-sm);letter-spacing:.1em;text-transform:uppercase}
 
+/* ===== Announcement bar =====
+   Fixed above the header as one top unit, so the hero still runs full-bleed
+   from y=0 underneath. Kept dark so it blends into the cinematic opening
+   instead of cutting a light strip across it.
+   Its height is a fixed token because the header's `top` offset and every
+   anchor's scroll-margin are derived from it — so the content must never
+   wrap. A shorter message swaps in on narrow screens instead. */
+.announce{position:fixed;top:0;left:0;right:0;z-index:101;height:var(--announce-h);
+          background:var(--color-dark-bg);color:var(--color-dark-text-muted);
+          font-size:var(--text-sm);display:flex;align-items:center;overflow:hidden}
+.announce .container{display:flex;align-items:center;justify-content:center;
+                     gap:var(--space-3);text-align:center}
+.announce p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.announce__short{display:none}
+.announce a{color:var(--color-primary-light);font-weight:600;white-space:nowrap;flex:0 0 auto}
+.announce a:hover{color:var(--color-dark-text)}
+@media(max-width:860px){
+  .announce__long{display:none}
+  .announce__short{display:block}
+}
+
 /* ===== Header =====
-   Fixed + fully transparent so the cinematic sequence runs edge-to-edge
-   under it (no bar, no strip of page background above the hero). It only
-   materializes a surface once it floats over light content — sections
-   flagged [data-header-dark] keep it transparent, everything else adds
-   `.scrolled` (see shared/main.js). */
-header{position:fixed;top:0;left:0;right:0;z-index:100;background:transparent;
+   Fixed and fully transparent so the cinematic sequence runs edge-to-edge
+   under it. It only materializes a surface once it floats over light
+   content — sections flagged [data-header-dark] keep it transparent,
+   everything else adds `.scrolled` (see shared/main.js). */
+header{position:fixed;top:var(--announce-h);left:0;right:0;z-index:100;background:transparent;
        border-bottom:1px solid transparent;
        transition:background var(--duration-base) var(--ease-standard),
                   border-color var(--duration-base) var(--ease-standard)}
-header.scrolled{background:rgba(247,245,241,.88);backdrop-filter:blur(10px);
+header.scrolled{background:rgba(247,245,241,.92);backdrop-filter:blur(10px);
                 border-bottom-color:var(--color-border)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:var(--header-h)}
+.nav{display:flex;align-items:center;gap:var(--space-5);height:var(--header-h)}
 
 /* Brand lockup: mark + wordmark, composed so each can scale independently.
    Two wordmark variants cross-fade — knockout over the dark sequence,
    the original near-black artwork over light sections. */
-.brand{display:flex;align-items:center;gap:var(--space-3)}
-.brand-mark{height:40px;width:auto}
-.brand-words{position:relative;display:block;height:24px;width:120px}
-.brand-word{position:absolute;inset:0;height:24px;width:auto;
+.brand{display:flex;align-items:center;gap:var(--space-3);flex:0 0 auto}
+.brand-mark{height:38px;width:auto}
+.brand-words{position:relative;display:block;height:22px;width:110px}
+.brand-word{position:absolute;inset:0;height:22px;width:auto;
             transition:opacity var(--duration-base) var(--ease-standard)}
 .brand-word--dark{opacity:0}
 header.scrolled .brand-word--light{opacity:0}
 header.scrolled .brand-word--dark{opacity:1}
 
-.nav-links{display:flex;align-items:center;gap:var(--space-6);font-size:var(--text-base)}
+.nav-links{display:flex;align-items:center;gap:var(--space-5);font-size:var(--text-sm);
+           margin-inline:auto}
 .nav-links a{color:var(--color-dark-text);text-shadow:0 1px 8px rgba(0,0,0,.45);
-             transition:color var(--duration-base) var(--ease-standard)}
+             white-space:nowrap;transition:color var(--duration-base) var(--ease-standard)}
 .nav-links a:hover{color:var(--color-primary-light)}
 header.scrolled .nav-links a{color:var(--color-text);text-shadow:none}
 header.scrolled .nav-links a:hover{color:var(--color-primary)}
-.nav-cta{display:flex;align-items:center;gap:var(--space-3)}
+.nav-cta{display:flex;align-items:center;gap:var(--space-3);flex:0 0 auto}
 .nav-toggle{display:none;background:none;border:0;cursor:pointer;flex-direction:column;gap:5px}
 .nav-toggle span{width:24px;height:2px;background:var(--color-dark-text);display:block;
                  transition:background var(--duration-base) var(--ease-standard)}
 header.scrolled .nav-toggle span{background:var(--color-text)}
 
-footer{background:var(--color-dark-bg);color:var(--color-dark-text-muted);padding-block:var(--space-8);font-size:var(--text-sm)}
-footer .container{display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:space-between;align-items:center}
-footer nav a:hover{color:var(--color-dark-text)}
+/* ===== Footer ===== */
+.site-footer{background:var(--color-dark-bg);color:var(--color-dark-text-muted);
+             padding-block:var(--space-9) var(--space-6);font-size:var(--text-sm)}
+.site-footer__grid{display:grid;grid-template-columns:1fr;gap:var(--space-8)}
+.site-footer h2{font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase;
+                color:var(--color-dark-text);margin-bottom:var(--space-4);margin-top:var(--space-6)}
+.site-footer h2:first-child{margin-top:0}
+.site-footer a:hover{color:var(--color-primary-light)}
+.site-footer__brand img{width:200px;height:auto;margin-bottom:var(--space-4)}
+.site-footer__brand p{max-width:38ch}
+.site-footer__legal{display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:space-between;
+     align-items:center;margin-top:var(--space-9);padding-top:var(--space-5);
+     border-top:1px solid var(--color-dark-surface)}
 
-/* ===== Sticky mobile call bar ===== */
-.mobile-call{display:none;position:fixed;bottom:0;left:0;right:0;z-index:90;background:var(--color-primary);
-             color:#fff;text-align:center;padding:var(--space-4);font-family:var(--font-heading);font-weight:600}
+/* ===== Sticky mobile action bar ===== */
+.mobile-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:95;
+            gap:var(--space-3);padding:var(--space-3) var(--space-4);
+            background:rgba(17,20,22,.92);backdrop-filter:blur(10px)}
+.mobile-bar .btn{flex:1}
 
-/* ===== Mobile (breakpoint per rules/css.md: min-width 640/1024; nav collapses below 860 to match layout preview) ===== */
-@media(max-width:860px){
-  .nav-links{position:fixed;inset:var(--header-h) 0 auto 0;background:var(--color-bg);flex-direction:column;
-             padding:var(--space-6);border-bottom:1px solid var(--color-border);transform:translateY(-120%);
+/* ===== Mobile ===== */
+@media(max-width:1024px){
+  .nav-links{position:fixed;inset:calc(var(--announce-h) + var(--header-h)) 0 auto 0;
+             background:var(--color-bg);flex-direction:column;align-items:stretch;
+             gap:0;font-size:var(--text-base);margin-inline:0;
+             padding:var(--space-4) var(--space-5) var(--space-6);
+             border-bottom:1px solid var(--color-border);transform:translateY(-120%);
+             max-height:calc(100svh - var(--announce-h) - var(--header-h));overflow-y:auto;
              transition:transform var(--duration-base) var(--ease-out-expo)}
   .nav-links.open{transform:translateY(0)}
   /* The drawer is always a light surface, so its links stay dark whatever
      the transparent header is doing above it. */
-  .nav-links a,header.scrolled .nav-links a{color:var(--color-text);text-shadow:none}
+  .nav-links a,header.scrolled .nav-links a{color:var(--color-text);text-shadow:none;
+             padding-block:var(--space-3);border-bottom:1px solid var(--color-border)}
   .nav-links a:hover{color:var(--color-primary)}
-  .brand-mark{height:34px}
-  .brand-words{height:20px;width:100px}
-  .brand-word{height:20px}
   .nav-toggle{display:flex;order:3}
+  .nav{gap:var(--space-3)}
+  .nav-cta .btn-ghost{display:none}
+  .mobile-bar{display:flex}
+  body{padding-bottom:76px}
+  .brand-mark{height:32px}
+  .brand-words{height:19px;width:95px}
+  .brand-word{height:19px}
+}
+@media(max-width:520px){
   .nav-cta .btn-primary{display:none}
-  .mobile-call{display:block}
-  body{padding-bottom:60px}
+  .announce .container{font-size:var(--text-xs)}
+}
+@media(min-width:768px){
+  .site-footer__grid{grid-template-columns:1.4fr 1fr 1fr 1fr}
 }
 
 /* ===== Motion (enabled only when the visitor allows it) ===== */
@@ -124,3 +179,120 @@ footer nav a:hover{color:var(--color-dark-text)}
 @media(prefers-reduced-motion:reduce){
   #preloader{display:none}
 }
+
+/* ==========================================================================
+   SHARED SECTION COMPONENTS — used by 2+ pages (file-structure contract:
+   anything used by more than one page lives in shared/). Page-specific
+   styles stay in that page's own style.css.
+   ========================================================================== */
+
+/* ===== Page hero (every page except Home, which has the cinematic stage) */
+.page-hero{background:var(--color-dark-bg);color:var(--color-dark-text);
+     padding-block:calc(var(--announce-h) + var(--header-h) + var(--space-9)) var(--space-9)}
+.page-hero .container{max-width:760px;text-align:center}
+.page-hero h1{font-size:var(--text-3xl);margin-top:var(--space-3)}
+.page-hero p{color:var(--color-dark-text-muted);margin-top:var(--space-4);font-size:var(--text-lg)}
+.page-hero .hero-actions{justify-content:center;margin-top:var(--space-7)}
+/* ===== Services ===== */
+.service-grid{display:grid;grid-template-columns:1fr;gap:var(--space-5)}
+.service-card{background:var(--color-surface);border:1px solid var(--color-border);
+     border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
+.service-card h3{font-size:var(--text-lg);margin-bottom:var(--space-2)}
+.service-card p{color:var(--color-text-muted);font-size:var(--text-sm)}
+
+/* ===== Testimonials carousel ===== */
+.rating{margin-top:var(--space-4);font-size:var(--text-lg)}
+.track{display:flex;gap:var(--space-5);overflow-x:auto;scroll-snap-type:x mandatory;
+       scroll-behavior:smooth;padding-block:var(--space-3);cursor:grab;scrollbar-width:none}
+.track::-webkit-scrollbar{display:none}
+.track:focus-visible{outline:2px solid var(--color-primary);outline-offset:4px}
+.review{scroll-snap-align:center;flex:0 0 min(420px,86vw);background:var(--color-surface);
+        border:1px solid var(--color-border);border-radius:var(--radius-lg);
+        padding:var(--space-6);box-shadow:var(--shadow-sm);display:flex;
+        flex-direction:column;gap:var(--space-4)}
+.review blockquote p{font-size:var(--text-base)}
+.review figcaption{font-family:var(--font-heading);font-weight:600;font-size:var(--text-sm);
+                   color:var(--color-text-muted);margin-top:auto}
+.car-nav{display:flex;gap:var(--space-3);justify-content:center;margin-top:var(--space-5)}
+.car-nav button{width:44px;height:44px;border-radius:var(--radius-full);
+                border:1px solid var(--color-border);background:var(--color-surface);
+                cursor:pointer;font-size:var(--text-lg)}
+.car-nav button:hover{background:var(--color-bg-alt);border-color:var(--color-primary)}
+
+/* ===== Our Work gallery =====
+   Dark band so the photos carry it. Portrait stills of mixed native aspect
+   (565x862 and 765x1020) normalised to a single 3:4 crop.
+   Column counts are explicit, not auto-fit: 6 items divide evenly by 2 and 3,
+   so no breakpoint strands a lone widow (rules/css.md). */
+.work{background:var(--color-dark-bg);color:var(--color-dark-text)}
+.work .sec-head h2{color:var(--color-dark-text)}
+.work .sec-head p{color:var(--color-dark-text-muted)}
+.work .sec-foot{color:var(--color-dark-text-muted)}
+.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-4)}
+.work-item img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;
+     border-radius:var(--radius-lg);background:var(--color-dark-surface)}
+.work-item__meta{padding-top:var(--space-3)}
+.work-item__meta h3{font-size:var(--text-base);color:var(--color-dark-text)}
+.work-item__meta p{font-size:var(--text-xs);letter-spacing:.06em;text-transform:uppercase;
+     color:var(--color-primary-light);margin-top:2px}
+
+/* ===== Service area ===== */
+.area{background:var(--color-bg-alt)}
+.area__address{text-align:center;font-style:normal;font-family:var(--font-heading);
+     font-weight:500;font-size:var(--text-lg);line-height:var(--leading-loose)}
+
+/* ===== FAQ ===== */
+.faq-list{max-width:760px;margin-inline:auto;display:grid;gap:var(--space-3)}
+.faq-list details{background:var(--color-surface);border:1px solid var(--color-border);
+     border-radius:var(--radius-lg);padding:var(--space-5) var(--space-6)}
+.faq-list summary{font-family:var(--font-heading);font-weight:600;font-size:var(--text-base);
+     cursor:pointer;list-style:none;display:flex;justify-content:space-between;
+     align-items:center;gap:var(--space-4)}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{content:"+";color:var(--color-primary);font-size:var(--text-xl);
+     line-height:1;flex:0 0 auto}
+.faq-list details[open] summary::after{content:"–"}
+.faq-body{margin-top:var(--space-4);color:var(--color-text-muted);display:grid;gap:var(--space-3)}
+.faq-body a{color:var(--color-primary);font-weight:600}
+
+/* ===== Contact form ===== */
+.quote{max-width:760px;margin-inline:auto;background:var(--color-surface);
+       border:1px solid var(--color-border);border-radius:var(--radius-lg);
+       padding:var(--space-6);box-shadow:var(--shadow-sm)}
+.field-row{display:grid;grid-template-columns:1fr;gap:var(--space-4)}
+.field{display:flex;flex-direction:column;gap:var(--space-2);margin-bottom:var(--space-4)}
+.field label,.field legend{font-size:var(--text-sm);font-weight:600}
+.field input,.field select,.field textarea{border:1px solid var(--color-border);
+     border-radius:var(--radius-md);padding:var(--space-3);font-family:var(--font-body);
+     font-size:var(--text-base);background:var(--color-bg)}
+.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{
+     outline:2px solid var(--color-primary);outline-offset:1px}
+.field--choices{border:0;padding:0}
+.field--choices legend{margin-bottom:var(--space-2)}
+.choice{display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-base);
+        font-weight:400;padding-block:var(--space-1)}
+.choice input{width:auto}
+.form-note{font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-3)}
+.form-note--warn{font-size:var(--text-xs);border-left:3px solid var(--color-primary);
+     padding-left:var(--space-3)}
+.form-note code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
+
+
+@media(min-width:640px){
+  .service-grid{grid-template-columns:repeat(2,1fr)}
+  .work-grid{grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
+  .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
+}
+@media(min-width:1024px){
+  .service-grid{grid-template-columns:repeat(3,1fr)}
+}
+
+/* ===== Legal pages (privacy policy + terms of use) ===== */
+.legal .container{max-width:720px}
+.legal h2{font-size:var(--text-lg);margin-top:var(--space-8);margin-bottom:var(--space-3)}
+.legal p{color:var(--color-text-muted);margin-bottom:var(--space-4)}
+.legal a{color:var(--color-primary);font-weight:600}
+.legal address{font-style:normal;color:var(--color-text-muted);line-height:var(--leading-loose)}
+.legal-note{background:var(--color-bg-alt);border-left:3px solid var(--color-primary);
+     padding:var(--space-4) var(--space-5);border-radius:var(--radius-md);
+     font-size:var(--text-sm)}

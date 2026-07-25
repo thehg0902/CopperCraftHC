@@ -1,6 +1,6 @@
-/* Home page — hero, scroll-scrub stories, services, service area,
-   testimonials carousel, CTA band, contact. Shared reset/header/footer/
-   buttons live in shared/base.css. */
+/* Home page — hero stage, trust bar, problem selector, why, services,
+   reviews, our work, service area, FAQ, contact.
+   Shared reset/header/footer/buttons live in shared/base.css. */
 
 /* ===== Hero stage =====
    .hero-stage is the RUNWAY — its height is the scroll distance the
@@ -30,124 +30,97 @@
 .hero-stage__canvas{position:absolute;inset:0;width:100%;height:100%;
                     object-fit:cover;object-position:50% center}
 /* Both sequences start hidden; the driver crossfades A over the loop, then
-   B over A. Stacking order = DOM order: video, A, B. */
+   B over A. Stacking order = DOM order: video, A, B. Reordering the markup
+   silently reverses the dissolve. Never add a transition here — it lags
+   reverse scrubbing. */
 .hero-stage__canvas{opacity:0}
 .hero-stage__scrim{position:absolute;inset:0}
 /* Left-weighted gradient: contrast for the left-aligned lead copy. */
-.hero-stage__scrim--lead{background:linear-gradient(90deg,rgba(17,20,22,.78),rgba(17,20,22,.35));
+.hero-stage__scrim--lead{background:linear-gradient(90deg,rgba(17,20,22,.82),rgba(17,20,22,.38));
      opacity:var(--hero-scrim,1)}
 /* Flat wash: contrast for the centred copy layers over the interior shots. */
-.hero-stage__scrim--flat{background:rgba(17,20,22,.42);opacity:var(--story-scrim,0)}
+.hero-stage__scrim--flat{background:rgba(17,20,22,.46);opacity:var(--story-scrim,0)}
 
 .hero-stage__layer{position:absolute;inset:0;z-index:1;display:flex;align-items:center;
                    will-change:opacity,transform}
-.hero-stage__layer--lead .container{max-width:640px;margin-inline:0}
+.hero-stage__layer--lead .container{max-width:620px;margin-inline:0}
 /* Both sit above --lead in DOM order at inset:0, so they would swallow clicks
-   on the hero CTAs. They hold no interactive content — never hit-test them.
-   (The driver also flips visibility:hidden at opacity 0, which keeps their
-   copy out of the tab order and the a11y tree.) */
+   on the hero CTAs. Their own links opt back in below. (The driver also flips
+   visibility:hidden at opacity 0, which keeps hidden copy out of the tab
+   order and the a11y tree.) */
 .hero-stage__layer--next,
 .hero-stage__layer--promise{opacity:0;text-align:center;pointer-events:none}
 .hero-stage__layer--next .container,
 .hero-stage__layer--promise .container{max-width:760px}
-.hero-stage__layer--next .line,
-.hero-stage__layer--promise .line{font-family:var(--font-heading);font-weight:600;
-     font-size:var(--text-xl);margin-block:var(--space-4);text-shadow:0 2px 24px rgba(0,0,0,.5)}
 
-.eyebrow--on-dark{color:var(--color-primary-light)}
-.hero-stage h1{font-size:var(--text-hero);margin-block:var(--space-3) var(--space-4);
-               text-shadow:0 2px 24px rgba(0,0,0,.4)}
-.hero-stage__layer--lead p{font-size:var(--text-lg);color:#f0f0f0;
-                           margin-bottom:var(--space-6);max-width:52ch}
+.hero-stage h1{font-size:var(--text-hero);margin-block:var(--space-4) var(--space-5);
+               text-shadow:0 2px 24px rgba(0,0,0,.45)}
+.hero-sub{font-size:var(--text-lg);color:#f0f0f0;margin-bottom:var(--space-7)}
 .hero-actions{display:flex;gap:var(--space-3);flex-wrap:wrap}
+.hero-trust{margin-top:var(--space-6);font-size:var(--text-sm);color:#d8dade;
+            text-shadow:0 1px 8px rgba(0,0,0,.5)}
+
+/* Story layers: h2 + copy lines, staggered in by the driver via .line */
+.hero-stage__layer--next .line,
+.hero-stage__layer--promise .line{margin-block:var(--space-4);
+     text-shadow:0 2px 24px rgba(0,0,0,.55)}
+.hero-stage__layer h2.line{font-size:var(--text-xl);font-weight:600}
+.hero-stage__layer p.line{font-size:var(--text-lg);color:#eceef0}
+.hero-stage__layer .line--muted{font-size:var(--text-base);color:#c3c8cd}
+.line-cta{pointer-events:auto;color:var(--color-primary-light);font-weight:600;
+          border-bottom:1px solid currentColor;padding-bottom:2px}
+.line-cta:hover{color:#fff}
 
 /* ===== Trust bar ===== */
-.trust{background:var(--color-dark-bg);color:var(--color-dark-text);padding-block:var(--space-5)}
-.trust .container{display:flex;flex-wrap:wrap;gap:var(--space-6);align-items:center;justify-content:center;text-align:center}
-.trust .stars{font-size:var(--text-lg);font-weight:600;background:var(--gradient-copper);
-     -webkit-background-clip:text;background-clip:text;color:transparent}
-.trust b{color:var(--color-dark-text)} .trust span{color:var(--color-dark-text-muted)}
+.trustbar{background:var(--color-bg-alt);padding-block:var(--space-9)}
+.trustbar__grid{display:grid;grid-template-columns:1fr;gap:var(--space-6)}
+.trustbar h3{font-size:var(--text-base);margin-bottom:var(--space-2)}
+.trustbar p{font-size:var(--text-sm);color:var(--color-text-muted)}
 
-/* ===== Services ===== */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-5)}
-.card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);
-      padding:var(--space-6);box-shadow:var(--shadow-sm)}
-.card .ico{width:48px;height:48px;border-radius:var(--radius-md);background:var(--color-bg-alt);
-           display:flex;align-items:center;justify-content:center;color:var(--color-accent);margin-bottom:var(--space-4);font-weight:600}
-.card h3{font-size:var(--text-lg);margin-bottom:var(--space-2)}
-.card p{color:var(--color-text-muted);font-size:var(--text-sm)}
+/* ===== Problem selector ===== */
+.problem-grid{display:grid;grid-template-columns:1fr;gap:var(--space-5)}
+.problem-card{background:var(--color-surface);border:1px solid var(--color-border);
+     border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm);
+     display:flex;flex-direction:column;gap:var(--space-3);
+     transition:box-shadow var(--duration-base),transform var(--duration-base)}
+.problem-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.problem-card h3{font-size:var(--text-lg)}
+.problem-card p{color:var(--color-text-muted);font-size:var(--text-sm);flex:1}
+.problem-card .link-cta{align-self:flex-start}
 
-/* ===== Service area ===== */
-.area{background:var(--color-bg-alt)}
-.chips{display:flex;flex-wrap:wrap;gap:var(--space-3);justify-content:center;margin-top:var(--space-5)}
-.chip{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);
-      padding:var(--space-2) var(--space-4);font-size:var(--text-sm);font-weight:500}
+/* ===== Why CopperCraft ===== */
+.why{background:var(--color-bg-alt)}
+.why-grid{display:grid;grid-template-columns:1fr;gap:var(--space-6)}
+.why-grid li{border-left:3px solid var(--color-primary);padding-left:var(--space-5)}
+.why-grid h3{font-size:var(--text-lg);margin-bottom:var(--space-2)}
+.why-grid p{color:var(--color-text-muted)}
 
-/* ===== Honest, Quality Work — job photo gallery =====
-   Dark band so the photos carry it. 6 portrait stills of mixed native aspect
-   (565x862 and 765x1020) normalised to a single 3:4 crop.
-   Column counts are explicit, not auto-fit: 6 items divide evenly by 2 and 3,
-   so no breakpoint strands a lone widow card (rules/css.md). */
-.work{background:var(--color-dark-bg);color:var(--color-dark-text)}
-.work .sec-head h2{color:var(--color-dark-text)}
-.work .sec-head p{color:var(--color-dark-text-muted);margin-top:var(--space-3)}
-.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-4);list-style:none}
-.work-grid img{width:100%;height:100%;aspect-ratio:3/4;object-fit:cover;
-     border-radius:var(--radius-lg);background:var(--color-dark-surface)}
-
+/* ===== Breakpoints ===== */
 @media(min-width:640px){
+  .trustbar__grid{grid-template-columns:repeat(2,1fr)}
+  .problem-grid,.service-grid{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:repeat(2,1fr);gap:var(--space-7)}
   .work-grid{grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
+  .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
 }
-
-/* ===== Testimonials carousel ===== */
-.track{display:flex;gap:var(--space-5);overflow-x:auto;scroll-snap-type:x mandatory;
-       scroll-behavior:smooth;padding-block:var(--space-3);cursor:grab;
-       scrollbar-width:none}
-.track::-webkit-scrollbar{display:none}
-.review{scroll-snap-align:center;flex:0 0 min(420px,86vw);background:var(--color-surface);
-        border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
-.review .stars{font-weight:600;margin-bottom:var(--space-3);background:var(--gradient-copper);
-     -webkit-background-clip:text;background-clip:text;color:transparent}
-.review p{font-size:var(--text-base);margin-bottom:var(--space-4)}
-.review .who{font-family:var(--font-heading);font-weight:600;font-size:var(--text-sm)}
-.car-nav{display:flex;gap:var(--space-3);justify-content:center;margin-top:var(--space-5)}
-.car-nav button{width:44px;height:44px;border-radius:var(--radius-full);border:1px solid var(--color-border);
-                background:var(--color-surface);cursor:pointer;font-size:var(--text-lg)}
-.car-nav button:hover{background:var(--color-bg-alt);border-color:var(--color-primary)}
-
-/* ===== CTA band ===== */
-.cta-band{position:relative;overflow:hidden;text-align:center;color:#fff;
-     background:linear-gradient(120deg,var(--metal-copper-shade) 0%,#8F5227 38%,
-               var(--metal-copper-core) 55%,var(--color-primary-dark) 100%)}
-.cta-band::before{content:"";position:absolute;inset:0;pointer-events:none;background:var(--sheen-sweep);
-     background-size:220% 100%;mix-blend-mode:screen;opacity:.6}
-.cta-band .container{position:relative;z-index:1}
-.cta-band h2{font-size:var(--text-2xl);margin-bottom:var(--space-5);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.32)}
-
-/* ===== Contact ===== */
-.contact-grid{display:grid;grid-template-columns:1fr;gap:var(--space-8)}
-.nap p{margin-bottom:var(--space-3);color:var(--color-text-muted)}
-.nap b{color:var(--color-text)}
-.field{display:flex;flex-direction:column;gap:var(--space-2);margin-bottom:var(--space-4)}
-.field label{font-size:var(--text-sm);font-weight:600}
-.field input,.field textarea{border:1px solid var(--color-border);border-radius:var(--radius-md);
-      padding:var(--space-3);font-family:var(--font-body);font-size:var(--text-base)}
-.form-note{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-2)}
-
-@media(min-width:640px){
-  .contact-grid{grid-template-columns:1fr 1fr}
+@media(min-width:1024px){
+  /* 5 trust points: an explicit 5-column track avoids stranding a widow. */
+  .trustbar__grid{grid-template-columns:repeat(5,1fr)}
+  .problem-grid,.service-grid{grid-template-columns:repeat(3,1fr)}
+  .why-grid{grid-template-columns:repeat(4,1fr)}
 }
 
 /* ===== Hero stage — portrait =====
    A portrait cover-crop throws away most of the 16:9 width, and the subject
    drifts left across the transition (condenser at the entry -> fireplace
-   inside). Track it with the driver-published --hero-focal-x so the subject
-   stays in the crop instead of sliding out of frame. Phones only. */
+   inside -> wall unit). Track it with the driver-published --hero-focal-x so
+   the subject stays in the crop instead of sliding out of frame. */
 @media(max-width:640px){
   .hero-stage__video,
   .hero-stage__canvas{object-position:var(--hero-focal-x,40%) center}
-  .hero-stage__layer--next .line,
-  .hero-stage__layer--promise .line{font-size:var(--text-lg)}
+  .hero-stage__layer p.line{font-size:var(--text-base)}
+  .hero-stage__layer h2.line{font-size:var(--text-lg)}
+  .hero-actions .btn{flex:1 1 100%}
 }
 
 /* ===== Hero stage — reduced motion =====
@@ -163,13 +136,14 @@
                      display:flex;flex-direction:column;justify-content:center;
                      gap:var(--space-8);padding-block:var(--space-9)}
   .hero-stage__layer{position:static;opacity:1!important;transform:none!important;
-                     visibility:visible!important}
+                     visibility:visible!important;pointer-events:auto}
   .hero-stage__canvas{display:none}
   .hero-stage__media{position:absolute;inset:0}
-  .hero-stage__scrim--flat{opacity:.42}
+  .hero-stage__scrim--flat{opacity:.46}
   .hero-stage__layer .line{opacity:1!important;transform:none!important}
 }
 
 @media(prefers-reduced-motion:no-preference){
-  .cta-band::before{animation:sheen 9s ease-in-out infinite}
+  .problem-card,.faq-list details{transition:box-shadow var(--duration-base),
+       transform var(--duration-base)}
 }

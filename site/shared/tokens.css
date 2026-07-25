@@ -109,6 +109,8 @@
   --section-pad-y: clamp(3rem, 8vw, 6rem); /* 48–96px */
   --header-h:      4.75rem;  /* 76px — fixed transparent header; also drives
                                 the mobile drawer offset + anchor scroll-margin */
+  --announce-h:    2.25rem;  /* 36px — announcement bar fixed above the header;
+                                the two stack as one fixed top unit */
   --radius-sm:   4px;
   --radius-md:   8px;
   --radius-lg:   16px;

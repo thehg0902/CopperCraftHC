@@ -1,0 +1,17 @@
+/* what-to-expect — numbered process, reassurance, closing CTA.
+   Shared components live in shared/base.css. */
+.step-list{max-width:760px;margin-inline:auto;display:grid;gap:var(--space-6);counter-reset:step}
+.step{display:flex;gap:var(--space-5);align-items:flex-start}
+.step__n{flex:0 0 auto;width:44px;height:44px;border-radius:var(--radius-full);
+     display:grid;place-items:center;font-family:var(--font-heading);font-weight:600;
+     color:#fff;background-color:var(--color-primary);background-image:var(--sheen-soft);
+     box-shadow:inset 0 1px 0 rgba(255,255,255,.25),var(--shadow-sm)}
+.step h3{font-size:var(--text-lg);margin-bottom:var(--space-2)}
+.step p{color:var(--color-text-muted)}
+
+.reassure{background:var(--color-bg-alt)}
+.reassure .sec-head{margin-bottom:0}
+
+.final-cta{background:var(--color-dark-bg);color:var(--color-dark-text);text-align:center}
+.final-cta h2{font-size:var(--text-2xl);margin-bottom:var(--space-6)}
+.final-cta .hero-actions{justify-content:center}

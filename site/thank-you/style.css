@@ -1,0 +1,7 @@
+/* thank-you — confirmation only. No forms, no offers. */
+.thanks{text-align:center}
+.hours-card{max-width:420px;margin:var(--space-9) auto 0;background:var(--color-surface);
+     border:1px solid var(--color-border);border-radius:var(--radius-lg);
+     padding:var(--space-6);box-shadow:var(--shadow-sm)}
+.hours-card h3{font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase;
+     color:var(--color-text-muted);margin-bottom:var(--space-3)}

@@ -135,6 +135,25 @@ Notes:
   Verified: 3 cols desktop / 2 cols mobile with no widow at either breakpoint,
   all 6 lazy-loaded with alt text and width/height, header correctly
   transparent over the dark band, 0 console errors.
+- P5 FULL COPY + LAYOUT REVAMP (2026-07-24, operator spec): site went from a
+  single page to NINE pages (Home, Services, What to Expect, Our Work, Reviews,
+  Contact, Thank You, Privacy Policy, Terms of Use) with a new 7-item nav,
+  announcement bar, dual header CTAs and a two-button sticky mobile bar.
+  Homepage rebuilt to the spec's 12 sections. HERO WAS FROZEN per operator
+  instruction — media well diffed byte-for-byte against the prior commit and
+  the choreography sweep re-run after the rewrite; both clean.
+  Corrections made along the way: service area narrowed to Richmond Hill only
+  (the York Region towns were never confirmed), Water Heaters added as a real
+  service (operator-confirmed — 4 of 6 gallery photos are water heaters).
+  Shared components moved out of the homepage stylesheet into shared/base.css
+  so 8 sub-pages don't duplicate them. All 9 pages generated from one chrome
+  template. VERIFIED: 277 internal links resolve, chrome identical on all 9
+  pages, CSS lints clean, 0 console errors, hero intact.
+  STILL OPEN: form has no endpoint (Stack forms: placeholder) so the
+  /thank-you redirect is wired but inert; legal pages are DRAFTS needing the
+  client's review; Reviews page "Read More Google Reviews" needs the real GBP
+  review URL; SEO metadata/schema, a11y audit, performance budget and security
+  headers are still to do before /qa.
 - NOTE (env): .claude/launch.json had hardcoded Windows Python paths — fixed
   to python3. preview_start still cannot launch the server on this Mac (the
   launcher process has no Desktop access: getcwd/chdir "Operation not

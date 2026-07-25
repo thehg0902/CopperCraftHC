@@ -31,7 +31,12 @@
        script.js). A scrollY-change guard is the cheap equivalent, and the
        work per tick is a handful of rect reads. */
     function syncHeader() {
-      var probe = header.offsetHeight / 2;
+      // Probe the header's own vertical midpoint in viewport coordinates.
+      // It sits BELOW the fixed announcement bar, so its top is not 0 —
+      // measuring from the rect keeps this correct if the bar's height
+      // changes (or the bar is removed entirely).
+      var box = header.getBoundingClientRect();
+      var probe = box.top + box.height / 2;
       var overDark = false;
       for (var i = 0; i < darkEls.length; i++) {
         var r = darkEls[i].getBoundingClientRect();
