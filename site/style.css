@@ -141,6 +141,10 @@
      border-radius:var(--radius-lg);
      background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);
      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+/* Lighter copper on the dark band — --color-primary is too dark against the
+   footage. Smaller than the card stars so the compact chips stay uncrowded. */
+.chip-review .review__stars{color:var(--color-primary-light);margin-bottom:var(--space-2)}
+.chip-review .review__stars svg{width:13px;height:13px}
 .chip-review blockquote p{font-size:var(--text-sm);color:#f2f4f5;
      text-shadow:0 1px 4px rgba(0,0,0,.5)}
 .chip-review figcaption{margin-top:var(--space-3);font-family:var(--font-heading);
