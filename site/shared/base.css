@@ -12,8 +12,8 @@ ul{list-style:none}
 /* ===== Utilities ===== */
 .container{max-width:var(--container-max);margin-inline:auto;padding-inline:var(--space-5)}
 section{padding-block:var(--section-pad-y)}
-/* Anchor targets clear the fixed announce bar + header when jumped to. */
-[id]{scroll-margin-top:calc(var(--announce-h) + var(--header-h) + var(--space-4))}
+/* Anchor targets clear the fixed header when jumped to. */
+[id]{scroll-margin-top:calc(var(--header-h) + var(--space-4))}
 .eyebrow{display:block;font-size:var(--text-sm);font-weight:600;letter-spacing:.08em;
          text-transform:uppercase;color:var(--color-primary)}
 .eyebrow--on-dark{color:var(--color-primary-light)}
@@ -81,44 +81,13 @@ section{padding-block:var(--section-pad-y)}
 .pl-bar span{display:block;height:100%;width:0;background:var(--gradient-copper)}
 .pl-text{color:var(--color-dark-text-muted);font-size:var(--text-sm);letter-spacing:.1em;text-transform:uppercase}
 
-/* ===== Announcement bar =====
-   Fixed above the header as one top unit, so the hero still runs full-bleed
-   from y=0 underneath. Kept dark so it blends into the cinematic opening
-   instead of cutting a light strip across it.
-   Its height is a fixed token because the header's `top` offset and every
-   anchor's scroll-margin are derived from it — so the content must never
-   wrap. A shorter message swaps in on narrow screens instead. */
-.announce{position:fixed;top:0;left:0;right:0;z-index:101;height:var(--announce-h);
-          background:var(--color-dark-bg);color:var(--color-dark-text-muted);
-          font-size:var(--text-sm);display:flex;align-items:center;overflow:hidden}
-.announce .container{display:flex;align-items:center;justify-content:center;
-                     gap:var(--space-3);text-align:center}
-/* min-width:0 lets the message actually shrink — a flex item defaults to
-   min-width:auto, which refuses to go below its content and shoves the phone
-   CTA off the right edge. With this, the message ellipses and the CTA (which
-   is flex:0 0 auto) is never clipped at any width. */
-.announce p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.announce__short{display:none}
-.announce a:not(.btn){color:var(--color-primary-light);font-weight:600;white-space:nowrap;flex:0 0 auto}
-.announce a:hover{color:var(--color-dark-text)}
-@media(max-width:860px){
-  .announce__long{display:none}
-  .announce__short{display:block}
-}
-/* At ~375px the short message + call action still measure ~384px against a
-   ~343px content box, so the phone number clips off the right edge. Drop to
-   the smallest step and tighten the gap rather than let the CTA get cut. */
-@media(max-width:430px){
-  .announce{font-size:var(--text-xs)}
-  .announce .container{gap:var(--space-2);padding-inline:var(--space-4)}
-}
 
 /* ===== Header =====
    Fixed and fully transparent so the cinematic sequence runs edge-to-edge
    under it. It only materializes a surface once it floats over light
    content — sections flagged [data-header-dark] keep it transparent,
    everything else adds `.scrolled` (see shared/main.js). */
-header{position:fixed;top:var(--announce-h);left:0;right:0;z-index:100;background:transparent;
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:transparent;
        border-bottom:1px solid transparent;
        transition:background var(--duration-base) var(--ease-standard),
                   border-color var(--duration-base) var(--ease-standard)}
@@ -169,7 +138,10 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 .mobile-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:95;
             gap:var(--space-3);padding:var(--space-3) var(--space-4);
             background:rgba(17,20,22,.92);backdrop-filter:blur(10px)}
-.mobile-bar .btn{flex:1}
+/* Sized to their labels — a button should not be much wider than its
+   text. The bar centres them instead of stretching each to 50%. */
+.mobile-bar{justify-content:center}
+.mobile-bar .btn{flex:0 1 auto}
 
 /* ===== Mobile =====
    Drawer breakpoint is 1099px, not 1024: the 7-link nav plus the brand and
@@ -177,12 +149,12 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
    spare. Any label change would push it into a wrap. Hand over to the drawer
    while there is still real headroom. */
 @media(max-width:1099px){
-  .nav-links{position:fixed;inset:calc(var(--announce-h) + var(--header-h)) 0 auto 0;
+  .nav-links{position:fixed;inset:var(--header-h) 0 auto 0;
              background:var(--color-bg);flex-direction:column;align-items:stretch;
              gap:0;font-size:var(--text-base);margin-inline:0;
              padding:var(--space-4) var(--space-5) var(--space-6);
              border-bottom:1px solid var(--color-border);transform:translateY(-120%);
-             max-height:calc(100svh - var(--announce-h) - var(--header-h));overflow-y:auto;
+             max-height:calc(100svh - var(--header-h));overflow-y:auto;
              transition:transform var(--duration-base) var(--ease-out-expo)}
   .nav-links.open{transform:translateY(0)}
   /* The drawer is always a light surface, so its links stay dark whatever
@@ -191,7 +163,10 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
              padding-block:var(--space-3);border-bottom:1px solid var(--color-border)}
   .nav-links a:hover{color:var(--color-primary)}
   .nav-toggle{display:flex;order:3}
-  .nav{gap:var(--space-3)}
+  /* Brand centred, toggle at the edge. The brand is taken out of flow so it
+     centres on the VIEWPORT, not on the space left over beside the toggle. */
+  .nav{gap:var(--space-3);position:relative;justify-content:flex-end}
+  .brand{position:absolute;left:50%;transform:translateX(-50%)}
   .nav-cta .btn-ghost{display:none}
   .mobile-bar{display:flex}
   body{padding-bottom:76px}
@@ -201,7 +176,6 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 }
 @media(max-width:520px){
   .nav-cta .btn-primary{display:none}
-  .announce .container{font-size:var(--text-xs)}
 }
 @media(min-width:768px){
   .site-footer__grid{grid-template-columns:1.4fr 1fr 1fr 1fr}
@@ -226,7 +200,7 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 
 /* ===== Page hero (every page except Home, which has the cinematic stage) */
 .page-hero{background:var(--color-dark-bg);color:var(--color-dark-text);
-     padding-block:calc(var(--announce-h) + var(--header-h) + var(--space-9)) var(--space-9)}
+     padding-block:calc(var(--header-h) + var(--space-9)) var(--space-9)}
 .page-hero .container{max-width:760px;text-align:center}
 .page-hero h1{font-size:var(--text-3xl);margin-top:var(--space-3)}
 .page-hero p{color:var(--color-dark-text-muted);margin-top:var(--space-4);font-size:var(--text-lg)}
@@ -290,8 +264,11 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
      border-color:rgba(255,255,255,.22);color:var(--color-dark-text)}
 .work .car-nav button:hover{background:#232a2f;border-color:var(--color-primary-light)}
 
-.work-item{position:relative;scroll-snap-align:center;flex:0 0 min(300px,72vw);
-     border-radius:var(--radius-lg);overflow:hidden;background:var(--color-dark-surface)}
+/* Grid on /our-work/ (browse everything); marquee cells on the homepage. */
+.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-4)}
+.work-item{position:relative;border-radius:var(--radius-lg);overflow:hidden;
+     background:var(--color-dark-surface)}
+.marquee--work .work-item{flex:none;width:min(72vw,17rem)}
 .work-item img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover}
 /* Caption sits INSIDE the frame, over a bottom-up scrim so the white title
    stays readable regardless of how light the photo is underneath. */
@@ -345,6 +322,7 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 
 @media(min-width:640px){
   .service-grid{gap:var(--space-5)}
+  .work-grid{grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
   .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
 }
 @media(min-width:1024px){
@@ -360,3 +338,16 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 .legal-note{background:var(--color-bg-alt);border-left:3px solid var(--color-primary);
      padding:var(--space-4) var(--space-5);border-radius:var(--radius-md);
      font-size:var(--text-sm)}
+
+/* ===== Contact details (contact page + homepage) ===== */
+.contact-details{background:var(--color-bg-alt)}
+.contact-grid{display:grid;grid-template-columns:1fr;gap:var(--space-8);align-items:start}
+.contact-grid h2{font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase;
+     color:var(--color-text-muted);margin-bottom:var(--space-3);margin-top:var(--space-6)}
+.contact-grid h2:first-child{margin-top:0}
+.contact-grid a:not(.btn){color:var(--color-primary);font-weight:600}
+.contact-grid address{font-style:normal;line-height:var(--leading-loose)}
+.map{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);
+     border:1px solid var(--color-border);background:var(--color-surface)}
+.map iframe{display:block;width:100%;height:420px;border:0}
+@media(min-width:768px){ .contact-grid{grid-template-columns:1fr 1.3fr} }

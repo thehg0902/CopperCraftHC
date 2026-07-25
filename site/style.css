@@ -209,7 +209,9 @@
   .hero-stage__layer p.line{font-size:var(--text-base)}
   .hero-stage__layer h2.line{font-size:var(--text-xl)}
   .hero-stage__layer p.line--muted{font-size:var(--text-xs)}
-  .hero-actions .btn{flex:1 1 100%}
+  /* Buttons size to their label — never stretched to the full column. */
+  .hero-actions{gap:var(--space-3)}
+  .hero-actions .btn{flex:0 1 auto}
   /* Centred on phones so the proof line reads as a footer to the CTAs
      rather than a stray fragment hanging off the left edge. */
   .hero-trust{text-align:center}

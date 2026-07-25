@@ -176,7 +176,4 @@
   makeCarousel(document.getElementById('track'),
                document.getElementById('prev'),
                document.getElementById('next'));
-  makeCarousel(document.getElementById('workTrack'),
-               document.getElementById('workPrev'),
-               document.getElementById('workNext'));
 })();
