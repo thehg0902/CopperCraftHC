@@ -137,8 +137,12 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
             background:rgba(17,20,22,.92);backdrop-filter:blur(10px)}
 .mobile-bar .btn{flex:1}
 
-/* ===== Mobile ===== */
-@media(max-width:1024px){
+/* ===== Mobile =====
+   Drawer breakpoint is 1099px, not 1024: the 7-link nav plus the brand and
+   two CTA buttons measures ~998px, so at 1030px it fits with only ~32px to
+   spare. Any label change would push it into a wrap. Hand over to the drawer
+   while there is still real headroom. */
+@media(max-width:1099px){
   .nav-links{position:fixed;inset:calc(var(--announce-h) + var(--header-h)) 0 auto 0;
              background:var(--color-bg);flex-direction:column;align-items:stretch;
              gap:0;font-size:var(--text-base);margin-inline:0;

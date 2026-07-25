@@ -34,6 +34,14 @@ if ! grep -E '^\|\s*6\s*\|\s*qa\s*\|\s*done' state/BUILD_STATE.md >/dev/null 2>&
   fi
 fi
 
+# --- cache-bust asset links -------------------------------------------------
+# Static hosts cache CSS/JS for days (Hostinger sends max-age=604800 = 7).
+# Without a per-version URL a returning visitor pairs the NEW html with their
+# CACHED stylesheet and the layout breaks — invisible to anyone testing in a
+# fresh browser. stamp-assets.py rewrites ?v=<content hash>; it is idempotent,
+# so unchanged files keep their URL and stay cached.
+python3 "$(dirname "$0")/stamp-assets.py" >/dev/null
+
 # --- build the site tree ----------------------------------------------------
 TMP_INDEX=$(mktemp)
 trap 'rm -f "$TMP_INDEX"' EXIT
