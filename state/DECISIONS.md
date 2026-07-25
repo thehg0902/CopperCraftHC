@@ -139,3 +139,13 @@ Shifted from flat orange to a PREMIUM METALLIC COPPER — deeper, browner/rosier
   5 (layout-systems/components/hero-media/frontend-animation) fills these in;
   the approved layout-preview.html markup/classes are binding for that pass.
   | claude | file-structure contract rule 7, precedence with Phase 2 gate
+- Desktop (>=1024px) hero lead copy moved from flush-left to centred with a
+  clamp(0,4vw,72px) rightward nudge; the --lead scrim switches from the
+  90deg left-weighted ramp to a vignette anchored at 54% so it follows the
+  copy. Deviation from the approved layout preview's left-aligned desktop
+  hero, at operator request. Verified: white-text contrast over the copy box
+  IMPROVED (worst 5.80:1 -> 7.90:1 across the loop + first 20 scrub frames);
+  <1024px composition byte-unchanged; site/script.js identical to HEAD and
+  its write surface (layer opacity/transform/visibility + --hero-scrim /
+  --story-scrim / --hero-focal-x) does not intersect either new rule.
+  | operator | layout-systems rule 7

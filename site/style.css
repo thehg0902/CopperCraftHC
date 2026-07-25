@@ -35,7 +35,9 @@
    reverse scrubbing. */
 .hero-stage__canvas{opacity:0}
 .hero-stage__scrim{position:absolute;inset:0}
-/* Left-weighted gradient: contrast for the left-aligned lead copy. */
+/* Left-weighted gradient: contrast for the lead copy, which is flush left at
+   phone/tablet widths. The desktop block below re-aims it — the scrim has to
+   follow the copy, or the text lands on the bright end of the ramp. */
 .hero-stage__scrim--lead{background:linear-gradient(90deg,rgba(17,20,22,.82),rgba(17,20,22,.38));
      opacity:var(--hero-scrim,1)}
 /* Flat wash: contrast for the centred copy layers over the interior shots. */
@@ -241,6 +243,32 @@
 @media(min-width:1024px){
   .problem-grid{grid-template-columns:repeat(3,1fr)}
   .why-grid{grid-template-columns:repeat(4,1fr)}
+
+  /* ===== Hero lead — desktop placement =====
+     Flush left is a phone composition: on a wide screen it strands the copy
+     against the bezel and leaves the middle of the frame empty. Centre the
+     620px block and nudge it right of the optical centre — the footage's
+     subject sits left of frame, so the copy takes the open side instead of
+     covering it.
+     translateX, not a margin: it moves the block without touching the flex
+     line, so nothing about the layer's sizing or the staggered entrance
+     changes. The layer's own transform belongs to the scroll driver; this is
+     a child, so the two never fight.
+     Offset tracks the viewport (41px at 1024 -> 72px capped) so the nudge
+     stays proportional instead of vanishing on a large display. */
+  .hero-stage__layer--lead .container{margin-inline:auto;
+                                      transform:translateX(clamp(0px,4vw,72px))}
+
+  /* The copy no longer sits on the dark end of the 90deg ramp, so the lead
+     scrim becomes a soft vignette anchored on the copy's new centre (54%):
+     darkest exactly under the text, falling off to the corners so the frame
+     still reads as footage rather than a flat wash. Measured over the
+     brightest hero frame — see the contrast check in the build notes. */
+  .hero-stage__scrim--lead{
+    background:radial-gradient(120% 90% at 54% 50%,
+                               rgba(17,20,22,.80) 0%,
+                               rgba(17,20,22,.66) 45%,
+                               rgba(17,20,22,.34) 100%)}
 }
 
 /* ===== Hero stage — portrait =====
