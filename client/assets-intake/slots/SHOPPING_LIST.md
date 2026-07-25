@@ -7,24 +7,45 @@ no generation prompts needed, no gaps.
 
 ## hero-loop.mp4        [x] filled
 folder: Home - Hero/
-treatment: loop - muted, full-bleed background, hero section
-Operator-supplied footage (Hero-loop.mp4). Poster extracted at /ingest
-(frame 1) doubles as LCP image + reduced-motion/blocked-autoplay fallback.
-PROMPT -> n/a — client-provided, no generation needed.
+treatment: loop - 5.0s idle, muted, full-bleed hero media well, MP4; player = templates/loop-crossfade.js
+Subject/scene: residential condenser unit beside a modern home's front entry,
+late-golden-hour, slow drift. Idles under the hero copy until the visitor scrolls,
+then crossfades into hero-transition. No native `loop` attribute — the clip is not
+confirmed seamless, so the player restarts on 'ended' (a hard cut, never a freeze).
+Poster = FRAME 1 (not the last frame): it must equal hero-transition frame 0001 so
+the reduced-motion / blocked-autoplay / no-JS still is the same image the scrub
+starts on. Poster is the LCP candidate.
+PROMPT -> n/a — operator-supplied footage (Hero-loop.mp4), no generation needed.
 
-## scroll-story-1-scrub.mp4        [x] filled
-folder: Home - Story 1/
+## hero-transition.mp4        [x] filled
+folder: Home - Hero Transition/
 treatment: scroll-scrub - sliced to a canvas frame sequence at /ingest
-Operator-supplied footage (Herotransition1-2.mp4), authored by the
-operator to continue from the hero loop's resting frame.
-PROMPT -> n/a — client-provided, no generation needed.
+The scroll-scrubbed move away from the idle framing, driven entirely by scroll
+position inside the pinned hero stage.
+HARD STORYBOARD CONSTRAINT: frame 0001 of hero-transition must be visually
+IDENTICAL to the first frame of hero-loop. That identity is the whole reason the
+loop -> scrub crossfade is invisible; if the two drift apart the swap becomes a
+visible cut and no amount of fade duration hides it. Any regenerated or re-cut
+footage must be re-checked against this before it ships.
+  VERIFIED 2026-07-24 on the delivered footage: SSIM 0.982 between hero-loop
+  frame 1 and hero-transition frame 0001 (vs 0.971 against the loop's last frame,
+  and 0.265 for an unrelated control pair) — constraint satisfied.
+PROMPT -> n/a — operator-supplied footage (Herotransition1-2.mp4), no generation needed.
 
 ## scroll-story-2-scrub.mp4        [x] filled
 folder: Home - Story 2/
 treatment: scroll-scrub - sliced to a canvas frame sequence at /ingest
-Operator-supplied footage (Herotransition2-3.mp4). HARD CONTINUITY: this
-file's first frame must equal scroll-story-1-scrub.mp4's last frame —
-authored into the footage by the operator; /ingest only slices frames.
+Operator-supplied footage (Herotransition2-3.mp4). Now the THIRD stacked media
+layer inside the pinned hero stage (not a separate section), handing off from
+hero-transition by the same opacity crossfade the loop uses.
+Seam to hero-transition's last frame: SSIM **0.940** on the ingested frames
+(luma 0.917, chroma 0.985) — corrected from an earlier 0.784 figure that was
+measured against the raw MP4's final frame rather than the 61st ingested frame,
+which is what actually renders. 0.940 is a smooth dissolve but not the
+near-identity of the hero-loop -> hero-transition seam (0.986), so the player
+holds BOTH sequences still through the crossfade window and gives it a longer
+ramp. To make this seam invisible too, a future re-cut should target frame 0001
+matching hero-transition frame 0061 at SSIM ~0.98.
 PROMPT -> n/a — client-provided, no generation needed.
 
 ## logo-mark.png        [x] filled

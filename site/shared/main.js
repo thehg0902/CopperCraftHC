@@ -23,10 +23,14 @@
   var header = document.getElementById('siteHeader');
   if (header) {
     var darkEls = document.querySelectorAll('[data-header-dark]');
-    var ticking = false;
+    var lastY = -1;
 
+    /* Not throttled through requestAnimationFrame: rAF is suspended in
+       hidden/background/preview panes, which strands the header in whatever
+       state it was last in (same reason the scrub driver avoids it — see
+       script.js). A scrollY-change guard is the cheap equivalent, and the
+       work per tick is a handful of rect reads. */
     function syncHeader() {
-      ticking = false;
       var probe = header.offsetHeight / 2;
       var overDark = false;
       for (var i = 0; i < darkEls.length; i++) {
@@ -36,11 +40,14 @@
       header.classList.toggle('scrolled', !overDark);
     }
     function requestSync() {
-      if (!ticking) { ticking = true; requestAnimationFrame(syncHeader); }
+      var y = window.pageYOffset;
+      if (y === lastY) return;
+      lastY = y;
+      syncHeader();
     }
 
     addEventListener('scroll', requestSync, { passive: true });
-    addEventListener('resize', requestSync);
+    addEventListener('resize', function () { lastY = -1; syncHeader(); });
     syncHeader();
   }
 

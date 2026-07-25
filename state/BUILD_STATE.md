@@ -98,6 +98,32 @@ Notes:
   layout preview logged in DECISIONS.md. Verified at 1280/800/360: no bar,
   correct state swap over light sections, mobile drawer links legible, 0
   console errors.
+- P5 hero pinned stage (2026-07-24, operator request): rebuilt the hero per the
+  hero-media scroll-scrub treatment AND merged the story section into it, so the
+  loop -> hero-transition -> story-2 handoffs are all the SAME opacity crossfade.
+  One 340svh runway, one sticky 100svh inner, three stacked media layers, three
+  copy layers, one progress value, one scroll driver. Removed the ~1-viewport
+  dead slide between the old two sections (cinematic run 400svh -> 340svh).
+  Canvas frames only (never video.currentTime); manifest values come from
+  data-scrub-* attributes, NOT fetch(), so the page still scrubs from file://;
+  progressive preload (every 4th, then backfill) with nearest-loaded fallback;
+  sequence B's bulk preload deferred to p>=0.25. Passive scroll listener guarded
+  by a scrollY-change check, NOT rAF. Runway denominator is the sticky child's
+  height, not innerHeight — both are svh-based, so the scrub no longer drifts
+  when mobile browser chrome retracts. Removed GSAP (unused since the sticky
+  rewrite): the page now ships ZERO external subresources.
+  VERIFIED in-browser: full progress sweep exact at every named boundary;
+  dissolve integrity (A frozen on frame 0061, B frozen on 0001, opacity ramp
+  0.08/0.50/0.92 monotonic); frames step distinctly and reverse EXACTLY once
+  preload settles; loop plays at rest, pauses when covered, resumes on the way
+  back up; reduced-motion collapses to a stacked document (runway auto, layers
+  static, canvases hidden, video on poster); header transparent across the whole
+  run and light over content sections; 0 console errors; no fetch/XHR and all
+  paths relative. Two bugs found and fixed by measuring rather than assuming:
+  (1) the global `section{padding-block}` rule was inflating offsetHeight and
+  desyncing the runway, (2) a stray comment terminator I introduced silently
+  invalidated `.hero-stage`, collapsing 340svh to 908px — caught because the
+  measured stage height did not match 340svh.
 - NOTE (env): .claude/launch.json had hardcoded Windows Python paths — fixed
   to python3. preview_start still cannot launch the server on this Mac (the
   launcher process has no Desktop access: getcwd/chdir "Operation not
