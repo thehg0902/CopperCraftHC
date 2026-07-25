@@ -111,6 +111,22 @@
 /* Closing line — resolves the beat. Sentence case and quieter than the
    uppercase strapline above it, so the two don't read as the same thing
    twice (which is what made the promise layer feel cluttered). */
+/* ===== Story 1 emphasis =====
+   The beat is an argument — "not this / but THIS" — so the two halves are
+   typographically opposed instead of one flat grey block:
+     .line__aside  the thing they DON'T need — smaller, dimmer, set back
+     strong        what they DO get — copper, the only saturated thing here
+   All colour sits on --color-primary-light, never --color-primary: the deep
+   copper goes muddy against dark footage. */
+.hero-stage__layer h2 em{font-style:normal;color:var(--color-primary-light)}
+/* em, not a token: the parent is --text-lg on desktop and --text-base on
+   mobile, so a fixed size would collapse the contrast on phones. */
+.hero-stage__layer p.line .line__aside{display:block;font-size:.82em;
+     color:#a9b0b7;margin-bottom:var(--space-3)}
+.hero-stage__layer p.line strong{color:var(--color-primary-light);font-weight:600}
+/* Copper separators turn three clipped sentences into one cadenced line. */
+.hero-stage__layer p.line--muted span{color:var(--color-primary-light);
+     margin-inline:var(--space-2);font-weight:400}
 .hero-stage__layer p.line--close{font-size:var(--text-base);color:#cfd4d9;
      max-width:46ch;margin-inline:auto;margin-top:var(--space-6)}
 /* The story layers are pointer-events:none so they never swallow clicks on
