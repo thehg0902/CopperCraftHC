@@ -8,8 +8,8 @@ Started: 2026-07-24
 |-------|--------------|---------|---------------------------|-----------|
 | 0     | intake       | done    | HUMAN: confirm table      | 2026-07-24 |
 | 1     | architecture | done    | -                         | 2026-07-24 |
-| 2     | design       | in-progress | HUMAN: approve style prev | -     |
-| 3     | content      | pending | -                         | -         |
+| 2     | design       | done    | HUMAN: approve style prev | 2026-07-24 |
+| 3     | content      | in-progress | -                     | -         |
 | 4     | media        | pending | HUMAN: fill slots/approve | -         |
 | 5     | build        | pending | -                         | -         |
 | 6     | qa           | pending | scripts must pass         | -         |
@@ -42,3 +42,6 @@ Notes:
   story2 pins (verified via ScrollTrigger start/end + live screenshot at the boundary:
   0px gap, canvas fills edge-to-edge under header). Documented in DECISIONS.md as the
   required Phase 5 hero-media technique for adjacent pinned scrub sections.
+- P2 GATE (2026-07-24): operator approved both style-preview.html and
+  layout-preview.html in-chat. Layout preview is now BINDING for Phase 5.
+  Phase 2 marked done. Proceeding to Phase 3 content.
