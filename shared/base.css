@@ -314,7 +314,6 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
      color:var(--color-primary-light);margin-top:2px}
 
 /* ===== Service area ===== */
-.area{background:var(--color-bg-alt)}
 .area__address{text-align:center;font-style:normal;font-family:var(--font-heading);
      font-weight:500;font-size:var(--text-lg);line-height:var(--leading-loose)}
 
@@ -370,12 +369,11 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 .legal p{color:var(--color-text-muted);margin-bottom:var(--space-4)}
 .legal a:not(.btn){color:var(--color-primary);font-weight:600}
 .legal address{font-style:normal;color:var(--color-text-muted);line-height:var(--leading-loose)}
-.legal-note{background:var(--color-bg-alt);border-left:3px solid var(--color-primary);
+.legal-note{border-left:3px solid var(--color-primary);
      padding:var(--space-4) var(--space-5);border-radius:var(--radius-md);
      font-size:var(--text-sm)}
 
 /* ===== Contact details (contact page + homepage) ===== */
-.contact-details{background:var(--color-bg-alt)}
 .contact-grid{display:grid;grid-template-columns:1fr;gap:var(--space-8);align-items:start}
 .contact-grid h2{font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase;
      color:var(--color-text-muted);margin-bottom:var(--space-3);margin-top:var(--space-6)}
@@ -386,6 +384,56 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
      border:1px solid var(--color-border);background:var(--color-surface)}
 .map iframe{display:block;width:100%;height:420px;border:0}
 @media(min-width:768px){ .contact-grid{grid-template-columns:1fr 1.3fr} }
+
+/* ===== Section tone bands =====
+   contracts/design-tokens.md v1.2.0 / state/DECISIONS.md 2026-07-29.
+   Alternating section background, sampled from the operator's equipment
+   sticker. The 4px --gradient-copper hairline is a background LAYER, not a
+   border — it paints inside the existing box so it adds zero height and
+   never shifts section padding/margins. Component overrides below follow
+   the same descendant-selector pattern already used for .work (the site's
+   one pre-existing dark section), not a CSS-variable-reassignment scheme,
+   so this stays consistent with the rest of the file. Buttons (.btn-*) are
+   deliberately NOT overridden — they keep one fixed identity everywhere. */
+/* color:var(--color-text) is explicit, not a no-op: .work--page reuses
+   .work's dark-bg/light-text pair (base.css .work rule above) and only
+   swaps the background for this class — without this, its text would
+   stay --color-dark-text (near-white) on the new light cream bg. */
+.tone-cream{background:var(--gradient-copper) top/100% 4px no-repeat,var(--color-tone-cream);
+     color:var(--color-text)}
+.tone-charcoal{background:var(--gradient-copper) top/100% 4px no-repeat,var(--color-tone-charcoal);
+     color:var(--color-tone-charcoal-text)}
+
+.tone-cream .sec-head p,.tone-cream .sec-foot{color:var(--color-tone-cream-muted)}
+.tone-cream .legal p,.tone-cream .legal address{color:var(--color-tone-cream-muted)}
+.tone-cream .problem-card,.tone-cream .service-card,.tone-cream .review,
+.tone-cream .faq-list details,.tone-cream .quote,.tone-cream .legal-note,
+.tone-cream .hours-card,.tone-cream .chip,.tone-cream .car-nav button,
+.tone-cream .map{background:var(--color-tone-cream-surface);border-color:var(--color-tone-cream-border)}
+.tone-cream .problem-card p,.tone-cream .service-card p,.tone-cream .review figcaption,
+.tone-cream .faq-body{color:var(--color-tone-cream-muted)}
+
+.tone-charcoal .sec-head h2,.tone-charcoal h3{color:var(--color-tone-charcoal-text)}
+.tone-charcoal .sec-head p,.tone-charcoal .sec-foot{color:var(--color-tone-charcoal-muted)}
+.tone-charcoal .sec-foot a:not(.btn){color:var(--color-primary-light)}
+.tone-charcoal .eyebrow{color:var(--color-primary-light)}
+.tone-charcoal .link-cta{color:var(--color-primary-light)}
+.tone-charcoal .link-cta:hover{color:var(--color-tone-charcoal-text)}
+.tone-charcoal .problem-card,.tone-charcoal .service-card,.tone-charcoal .review,
+.tone-charcoal .faq-list details,.tone-charcoal .quote,.tone-charcoal .legal-note,
+.tone-charcoal .hours-card,.tone-charcoal .chip,.tone-charcoal .car-nav button,
+.tone-charcoal .map{background:var(--color-tone-charcoal-surface);
+     border-color:var(--color-tone-charcoal-border);color:var(--color-tone-charcoal-text)}
+.tone-charcoal .problem-card p,.tone-charcoal .service-card p,.tone-charcoal .review figcaption,
+.tone-charcoal .faq-body{color:var(--color-tone-charcoal-muted)}
+.tone-charcoal .faq-list summary::after{color:var(--color-primary-light)}
+.tone-charcoal .faq-body a:not(.btn){color:var(--color-primary-light)}
+.tone-charcoal .review__stars{color:var(--color-primary-light)}
+.tone-charcoal .review__more{color:var(--color-primary-light)}
+.tone-charcoal .review__more:hover{color:var(--color-tone-charcoal-text)}
+.tone-charcoal .car-nav button:hover{background:#2c241c;border-color:var(--color-primary-light)}
+.tone-charcoal .contact-grid h2{color:var(--color-tone-charcoal-muted)}
+.tone-charcoal .contact-grid a:not(.btn){color:var(--color-primary-light)}
 
 /* ===== Scroll entrances =====
    frontend-animation references/css-only.md, defaults per its rule 4:

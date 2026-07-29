@@ -1,6 +1,7 @@
 /* our-work — the gallery on its own page sits on the light background
-   (the homepage runs it as a dark band). Grid styles are shared. */
-.work--page{background:var(--color-bg);color:var(--color-text)}
+   (the homepage runs it as a dark band). Grid styles are shared.
+   Background/text color now come from the .tone-cream class on the
+   section element (site/shared/base.css) instead of being set here. */
 .work--page .work-item__meta h3{color:var(--color-text)}
 .work--page .work-item__meta p{color:var(--color-primary)}
 .work--page .sec-foot{color:var(--color-text-muted)}
