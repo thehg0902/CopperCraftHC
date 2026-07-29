@@ -83,7 +83,6 @@
 @media(prefers-reduced-motion:reduce){
   .hero-intro > *{opacity:1;transform:none}
 }
-.hero-actions{display:flex;gap:var(--space-3);flex-wrap:wrap}
 .hero-trust{margin-top:var(--space-6);font-size:var(--text-sm);color:#d8dade;
             text-shadow:0 1px 8px rgba(0,0,0,.5)}
 /* Solid, not the copper gradient-clip: at 14px over moving footage the
@@ -221,11 +220,11 @@
 .problem-card .link-cta{align-self:flex-start}
 
 /* ===== Why CopperCraft ===== */
-.why{background:var(--color-bg-alt)}
 .why-grid{display:grid;grid-template-columns:1fr;gap:var(--space-6)}
 .why-grid li{border-left:3px solid var(--color-primary);padding-left:var(--space-5)}
 .why-grid h3{font-size:var(--text-lg);margin-bottom:var(--space-2)}
 .why-grid p{color:var(--color-text-muted)}
+.tone-charcoal .why-grid p{color:var(--color-tone-charcoal-muted)}
 
 @media(min-width:820px){
   .trust-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
@@ -321,9 +320,6 @@
   .hero-stage__layer p.line{font-size:var(--text-base)}
   .hero-stage__layer h2.line{font-size:var(--text-xl)}
   .hero-stage__layer p.line--muted{font-size:var(--text-xs)}
-  /* Buttons size to their label — never stretched to the full column. */
-  .hero-actions{gap:var(--space-3)}
-  .hero-actions .btn{flex:0 1 auto}
   /* Centred on phones so the proof line reads as a footer to the CTAs
      rather than a stray fragment hanging off the left edge. */
   .card-icon{width:28px;height:28px;margin-bottom:var(--space-2)}

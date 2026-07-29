@@ -55,6 +55,21 @@
   --color-dark-text-muted:#AAB2B8;/* Muted text on dark */
   --gradient-cool:   linear-gradient(90deg, #23679D 0%, #4CA6D8 100%);
 
+  /* ---- Section tone bands (contracts/design-tokens.md v1.2.0) ----
+     Alternating section backgrounds sampled from the operator's equipment
+     sticker — warmer/more copper-tinted than --color-bg/--color-dark-bg,
+     which stay neutral. Applied via .tone-cream / .tone-charcoal
+     (site/shared/base.css), never hardcoded per-component. */
+  --color-tone-cream:          #F1E9DE; /* Warm copper cream section bg */
+  --color-tone-cream-surface:  #FBF6EE; /* Card surface on cream */
+  --color-tone-cream-border:   #DCC9AE; /* Card border on cream */
+  --color-tone-cream-muted:    #6B5D4D; /* Muted body text on cream */
+  --color-tone-charcoal:         #16130F; /* Deep copper charcoal section bg */
+  --color-tone-charcoal-surface: #221C16; /* Card surface on charcoal */
+  --color-tone-charcoal-border:  #3A2E22; /* Card border on charcoal */
+  --color-tone-charcoal-text:    #F3ECE2; /* Body text on charcoal */
+  --color-tone-charcoal-muted:   #B9AC9B; /* Muted text on charcoal */
+
   /* ---- Metallic copper (luxury sheen — reflective, restrained) ---- */
   --metal-copper-shade: #6B3A1B;  /* deep shadow of the curve */
   --metal-copper-core:  #A9662F;  /* mid copper body */
