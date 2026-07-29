@@ -213,6 +213,20 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 .page-hero h1{font-size:var(--text-3xl);margin-top:var(--space-3)}
 .page-hero p{color:var(--color-dark-text-muted);margin-top:var(--space-4);font-size:var(--text-lg)}
 .page-hero .hero-actions{justify-content:center;margin-top:var(--space-7)}
+
+/* ===== Hero action buttons (shared: home hero, every page-hero, thank-you,
+   what-to-expect final-cta) — declared once here so the equal-width mobile
+   rule below applies everywhere .hero-actions appears, not just the home
+   page's own stylesheet. */
+.hero-actions{display:flex;gap:var(--space-3);flex-wrap:wrap}
+@media(max-width:640px){
+  /* Stacked and full-width so both buttons match exactly regardless of
+     label length or which fallback font is rendering them — sizing each
+     to its own content (the old approach) drifts visibly once real text
+     metrics differ from a dev-machine render. */
+  .hero-actions{flex-direction:column}
+  .hero-actions .btn{width:100%}
+}
 /* ===== Services ===== */
 /* 2-across even at mobile: 10 cards stacked one-per-row is a wall of text
    on a phone. 10 divides evenly by 2 and 5, so no breakpoint strands a
