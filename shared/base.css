@@ -99,9 +99,9 @@ header.scrolled{background:rgba(247,245,241,.92);backdrop-filter:blur(10px);
    Two wordmark variants cross-fade — knockout over the dark sequence,
    the original near-black artwork over light sections. */
 .brand{display:flex;align-items:center;gap:var(--space-3);flex:0 0 auto}
-.brand-mark{height:38px;width:auto}
-.brand-words{position:relative;display:block;height:22px;width:110px}
-.brand-word{position:absolute;inset:0;height:22px;width:auto;
+.brand-mark{height:46px;width:auto}
+.brand-words{position:relative;display:block;height:27px;width:130px}
+.brand-word{position:absolute;inset:0;height:27px;width:auto;
             transition:opacity var(--duration-base) var(--ease-standard)}
 .brand-word--dark{opacity:0}
 header.scrolled .brand-word--light{opacity:0}
@@ -178,9 +178,9 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
   .nav-cta .btn-ghost{display:none}
   .mobile-bar{display:flex}
   body{padding-bottom:76px}
-  .brand-mark{height:32px}
-  .brand-words{height:19px;width:95px}
-  .brand-word{height:19px}
+  .brand-mark{height:42px}
+  .brand-words{height:25px;width:118px}
+  .brand-word{height:25px}
 }
 @media(max-width:520px){
   .nav-cta .btn-primary{display:none}

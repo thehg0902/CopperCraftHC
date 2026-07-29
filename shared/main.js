@@ -45,10 +45,15 @@
   /* Header state: stay transparent (knockout logo, light nav) while a
      [data-header-dark] section sits under the bar; otherwise add .scrolled
      for the translucent light surface + original dark wordmark. Measured
-     against the header's own midpoint so the swap lands on the seam. */
+     against the header's own midpoint so the swap lands on the seam.
+     .tone-charcoal (site/shared/base.css section-tone bands) is included
+     alongside [data-header-dark] — it is a solid dark section like any
+     other, so the header has to track it the same way or it strands a
+     light .scrolled bar over a dark background when the user scrolls
+     through .why/.reviews/.faq/.contact-details/.reassure. */
   var header = document.getElementById('siteHeader');
   if (header) {
-    var darkEls = document.querySelectorAll('[data-header-dark]');
+    var darkEls = document.querySelectorAll('[data-header-dark], .tone-charcoal');
     var lastY = -1;
 
     /* Not throttled through requestAnimationFrame: rAF is suspended in
