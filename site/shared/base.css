@@ -99,10 +99,22 @@ header.scrolled{background:rgba(247,245,241,.92);backdrop-filter:blur(10px);
    Two wordmark variants cross-fade — knockout over the dark sequence,
    the original near-black artwork over light sections. */
 .brand{display:flex;align-items:center;gap:var(--space-3);flex:0 0 auto}
-.brand-mark{height:46px;width:auto}
-.brand-words{position:relative;display:block;height:27px;width:130px}
-.brand-word{position:absolute;inset:0;height:27px;width:auto;
-            transition:opacity var(--duration-base) var(--ease-standard)}
+/* Larger while the header floats transparent over the hero (un-.scrolled) —
+   the logo gets its moment against the cinematic sequence, then settles to
+   a compact, out-of-the-way size once the bar picks up a surface over
+   ordinary content. Sizes step back down smoothly, same transition family
+   as the existing background/border-color fade on .scrolled. */
+.brand-mark{height:64px;width:auto;
+            transition:height var(--duration-base) var(--ease-standard)}
+header.scrolled .brand-mark{height:46px}
+.brand-words{position:relative;display:block;height:36px;width:172px;
+             transition:height var(--duration-base) var(--ease-standard),
+                        width var(--duration-base) var(--ease-standard)}
+header.scrolled .brand-words{height:27px;width:130px}
+.brand-word{position:absolute;inset:0;height:36px;width:auto;
+            transition:opacity var(--duration-base) var(--ease-standard),
+                       height var(--duration-base) var(--ease-standard)}
+header.scrolled .brand-word{height:27px}
 .brand-word--dark{opacity:0}
 header.scrolled .brand-word--light{opacity:0}
 header.scrolled .brand-word--dark{opacity:1}
@@ -178,9 +190,12 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
   .nav-cta .btn-ghost{display:none}
   .mobile-bar{display:flex}
   body{padding-bottom:76px}
-  .brand-mark{height:42px}
-  .brand-words{height:25px;width:118px}
-  .brand-word{height:25px}
+  .brand-mark{height:57px}
+  header.scrolled .brand-mark{height:42px}
+  .brand-words{height:33px;width:150px}
+  header.scrolled .brand-words{height:25px;width:118px}
+  .brand-word{height:33px}
+  header.scrolled .brand-word{height:25px}
 }
 @media(max-width:520px){
   .nav-cta .btn-primary{display:none}
