@@ -33,3 +33,36 @@ To add it later: confirm the live count from the Google Business Profile,
 put it in client.md Overrides, and the stat becomes "5.0 · N Google reviews".
 Until then seo-technical must NOT emit aggregateRating/reviewCount schema —
 the rating is asserted as on-page text only.
+
+## 2026-08-10 — Designer Notes v2 brief (BACKLOG — not in current build scope)
+Operator committed `client/CopperCraft_Website_Designer_Notes_v2.pdf` — a
+significant expansion brief. Logged for a FUTURE retainer/build phase, not
+folded into the current Phase 5 (build) → Phase 6 (QA) → deploy sequence.
+Revisit after this build ships.
+
+Summary of the ask:
+- **FinanceIt financing integration** (hero banner, Apply Now CTA, 3-step
+  process, FAQ, footer logo, floating "Apply for Financing" button, custom
+  monthly-payment calculator). Reference sites: cityhomecomfort.ca/financing,
+  armourhomecomfort.ca/financing, bryant.com/en/ca/before-you-buy/financing,
+  excelhomecomfort.com/financing, financeit.io.
+- **New pages**: Financing, Promotions, Comfort Club (membership), Project
+  Gallery, Completed Projects, Warranty, FAQ, Commercial HVAC, Emergency
+  HVAC, Equipment Brands, Careers, Service Areas.
+- **New per-equipment service pages**: furnaces, ACs, heat pumps, ductless,
+  boilers, tankless/water heaters, rooftop units, fan coils, HRVs/ERVs,
+  humidifiers, gas lines, thermostats, commercial, preventative maintenance.
+- **Homepage adds**: trust badges under hero, 3 CTA buttons (Book Service /
+  Free Estimate / Apply for Financing), FinanceIt banner, promotions
+  section, brand-logo strip, before/after gallery, Google review carousel.
+- **About Us**: owner story, team photos, certifications, values, real
+  project imagery — note: founding story was explicitly marked "skip,
+  irrelevant" by the operator earlier (line 14 above); would need
+  re-confirming if this section is ever built.
+- Explicitly preserve the current premium visual identity — content/feature
+  expansion, not a redesign.
+
+Assets staged for this future work in `client/assets-intake/brand-standby/`:
+`financeit-logo-light-bg.png`, `financeit-logo-dark-bg.png`,
+`coppercraft-logo-variant-02.png` (unused logo variant, gray/copper). Not
+wired into any page yet.
