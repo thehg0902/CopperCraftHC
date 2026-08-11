@@ -42,18 +42,24 @@
     setTimeout(lift, PRELOADER_MAX_MS);
   }
 
-  /* Header state: stay transparent (knockout logo, light nav) while a
-     [data-header-dark] section sits under the bar; otherwise add .scrolled
-     for the translucent light surface + original dark wordmark. Measured
-     against the header's own midpoint so the swap lands on the seam.
-     .tone-charcoal (site/shared/base.css section-tone bands) is included
-     alongside [data-header-dark] — it is a solid dark section like any
-     other, so the header has to track it the same way or it strands a
-     light .scrolled bar over a dark background when the user scrolls
-     through .why/.reviews/.faq/.contact-details/.reassure. */
+  /* Header state — three-way, measured against the header's own midpoint so
+     every swap lands exactly on the section seam:
+       over the HERO        -> no class: fully transparent, so the cinematic
+                               opener runs edge-to-edge under the bar
+       over a DARK section  -> .scrolled.on-dark: dark translucent surface,
+                               knockout logo + light nav
+       everything else      -> .scrolled: light translucent surface, gray
+                               logo + dark nav
+     Dark sections are [data-header-dark] (work band, footer, subpage
+     heroes) plus .tone-charcoal (the alternating tone bands —
+     .why/.reviews/.faq/.contact-details/.reassure). Without tracking both,
+     the bar strands the wrong-tinted surface as the user scrolls through
+     them. The hero is excluded from the dark set on purpose: it is the one
+     place the bar stays transparent. */
   var header = document.getElementById('siteHeader');
   if (header) {
     var darkEls = document.querySelectorAll('[data-header-dark], .tone-charcoal');
+    var heroEls = document.querySelectorAll('[data-hero-stage], .page-hero');
     var lastY = -1;
 
     /* Not throttled through requestAnimationFrame: rAF is suspended in
@@ -68,12 +74,20 @@
       // changes (or the bar is removed entirely).
       var box = header.getBoundingClientRect();
       var probe = box.top + box.height / 2;
+      var i, r;
+      var overHero = false;
+      for (i = 0; i < heroEls.length; i++) {
+        r = heroEls[i].getBoundingClientRect();
+        if (r.top <= probe && r.bottom >= probe) { overHero = true; break; }
+      }
       var overDark = false;
-      for (var i = 0; i < darkEls.length; i++) {
-        var r = darkEls[i].getBoundingClientRect();
+      for (i = 0; i < darkEls.length; i++) {
+        r = darkEls[i].getBoundingClientRect();
         if (r.top <= probe && r.bottom >= probe) { overDark = true; break; }
       }
-      header.classList.toggle('scrolled', !overDark);
+      // A surface everywhere except the hero; its tint follows the section.
+      header.classList.toggle('scrolled', !overHero);
+      header.classList.toggle('on-dark', !overHero && overDark);
     }
     function requestSync() {
       var y = window.pageYOffset;

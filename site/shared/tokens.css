@@ -70,6 +70,18 @@
   --color-tone-charcoal-text:    #F3ECE2; /* Body text on charcoal */
   --color-tone-charcoal-muted:   #B9AC9B; /* Muted text on charcoal */
 
+  /* ---- Header surfaces (contracts/design-tokens.md v1.3.0) ----
+     The fixed bar tints to match the section under it: light surface over
+     light content, dark surface over dark bands, fully transparent only
+     over the hero. Translucent so the backdrop-blur reads. NOTE: the logo
+     PNGs carry their own baked ink colours (gray #616970 for the dark
+     variant, soft gray #D5DADE for the knockout) — CSS can't recolour a
+     raster, so those live in the assets, not here. */
+  --header-surface-light: rgba(247, 245, 241, .92); /* over light sections */
+  --header-border-light:  var(--color-border);
+  --header-surface-dark:  rgba(17, 20, 22, .82);    /* over dark sections */
+  --header-border-dark:   rgba(255, 255, 255, .10);
+
   /* ---- Metallic copper (luxury sheen — reflective, restrained) ---- */
   --metal-copper-shade: #6B3A1B;  /* deep shadow of the curve */
   --metal-copper-core:  #A9662F;  /* mid copper body */

@@ -161,3 +161,10 @@ Notes:
   8080` from site/ and the browser attaches to http://localhost:8080. Granting
   the launcher Full Disk / Desktop access, or moving the repo out of
   ~/Desktop, would restore the normal preview_start path.
+- P5 (2026-08-10): added `site/financing/` (page + style.css + script.js) from
+  the operator's mockup, Financeit wordmark wired to
+  `assets/images/financeit-logo.png`. Primary nav is now 8 links: header nav +
+  footer nav updated on all pages; drawer breakpoint moved 1099 → 1219px and
+  the nav gaps tightened so the 8-link bar clears the container (~14px spare).
+  No new home-page sections. Open items logged in QUESTIONS.md (payment
+  figures, Financeit application URL, form endpoint).

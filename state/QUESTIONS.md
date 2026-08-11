@@ -66,3 +66,22 @@ Assets staged for this future work in `client/assets-intake/brand-standby/`:
 `financeit-logo-light-bg.png`, `financeit-logo-dark-bg.png`,
 `coppercraft-logo-variant-02.png` (unused logo variant, gray/copper). Not
 wired into any page yet.
+
+## 2026-08-10 — Financing page (built ahead of the v2 backlog)
+Operator supplied a Financing page mockup and asked for it to be built and
+linked from the primary nav (one link only; no new home-page sections yet).
+Shipped as `site/financing/` using the site's own design system, with the
+Financeit wordmark on the "how it works" partner strip.
+
+Open items, all needed before this page can go live:
+1. **Illustrative monthly figures** ($65 furnace / $70 AC / $95 heat pump).
+   Operator-supplied from the mockup and shown with an explicit "examples,
+   not quotes" disclaimer. CONFIRM these are acceptable to publish, or
+   replace with figures the lender will stand behind.
+2. **Financeit application URL** — the page currently has no "Start Secure
+   Application" button. The credit application (income, banking, ID) must
+   live on Financeit's portal, never on this site. Need the live link.
+3. **Form endpoint** — the interest form reuses the site-wide placeholder
+   pattern (`forms: placeholder`); it posts nowhere yet.
+4. **Approval turnaround** — the page says "usually answered quickly". If
+   Financeit publishes a specific timeframe, use it instead.

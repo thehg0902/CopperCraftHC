@@ -3,14 +3,14 @@
   "configurations": [
     {
       "name": "site",
-      "runtimeExecutable": "sh",
-      "runtimeArgs": ["-c", "cd /Users/changtim/Desktop/AgencyOS/CopperCraftHC/site && exec python3 -m http.server 8080"],
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8080", "--directory", "site"],
       "port": 8080
     },
     {
       "name": "os-root",
-      "runtimeExecutable": "sh",
-      "runtimeArgs": ["-c", "cd /Users/changtim/Desktop/AgencyOS/CopperCraftHC && exec python3 -m http.server 8081"],
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8081"],
       "port": 8081
     }
   ]

@@ -1,4 +1,4 @@
-# Contract: Design Tokens  (v1.2.0)
+# Contract: Design Tokens  (v1.3.0)
 
 All visual values are CSS custom properties defined ONCE in
 `site/shared/tokens.css` on `:root`. No component may hardcode a color,
@@ -46,3 +46,19 @@ Tokens:  --color-tone-cream, --color-tone-cream-surface,
 These are additive (not part of the "Required token set" above) and do
 not replace --color-bg/--color-surface/--color-bg-alt, which remain the
 defaults for anything not explicitly given a tone class.
+
+## Header surfaces (v1.3.0)
+The fixed header carries a translucent surface whose TINT tracks the
+section beneath it, so the bar never strands a light surface over a dark
+background (or vice versa). Three states, driven by classes toggled in
+`site/shared/main.js`: no class = fully transparent (hero only, so the
+cinematic opener runs edge-to-edge), `.scrolled` = light surface,
+`.scrolled.on-dark` = dark surface. Both surfaces are translucent +
+backdrop-blurred; the logo/nav swap to their knockout variants on the
+dark one.
+
+Tokens:  --header-surface-light, --header-border-light,
+         --header-surface-dark,  --header-border-dark
+
+Additive; they replace the previously hardcoded rgba() literals in the
+header block of base.css.
