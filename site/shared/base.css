@@ -96,17 +96,25 @@ header.scrolled{background:rgba(247,245,241,.92);backdrop-filter:blur(10px);
 .nav{display:flex;align-items:center;gap:var(--space-5);height:var(--header-h)}
 
 /* Brand lockup: mark + wordmark, composed so each can scale independently.
-   Two wordmark variants cross-fade — knockout over the dark sequence,
-   the original near-black artwork over light sections. */
+   Both the icon and the wordmark cross-fade two variants — white/knockout
+   over the dark cinematic sequence, gray over light sections — same pair
+   pattern, same transition family as the .scrolled background/border fade. */
 .brand{display:flex;align-items:center;gap:var(--space-3);flex:0 0 auto}
 /* Larger while the header floats transparent over the hero (un-.scrolled) —
    the logo gets its moment against the cinematic sequence, then settles to
    a compact, out-of-the-way size once the bar picks up a surface over
    ordinary content. Sizes step back down smoothly, same transition family
    as the existing background/border-color fade on .scrolled. */
-.brand-mark{height:64px;width:auto;
-            transition:height var(--duration-base) var(--ease-standard)}
+.brand-mark-wrap{position:relative;display:block;height:64px;width:64px;
+                 transition:height var(--duration-base) var(--ease-standard)}
+header.scrolled .brand-mark-wrap{height:46px}
+.brand-mark{position:absolute;inset:0;height:64px;width:auto;
+           transition:opacity var(--duration-base) var(--ease-standard),
+                      height var(--duration-base) var(--ease-standard)}
 header.scrolled .brand-mark{height:46px}
+.brand-mark--dark{opacity:0}
+header.scrolled .brand-mark--light{opacity:0}
+header.scrolled .brand-mark--dark{opacity:1}
 .brand-words{position:relative;display:block;height:36px;width:172px;
              transition:height var(--duration-base) var(--ease-standard),
                         width var(--duration-base) var(--ease-standard)}
@@ -190,6 +198,8 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
   .nav-cta .btn-ghost{display:none}
   .mobile-bar{display:flex}
   body{padding-bottom:76px}
+  .brand-mark-wrap{height:57px;width:57px}
+  header.scrolled .brand-mark-wrap{height:42px;width:42px}
   .brand-mark{height:57px}
   header.scrolled .brand-mark{height:42px}
   .brand-words{height:33px;width:150px}
