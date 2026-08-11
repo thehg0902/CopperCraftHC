@@ -83,30 +83,46 @@ section{padding-block:var(--section-pad-y)}
 
 
 /* ===== Header =====
-   Fixed and fully transparent so the cinematic sequence runs edge-to-edge
-   under it. It only materializes a surface once it floats over light
-   content — sections flagged [data-header-dark] keep it transparent,
-   everything else adds `.scrolled` (see shared/main.js). */
+   Fixed, with a surface that TINTS to match whatever sits under it, so the
+   bar never strands a light surface on a dark background (or vice versa).
+   Three states, toggled in shared/main.js:
+     (no class)         fully transparent — HERO ONLY, so the cinematic
+                        opener runs edge-to-edge under the bar
+     .scrolled          light translucent surface (over light content)
+     .scrolled.on-dark  dark translucent surface (over dark bands: the work
+                        section, .tone-charcoal sections, the footer)
+   Both surfaces share the same blur/height/logo-scale behaviour; only the
+   tint and the logo/nav knockout variants differ. */
 header{position:fixed;top:0;left:0;right:0;z-index:100;background:transparent;
        border-bottom:1px solid transparent;
        transition:background var(--duration-base) var(--ease-standard),
                   border-color var(--duration-base) var(--ease-standard)}
-header.scrolled{background:rgba(247,245,241,.92);backdrop-filter:blur(10px);
-                border-bottom-color:var(--color-border)}
-.nav{display:flex;align-items:center;gap:var(--space-5);height:var(--header-h)}
+header.scrolled{background:var(--header-surface-light);backdrop-filter:blur(10px);
+                border-bottom-color:var(--header-border-light)}
+header.scrolled.on-dark{background:var(--header-surface-dark);
+                        border-bottom-color:var(--header-border-dark)}
+.nav{display:flex;align-items:center;gap:var(--space-4);height:var(--header-h)}
 
 /* Brand lockup: mark + wordmark, composed so each can scale independently.
-   Two wordmark variants cross-fade — knockout over the dark sequence,
-   the original near-black artwork over light sections. */
+   Both the icon and the wordmark cross-fade two variants — white/knockout
+   over the dark cinematic sequence, gray over light sections — same pair
+   pattern, same transition family as the .scrolled background/border fade. */
 .brand{display:flex;align-items:center;gap:var(--space-3);flex:0 0 auto}
 /* Larger while the header floats transparent over the hero (un-.scrolled) —
    the logo gets its moment against the cinematic sequence, then settles to
    a compact, out-of-the-way size once the bar picks up a surface over
    ordinary content. Sizes step back down smoothly, same transition family
    as the existing background/border-color fade on .scrolled. */
-.brand-mark{height:64px;width:auto;
-            transition:height var(--duration-base) var(--ease-standard)}
+.brand-mark-wrap{position:relative;display:block;height:64px;width:64px;
+                 transition:height var(--duration-base) var(--ease-standard)}
+header.scrolled .brand-mark-wrap{height:46px}
+.brand-mark{position:absolute;inset:0;height:64px;width:auto;
+           transition:opacity var(--duration-base) var(--ease-standard),
+                      height var(--duration-base) var(--ease-standard)}
 header.scrolled .brand-mark{height:46px}
+.brand-mark--dark{opacity:0}
+header.scrolled .brand-mark--light{opacity:0}
+header.scrolled .brand-mark--dark{opacity:1}
 .brand-words{position:relative;display:block;height:36px;width:172px;
              transition:height var(--duration-base) var(--ease-standard),
                         width var(--duration-base) var(--ease-standard)}
@@ -118,19 +134,35 @@ header.scrolled .brand-word{height:27px}
 .brand-word--dark{opacity:0}
 header.scrolled .brand-word--light{opacity:0}
 header.scrolled .brand-word--dark{opacity:1}
+/* Dark surface: keep the knockout artwork. The .scrolled rules above would
+   otherwise put the gray variants on a dark bar. Sizes still step down —
+   only the ink swaps back. */
+header.scrolled.on-dark .brand-mark--light{opacity:1}
+header.scrolled.on-dark .brand-mark--dark{opacity:0}
+header.scrolled.on-dark .brand-word--light{opacity:1}
+header.scrolled.on-dark .brand-word--dark{opacity:0}
 
-.nav-links{display:flex;align-items:center;gap:var(--space-5);font-size:var(--text-sm);
-           margin-inline:auto}
+/* Link gap tightens with the viewport instead of sitting at a flat 24px: with
+   8 links the row (brand ~248 unscrolled + links + the two CTAs ~282) has only
+   ~14px to spare inside the 1152px container content box, and the gap is the
+   only give in it. Floor 12px, ceiling 16px. */
+.nav-links{display:flex;align-items:center;gap:clamp(var(--space-3),1.1vw,var(--space-4));
+           font-size:var(--text-sm);margin-inline:auto}
 .nav-links a{color:var(--color-dark-text);text-shadow:0 1px 8px rgba(0,0,0,.45);
              white-space:nowrap;transition:color var(--duration-base) var(--ease-standard)}
 .nav-links a:hover{color:var(--color-primary-light)}
 header.scrolled .nav-links a{color:var(--color-text);text-shadow:none}
 header.scrolled .nav-links a:hover{color:var(--color-primary)}
+/* Dark surface: light nav ink, but drop the drift shadow — the bar itself
+   now provides the contrast the shadow was faking over open video. */
+header.scrolled.on-dark .nav-links a{color:var(--color-dark-text);text-shadow:none}
+header.scrolled.on-dark .nav-links a:hover{color:var(--color-primary-light)}
 .nav-cta{display:flex;align-items:center;gap:var(--space-3);flex:0 0 auto}
 .nav-toggle{display:none;background:none;border:0;cursor:pointer;flex-direction:column;gap:5px}
 .nav-toggle span{width:24px;height:2px;background:var(--color-dark-text);display:block;
                  transition:background var(--duration-base) var(--ease-standard)}
 header.scrolled .nav-toggle span{background:var(--color-text)}
+header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 
 /* ===== Footer ===== */
 .site-footer{background:var(--color-dark-bg);color:var(--color-dark-text-muted);
@@ -164,11 +196,12 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 .mobile-bar .btn{flex:1}
 
 /* ===== Mobile =====
-   Drawer breakpoint is 1099px, not 1024: the 7-link nav plus the brand and
-   two CTA buttons measures ~998px, so at 1030px it fits with only ~32px to
-   spare. Any label change would push it into a wrap. Hand over to the drawer
-   while there is still real headroom. */
-@media(max-width:1099px){
+   Drawer breakpoint is 1219px, not 1024: the 8-link nav (Financing added)
+   plus the brand and two CTA buttons measures ~1138px, and the container's
+   content box only reaches its full 1152px once the viewport clears 1200px
+   plus a scrollbar. Below that, hand over to the drawer rather than let the
+   bar spill into the gutter. Any label change eats the remaining ~14px. */
+@media(max-width:1219px){
   .nav-links{position:fixed;inset:var(--header-h) 0 auto 0;
              background:var(--color-bg);flex-direction:column;align-items:stretch;
              gap:0;font-size:var(--text-base);margin-inline:0;
@@ -178,8 +211,10 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
              transition:transform var(--duration-base) var(--ease-out-expo)}
   .nav-links.open{transform:translateY(0)}
   /* The drawer is always a light surface, so its links stay dark whatever
-     the transparent header is doing above it. */
-  .nav-links a,header.scrolled .nav-links a{color:var(--color-text);text-shadow:none;
+     the header is doing above it — including .on-dark, whose desktop rule
+     is more specific (0,3,1) and would otherwise paint them light-on-light. */
+  .nav-links a,header.scrolled .nav-links a,
+  header.scrolled.on-dark .nav-links a{color:var(--color-text);text-shadow:none;
              padding-block:var(--space-3);border-bottom:1px solid var(--color-border)}
   .nav-links a:hover{color:var(--color-primary)}
   .nav-toggle{display:flex;order:3}
@@ -190,6 +225,8 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
   .nav-cta .btn-ghost{display:none}
   .mobile-bar{display:flex}
   body{padding-bottom:76px}
+  .brand-mark-wrap{height:57px;width:57px}
+  header.scrolled .brand-mark-wrap{height:42px;width:42px}
   .brand-mark{height:57px}
   header.scrolled .brand-mark{height:42px}
   .brand-words{height:33px;width:150px}
