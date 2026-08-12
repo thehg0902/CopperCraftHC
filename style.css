@@ -226,6 +226,53 @@
 .why-grid p{color:var(--color-text-muted)}
 .tone-charcoal .why-grid p{color:var(--color-tone-charcoal-muted)}
 
+/* ===== Financing band =====
+   Deliberately NOT a .tone-* section. Financing is an offer, not another
+   content band, so it gets its own surface — which also keeps the
+   cream/charcoal alternation downstream intact. Dropping a .tone-* here
+   would duplicate a tone against either neighbour (why = charcoal,
+   services = cream) and force a cascade of flips through the rest of the
+   page. Carries data-header-dark in the markup so the fixed header picks
+   up its dark surface over this band (shared/main.js).
+   Surface runs the deep end of the copper ramp — --color-primary-dark into
+   --metal-copper-shade, the darkest copper in the palette ("deep shadow of
+   the curve", tokens.css). A GRADIENT rather than a flat fill on purpose:
+   at section scale a single mid-brown reads as flat paint, while the slow
+   shift across the two darkest copper stops reads as metal, which is the
+   whole point of the brand. Both stops are dark enough to stay clearly
+   distinct from the cream .services below while sitting warmer and lighter
+   than the near-black charcoal .why above.
+   Contrast measured against the LIGHTEST stop (#7E4520, worst case):
+   --color-dark-text 7.2:1, --metal-copper-spec 5.8:1 — both AA. Accents use
+   --metal-copper-spec, NOT --color-primary-light, which drops to 4.0:1 here
+   and fails for 14px text. */
+.fin-band{background:linear-gradient(160deg,var(--color-primary-dark) 0%,
+     var(--metal-copper-shade) 100%);color:var(--color-dark-text)}
+.fin-band .eyebrow{color:var(--metal-copper-spec)}
+.fin-band h2{font-size:var(--text-2xl);margin-top:var(--space-2)}
+.fin-band__inner{display:grid;gap:var(--space-7);align-items:center}
+.fin-band__copy p{margin-top:var(--space-4)}
+.fin-band__cta{margin-top:var(--space-6)}
+.fin-band__points{display:grid;gap:var(--space-5)}
+/* align-items:flex-start, not center: when a point wraps to two lines the
+   icon must stay level with the FIRST line, the way the old ::before glyph
+   did — centring it against a two-line block reads as misaligned next to a
+   one-line neighbour. */
+.fin-band__points li{display:flex;gap:var(--space-4);align-items:flex-start}
+/* Raster, so it cannot inherit currentColor the way .card-icon does — the
+   tint is baked into the PNG. Re-tinted to --metal-copper-spec (#F6DDBB)
+   when this band went copper: the original #E0A46A art measured only 4.0:1
+   against the lightest gradient stop, and copper-on-copper read muddy.
+   If this band's surface changes again these three assets must be
+   re-tinted, not just recoloured in CSS.
+   Rendered at 96px for 3x DPR, displayed at 32 to match .card-icon. */
+.fin-icon{width:32px;height:32px;flex:0 0 auto}
+.fin-band__note{margin-top:var(--space-8);font-size:var(--text-sm);
+     color:var(--metal-copper-spec)}
+/* :not(.btn) per the convention in shared/base.css — a scoped `a` rule
+   (0,1,1) would otherwise outrank .btn-ghost (0,1,0) and repaint the CTA. */
+.fin-band__note a:not(.btn){font-weight:600;border-bottom:1px solid currentColor}
+
 @media(min-width:820px){
   .trust-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
   .stat{padding:var(--space-2) var(--space-6)}
@@ -242,6 +289,9 @@
 @media(min-width:1024px){
   .problem-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .why-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  /* Copy left, proof points right. Stays stacked below this — at tablet the
+     two columns squeeze the three point lines into three-line wraps. */
+  .fin-band__inner{grid-template-columns:1.15fr 1fr;gap:var(--space-9)}
 
   /* ===== Hero lead — desktop composition =====
      Flush left is a phone composition: on a wide screen it strands the copy
