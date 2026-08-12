@@ -267,11 +267,6 @@
    re-tinted, not just recoloured in CSS.
    Rendered at 96px for 3x DPR, displayed at 32 to match .card-icon. */
 .fin-icon{width:32px;height:32px;flex:0 0 auto}
-.fin-band__note{margin-top:var(--space-8);font-size:var(--text-sm);
-     color:var(--metal-copper-spec)}
-/* :not(.btn) per the convention in shared/base.css — a scoped `a` rule
-   (0,1,1) would otherwise outrank .btn-ghost (0,1,0) and repaint the CTA. */
-.fin-band__note a:not(.btn){font-weight:600;border-bottom:1px solid currentColor}
 
 @media(min-width:820px){
   .trust-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
