@@ -1,1 +1,39 @@
-/* services — no page-specific styles; everything comes from shared/base.css. */
+/* services — index-grid jump links, informational .svc sections, closing CTA.
+   Shared components live in shared/base.css. */
+
+/* --- index grid: whole card is a jump link --- */
+.services .service-card{position:relative}
+.service-card h3 a{color:inherit;text-decoration:none}
+.service-card h3 a::after{content:"";position:absolute;inset:0;border-radius:var(--radius-lg)}
+.services .service-card:hover{border-color:var(--color-primary)}
+.service-card h3 a:focus-visible{outline:none}
+.service-card h3 a:focus-visible::after{outline:2px solid var(--color-primary);outline-offset:2px}
+
+/* --- service info sections --- */
+.svc__inner{display:grid;gap:var(--space-6)}
+.svc__media{width:100%;max-width:560px;margin-inline:auto}
+.svc__media img{width:100%;height:auto;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)}
+.svc__body h2{font-size:var(--text-2xl);margin-block:var(--space-2) var(--space-4)}
+.svc__body>p{color:var(--color-text-muted);margin-bottom:var(--space-4)}
+.tone-cream .svc__body>p{color:var(--color-tone-cream-muted)}
+.svc__tips-title{font-size:var(--text-sm);font-weight:600;letter-spacing:.08em;
+     text-transform:uppercase;margin-block:var(--space-6) var(--space-3)}
+.svc__tips{display:grid;gap:var(--space-3)}
+.svc__tips li{position:relative;padding-left:var(--space-6);color:var(--color-text-muted)}
+.tone-cream .svc__tips li{color:var(--color-tone-cream-muted)}
+.svc__tips li::before{content:"";position:absolute;left:2px;top:.5em;width:11px;height:6px;
+     border-left:2px solid var(--color-primary);border-bottom:2px solid var(--color-primary);
+     transform:rotate(-45deg)}
+.svc__back{margin-top:var(--space-6);font-size:var(--text-sm)}
+.svc__back a:not(.btn){color:var(--color-primary);font-weight:600;text-decoration:none}
+
+@media (min-width:1024px){
+  .svc__inner{grid-template-columns:.9fr 1.1fr;gap:var(--space-9);align-items:center}
+  .svc__media{max-width:none;margin-inline:0}
+  .svc--flip .svc__media{order:2}
+}
+
+/* --- closing CTA (same treatment as what-to-expect) --- */
+.final-cta{background:var(--color-dark-bg);color:var(--color-dark-text);text-align:center}
+.final-cta h2{font-size:var(--text-2xl);margin-bottom:var(--space-6)}
+.final-cta .hero-actions{justify-content:center}
