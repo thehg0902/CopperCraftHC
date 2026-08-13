@@ -8,6 +8,12 @@
       "port": 8080
     },
     {
+      "name": "site-alt",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["-m", "http.server", "8090", "--directory", "site"],
+      "port": 8090
+    },
+    {
       "name": "os-root",
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8081"],

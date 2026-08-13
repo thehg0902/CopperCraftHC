@@ -168,3 +168,16 @@ Notes:
   the nav gaps tightened so the 8-link bar clears the container (~14px spare).
   No new home-page sections. Open items logged in QUESTIONS.md (payment
   figures, Financeit application URL, form endpoint).
+- P5 (2026-08-13): services page rebuilt as an informational page — the grid
+  cards are now jump-links into 10 new per-service `.svc` sections (what we
+  do / why it matters / 3–4 homeowner tips each, alternating cream bands and
+  image sides) plus a closing `.final-cta` band; page CSS lives in
+  services/style.css, script.js still a stub. 10 photo-real Higgsfield images
+  (soul_location) generated behind the per-row MEDIA_LOG gate (operator YES
+  in-chat 2026-08-13; 1.68 credits total incl. 4 quality retakes), converted
+  to WebP 1040×780 (472 KB total), stamped. Photo-real is a SCOPED override
+  of the real-photos-only policy, logged in DECISIONS.md — gallery/Our Work
+  stays real job photos only. Follow-up same day: footer Services column on
+  all 10 pages now links to the per-service anchors (services/#<slug> from
+  the homepage, ../services/#<slug> from subpages) — verified cross-page
+  landing clears the fixed header (92px scroll-margin).

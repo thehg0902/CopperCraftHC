@@ -54,12 +54,18 @@
      heroes) plus .tone-charcoal (the alternating tone bands —
      .why/.reviews/.faq/.contact-details/.reassure). Without tracking both,
      the bar strands the wrong-tinted surface as the user scrolls through
-     them. The hero is excluded from the dark set on purpose: it is the one
-     place the bar stays transparent. */
+     them.
+
+     ONLY the home page's cinematic stage counts as "hero" here. Subpage
+     .page-hero banners deliberately do NOT: they are ordinary dark bands,
+     so the bar carries its dark surface over them from the first paint
+     rather than floating transparent. Transparency is reserved for the one
+     place it earns its keep — the full-bleed opener on Home, where a bar
+     would cut the continuous shot. */
   var header = document.getElementById('siteHeader');
   if (header) {
     var darkEls = document.querySelectorAll('[data-header-dark], .tone-charcoal');
-    var heroEls = document.querySelectorAll('[data-hero-stage], .page-hero');
+    var heroEls = document.querySelectorAll('[data-hero-stage]');
     var lastY = -1;
 
     /* Not throttled through requestAnimationFrame: rAF is suspended in
