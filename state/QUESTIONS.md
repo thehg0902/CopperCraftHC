@@ -85,3 +85,9 @@ Open items, all needed before this page can go live:
    pattern (`forms: placeholder`); it posts nowhere yet.
 4. **Approval turnaround** — the page says "usually answered quickly". If
    Financeit publishes a specific timeframe, use it instead.
+
+2026-08-14: the on-page warning that named items 2 and 3 was HIDDEN (commented
+out at `financing/index.html:189`) because the homepage problem-selector card
+"My System Is Getting Old" now links here and visitors were seeing internal
+build notes. Hiding the note changed nothing else — all four items above are
+still open, and the form still posts nowhere.
