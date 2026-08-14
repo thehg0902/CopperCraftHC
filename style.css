@@ -210,14 +210,19 @@
 
 /* ===== Problem selector ===== */
 .problem-grid{display:grid;grid-template-columns:1fr;gap:var(--space-5)}
-.problem-card{background:var(--color-surface);border:1px solid var(--color-border);
+.problem-card{position:relative;background:var(--color-surface);border:1px solid var(--color-border);
      border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm);
      display:flex;flex-direction:column;gap:var(--space-3);
      transition:box-shadow var(--duration-base),transform var(--duration-base)}
 .problem-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}
 .problem-card h3{font-size:var(--text-lg)}
 .problem-card p{color:var(--color-text-muted);font-size:var(--text-sm);flex:1}
-.problem-card .link-cta{align-self:flex-start}
+/* whole card is a link to its service section; the CTA stays clickable above it */
+.problem-card h3 a{color:inherit;text-decoration:none}
+.problem-card h3 a::after{content:"";position:absolute;inset:0;border-radius:var(--radius-lg)}
+.problem-card h3 a:focus-visible{outline:none}
+.problem-card h3 a:focus-visible::after{outline:2px solid var(--color-primary);outline-offset:2px}
+.problem-card .link-cta{align-self:flex-start;position:relative;z-index:1}
 
 /* ===== Why CopperCraft ===== */
 .why-grid{display:grid;grid-template-columns:1fr;gap:var(--space-6)}
