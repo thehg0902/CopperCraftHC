@@ -107,30 +107,43 @@ header.scrolled.on-dark{background:var(--header-surface-dark);
    Both the icon and the wordmark cross-fade two variants — white/knockout
    over the dark cinematic sequence, gray over light sections — same pair
    pattern, same transition family as the .scrolled background/border fade. */
-.brand{display:flex;align-items:center;gap:var(--space-3);flex:0 0 auto}
+/* Gaps and the wordmark nudge below are tuned per state, not taken from the
+   spacing scale: clear space in a lockup is a fraction of the MARK height, so
+   a flat token reads wider as the lockup shrinks. Ratio held at ~0.167 over
+   the hero and ~0.129 once shrunk. The translateY on .brand-words is optical
+   centring - the wordmark's ink centre of mass sits at 45.9% of its height,
+   not 50%, because the heavy top line outweighs the tracked-out bottom one. */
+.brand{display:flex;align-items:center;gap:8.5px;flex:0 0 auto}
+header.scrolled .brand{gap:5.5px}
 /* Larger while the header floats transparent over the hero (un-.scrolled) —
    the logo gets its moment against the cinematic sequence, then settles to
    a compact, out-of-the-way size once the bar picks up a surface over
    ordinary content. Sizes step back down smoothly, same transition family
    as the existing background/border-color fade on .scrolled. */
-.brand-mark-wrap{position:relative;display:block;height:64px;width:64px;
-                 transition:height var(--duration-base) var(--ease-standard)}
-header.scrolled .brand-mark-wrap{height:46px}
-.brand-mark{position:absolute;inset:0;height:64px;width:auto;
+.brand-mark-wrap{position:relative;display:block;height:51px;width:50px;
+                 transition:height var(--duration-base) var(--ease-standard),
+                            width var(--duration-base) var(--ease-standard)}
+/* Width steps down with the height. The mark is 336x343, so a 46px-tall mark
+   is 45px wide - leaving the box at 64px parks ~19px of empty box between the
+   icon and the wordmark and reads as a broken gap once shrunk. */
+header.scrolled .brand-mark-wrap{height:42.5px;width:41.6px}
+.brand-mark{position:absolute;inset:0;height:51px;width:auto;
            transition:opacity var(--duration-base) var(--ease-standard),
                       height var(--duration-base) var(--ease-standard)}
-header.scrolled .brand-mark{height:46px}
+header.scrolled .brand-mark{height:42.5px}
 .brand-mark--dark{opacity:0}
 header.scrolled .brand-mark--light{opacity:0}
 header.scrolled .brand-mark--dark{opacity:1}
-.brand-words{position:relative;display:block;height:36px;width:172px;
+.brand-words{position:relative;display:block;height:42px;width:182.3px;
+             transform:translateY(2px);
              transition:height var(--duration-base) var(--ease-standard),
-                        width var(--duration-base) var(--ease-standard)}
-header.scrolled .brand-words{height:27px;width:130px}
-.brand-word{position:absolute;inset:0;height:36px;width:auto;
+                        width var(--duration-base) var(--ease-standard),
+                        transform var(--duration-base) var(--ease-standard)}
+header.scrolled .brand-words{height:31.5px;width:136.7px;transform:translateY(1.5px)}
+.brand-word{position:absolute;inset:0;height:42px;width:auto;
             transition:opacity var(--duration-base) var(--ease-standard),
                        height var(--duration-base) var(--ease-standard)}
-header.scrolled .brand-word{height:27px}
+header.scrolled .brand-word{height:31.5px}
 .brand-word--dark{opacity:0}
 header.scrolled .brand-word--light{opacity:0}
 header.scrolled .brand-word--dark{opacity:1}
@@ -172,7 +185,18 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
                 color:var(--color-dark-text);margin-bottom:var(--space-4);margin-top:var(--space-6)}
 .site-footer h2:first-child{margin-top:0}
 .site-footer a:not(.btn):hover{color:var(--color-primary-light)}
-.site-footer__brand img{width:200px;height:auto;margin-bottom:var(--space-4)}
+/* Footer lockup: mark beside the wordmark, both knockout variants against
+   the dark footer surface, held at the header's 64:36 mark-to-wordmark
+   height relationship. Sized in three steps because the brand grid track
+   is narrowest in the middle: full width while the footer is one column,
+   tightest at 768 where the 1.4fr track is only ~178px, roomy again from
+   1024 up. Both images are flex:0 0 auto - letting them shrink would squash
+   the artwork (height is already resolved from the specified width). */
+.site-footer__logo{display:flex;align-items:center;gap:5px;
+                   margin-bottom:var(--space-4)}
+.site-footer__logo-mark{width:45.1px;height:auto;flex:0 0 auto}
+.site-footer__logo-word{width:147.5px;height:auto;flex:0 0 auto;
+                        transform:translateY(3px)}
 .site-footer__brand p{max-width:38ch}
 .site-footer__legal{display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:space-between;
      align-items:center;margin-top:var(--space-9);padding-top:var(--space-5);
@@ -225,20 +249,33 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
   .nav-cta .btn-ghost{display:none}
   .mobile-bar{display:flex}
   body{padding-bottom:76px}
-  .brand-mark-wrap{height:57px;width:57px}
-  header.scrolled .brand-mark-wrap{height:42px;width:42px}
-  .brand-mark{height:57px}
-  header.scrolled .brand-mark{height:42px}
-  .brand-words{height:33px;width:150px}
-  header.scrolled .brand-words{height:25px;width:118px}
-  .brand-word{height:33px}
-  header.scrolled .brand-word{height:25px}
+  /* Same lockup, stepped down ~11% so the centred brand still clears the
+     toggle at 375px (219px wide, leaves ~6px each side). Ratios and the
+     optical nudge above carry over unchanged. */
+  .brand{gap:7.5px}
+  header.scrolled .brand{gap:5px}
+  .brand-mark-wrap{height:45.5px;width:44.6px}
+  header.scrolled .brand-mark-wrap{height:39px;width:38.2px}
+  .brand-mark{height:45.5px}
+  header.scrolled .brand-mark{height:39px}
+  .brand-words{height:38.5px;width:167.1px}
+  header.scrolled .brand-words{height:29px;width:125.8px}
+  .brand-word{height:38.5px}
+  header.scrolled .brand-word{height:29px}
 }
 @media(max-width:520px){
   .nav-cta .btn-primary{display:none}
 }
 @media(min-width:768px){
   .site-footer__grid{grid-template-columns:1.4fr 1fr 1fr 1fr}
+  .site-footer__logo{gap:5.5px}
+  .site-footer__logo-mark{width:40.7px}
+  .site-footer__logo-word{width:147.5px;transform:translateY(2px)}
+}
+@media(min-width:1024px){
+  .site-footer__logo{gap:8px}
+  .site-footer__logo-mark{width:53.4px}
+  .site-footer__logo-word{width:221.3px;transform:translateY(3px)}
 }
 
 /* ===== Motion (enabled only when the visitor allows it) ===== */
