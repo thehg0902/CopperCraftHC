@@ -9,36 +9,8 @@
 .service-card h3 a:focus-visible{outline:none}
 .service-card h3 a:focus-visible::after{outline:2px solid var(--color-primary);outline-offset:2px}
 
-/* --- service info sections --- */
-.svc__inner{display:grid;gap:var(--space-6)}
-.svc__media{width:100%;max-width:560px;margin-inline:auto}
-.svc__media img{width:100%;height:auto;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)}
-.svc__body h2{font-size:var(--text-2xl);margin-block:var(--space-2) var(--space-4)}
-.svc__body>p{color:var(--color-text-muted);margin-bottom:var(--space-4)}
-.tone-cream .svc__body>p{color:var(--color-tone-cream-muted)}
-.svc__tips-title{font-size:var(--text-sm);font-weight:600;letter-spacing:.08em;
-     text-transform:uppercase;margin-block:var(--space-6) var(--space-3)}
-.svc__tips{display:grid;gap:var(--space-3)}
-.svc__tips li{position:relative;padding-left:var(--space-6);color:var(--color-text-muted)}
-.tone-cream .svc__tips li{color:var(--color-tone-cream-muted)}
-.svc__tips li::before{content:"";position:absolute;left:2px;top:.5em;width:11px;height:6px;
-     border-left:2px solid var(--color-primary);border-bottom:2px solid var(--color-primary);
-     transform:rotate(-45deg)}
-.svc__back{margin-top:var(--space-6);font-size:var(--text-sm)}
-.svc__back a:not(.btn){color:var(--color-primary);font-weight:600;text-decoration:none}
-
-@media (min-width:1024px){
-  .svc__inner{grid-template-columns:.9fr 1.1fr;gap:var(--space-9);align-items:center}
-  .svc__media{max-width:none;margin-inline:0}
-  .svc--flip .svc__media{order:2}
-}
+/* .svc__* moved to shared/base.css - the hub has no .svc sections left;
+   those styles now serve the 10 child pages under services/. */
 
 /* --- closing CTA (same treatment as what-to-expect) --- */
 /* .final-cta moved to shared/base.css - used by 4+ pages. */
-
-/* Cross-links from a service to the location pages that service covers. Sits
-   just above the "all services" back-link, quieter than body copy. */
-.svc__areas{margin-top:var(--space-4);font-size:var(--text-sm);
-            color:var(--color-text-muted)}
-.svc__areas a{color:var(--color-primary);font-weight:600}
-.tone-cream .svc__areas{color:var(--color-tone-cream-muted)}
