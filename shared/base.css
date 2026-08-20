@@ -329,6 +329,38 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
    Repair") and left no room for the CTA line. 10 divides evenly by 1, 2 and 5,
    so no breakpoint strands a widow (rules/css.md). */
 .service-grid{display:grid;grid-template-columns:1fr;gap:var(--space-4)}
+
+/* ===== Service rail (phone) =====
+   HOME PAGE ONLY, via the --rail modifier: /services/ is the read-everything
+   destination and keeps its grid at every width. Ten cards stacked one per row
+   is a wall to scroll past; a horizontal rail lets the visitor swipe sideways
+   for more or keep scrolling down to the next section.
+
+   contain:paint is a BUG FIX, not an optimisation - the same one documented on
+   .track below. A flex scroll row leaks its intrinsic max-content width to the
+   document: measured there at 3649px scrollWidth against a 1280px viewport,
+   which gave desktop a horizontal scrollbar and let a phone pinch-zoom out of
+   the design. overflow-x:auto, overflow:hidden and overflow:clip were each
+   measured and none of them stop it. Paint containment is what caps it.
+
+   flex-basis 80% is the affordance: the next card stays visibly cut off at the
+   right edge. At 100% the rail would look identical to the stack it replaced
+   and nobody would discover it scrolls.
+
+   padding-block gives the card box-shadow room inside the containment clip. */
+.service-grid--rail{display:flex;gap:var(--space-4);overflow-x:auto;
+     contain:paint;scroll-snap-type:x mandatory;scrollbar-width:none;
+     padding-block:var(--space-2)}
+.service-grid--rail::-webkit-scrollbar{display:none}
+/* 4px offset, wider than the 2px used elsewhere, matching .track: a scroll
+   container's ring needs to clear the edge of the content it scrolls. */
+.service-grid--rail:focus-visible{outline:2px solid var(--color-primary);
+     outline-offset:4px}
+.service-grid--rail > .service-card{flex:0 0 80%;scroll-snap-align:start}
+/* Smooth scrolling is motion - gate it, same as .track. */
+@media(prefers-reduced-motion:no-preference){
+  .service-grid--rail{scroll-behavior:smooth}
+}
 /* Metal edge. A gradient border needs the double-background technique, NOT
    border-image: border-image ignores border-radius and would square off the
    16px corners. padding-box paints the surface, border-box paints the metal
@@ -505,6 +537,11 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 
 @media(min-width:640px){
   .service-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5)}
+  /* Rail is phone-only: hand the grid back, and release the scroll container
+     and its containment with it. */
+  .service-grid--rail{display:grid;overflow:visible;contain:none;
+       padding-block:0}
+  .service-grid--rail > .service-card{flex:none}
   .work-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-5)}
   .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
 }
