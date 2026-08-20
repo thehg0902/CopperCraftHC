@@ -322,4 +322,47 @@
   makeCarousel(document.getElementById('track'),
                document.getElementById('prev'),
                document.getElementById('next'));
+  /* ===== Service-area display variable =====
+     Fills any <span data-city> with the town the visitor is most likely in.
+
+     What this is NOT: a ranking device. Google indexes one version of a static
+     page, so the <title>, <h1>, canonical and JSON-LD are fixed per URL and
+     are never touched here. Serving Googlebot a different city than a human
+     would be cloaking. Ranking in the other towns is done by the real
+     /markham/, /vaughan/, /thornhill/, /aurora/ and /newmarket/ pages.
+
+     Resolution order:
+       1. the location page the visitor is already on
+       2. a ?loc= parameter, matched against the whitelist only (this is the
+          Google Ads landing-page path; the page still self-canonicals to its
+          clean URL, so no duplicate is created)
+       3. the static default already in the HTML - which is what Googlebot and
+          any no-JS visitor sees, and which must read correctly on its own
+
+     No IP lookup: that would mean a third-party request on every page load and
+     a privacy disclosure, and it would still not move rankings. */
+  (function () {
+    var TOWNS = {
+      'richmond-hill': 'Richmond Hill', 'markham': 'Markham',
+      'vaughan': 'Vaughan', 'thornhill': 'Thornhill',
+      'aurora': 'Aurora', 'newmarket': 'Newmarket'
+    };
+    var slots = document.querySelectorAll('[data-city]');
+    if (!slots.length) return;
+
+    var city = null;
+    var seg = location.pathname.split('/').filter(Boolean).pop();
+    if (seg && TOWNS[seg]) {
+      city = TOWNS[seg];
+    } else {
+      try {
+        var q = new URLSearchParams(location.search).get('loc');
+        if (q && TOWNS[q.toLowerCase()]) city = TOWNS[q.toLowerCase()];
+      } catch (e) { /* no URLSearchParams: keep the static default */ }
+    }
+    if (!city) return;                       // default in the markup stands
+
+    for (var i = 0; i < slots.length; i++) slots[i].textContent = city;
+  })();
+
 })();

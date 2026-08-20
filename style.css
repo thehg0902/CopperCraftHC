@@ -55,8 +55,17 @@
 .hero-stage__layer--next .container,
 .hero-stage__layer--promise .container{max-width:760px}
 
-.hero-stage h1{font-size:var(--text-hero);margin-block:var(--space-4) var(--space-5);
+.hero-stage h1{font-size:var(--text-hero);margin-block:0 var(--space-5);
                text-shadow:0 2px 24px rgba(0,0,0,.45)}
+/* The keyword line moved from a sibling <span class="eyebrow"> into the h1
+   (see base.css .h1-kw). It absorbs the h1's old top margin so the lockup
+   sits exactly where it did. display:block overrides the desktop
+   `--lead h1 span{display:inline-block}` rule below, which exists to control
+   where the TWO headline clauses break and must not catch this line. The
+   `span.h1-kw` qualifier is load-bearing: that rule is later in the file at
+   equal specificity, so a plain `.h1-kw` would lose to it above 1024px. */
+.hero-stage h1 span.h1-kw{display:block;margin-bottom:var(--space-4);
+                          text-shadow:0 1px 8px rgba(0,0,0,.5)}
 .hero-sub{font-size:var(--text-lg);color:#f0f0f0;margin-bottom:var(--space-7)}
 
 /* ===== Staged hero entrance =====
@@ -418,3 +427,11 @@
   .problem-card,.faq-list details{transition:box-shadow var(--duration-base),
        transform var(--duration-base)}
 }
+
+/* Five of the six area chips link to their location page; Richmond Hill is
+   the base and stays plain text. The anchor fills the chip so the whole pill
+   is the hit target, not just the word. */
+.chip a{display:block;margin:calc(var(--space-3) * -1) calc(var(--space-4) * -1);
+        padding:var(--space-3) var(--space-4);color:var(--color-primary);
+        font-weight:600}
+.chip a:hover{color:var(--color-primary-dark)}

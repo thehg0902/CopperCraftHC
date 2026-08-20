@@ -1,0 +1,55 @@
+# CopperCraft Heating & Cooling — Apache config (Hostinger Business).
+# Canonical host is the APEX domain, https://coppercraft.ca — this file is what
+# makes the served URL match the <link rel="canonical"> on every page.
+
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Force HTTPS, PRESERVING the host. Redirecting to a hardcoded
+  # coppercraft.ca here would drag any staging or preview host over to
+  # production, since this file ships inside site/ and lands on every branch.
+  # X-Forwarded-Proto is checked first because Hostinger terminates TLS
+  # upstream, so %{HTTPS} alone reads "off" on a secure request and would loop.
+  RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # www -> apex, scoped to the production domain by name for the same reason.
+  RewriteCond %{HTTP_HOST} ^www\.coppercraft\.ca$ [NC]
+  RewriteRule ^ https://coppercraft.ca%{REQUEST_URI} [L,R=301]
+
+  # Clean folder URLs: strip a trailing index.html so /about/index.html and
+  # /about/ never both resolve. The canonical tag says /about/; this makes the
+  # server agree.
+  RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
+  RewriteRule ^(.*/)?index\.html$ /%1 [L,R=301]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# Assets are cache-busted by scripts/stamp-assets.py (?v=<hash>), so they can be
+# cached hard. HTML must not be, or a deploy would not reach returning visitors.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/json
+</IfModule>

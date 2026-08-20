@@ -62,9 +62,7 @@
      font-weight:600;color:var(--color-primary)}
 
 /* ===== Closing CTA ===== */
-.final-cta{background:var(--color-dark-bg);color:var(--color-dark-text);text-align:center}
-.final-cta h2{font-size:var(--text-2xl);margin-bottom:var(--space-6)}
-.final-cta .hero-actions{justify-content:center}
+/* .final-cta moved to shared/base.css - used by 4+ pages. */
 
 @media(min-width:640px){
   .fin-ex-grid{grid-template-columns:repeat(3,minmax(0,1fr))}

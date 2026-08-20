@@ -185,18 +185,21 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
                 color:var(--color-dark-text);margin-bottom:var(--space-4);margin-top:var(--space-6)}
 .site-footer h2:first-child{margin-top:0}
 .site-footer a:not(.btn):hover{color:var(--color-primary-light)}
-/* Footer lockup: mark beside the wordmark, both knockout variants against
-   the dark footer surface, held at the header's 64:36 mark-to-wordmark
-   height relationship. Sized in three steps because the brand grid track
-   is narrowest in the middle: full width while the footer is one column,
-   tightest at 768 where the 1.4fr track is only ~178px, roomy again from
-   1024 up. Both images are flex:0 0 auto - letting them shrink would squash
-   the artwork (height is already resolved from the specified width). */
-.site-footer__logo{display:flex;align-items:center;gap:5px;
-                   margin-bottom:var(--space-4)}
-.site-footer__logo-mark{width:45.1px;height:auto;flex:0 0 auto}
-.site-footer__logo-word{width:147.5px;height:auto;flex:0 0 auto;
-                        transform:translateY(3px)}
+/* Footer lockup: the brand's stacked arrangement - icon centred over the
+   wordmark - rebuilt from the two separate knockout files rather than a
+   combined asset. Proportions are taken from the stacked artwork: the icon
+   sits at ~0.356 of the wordmark's width, and the gap at ~0.10 of the icon's
+   height, so the whole thing scales as one piece. Centring is on the boxes,
+   matching the reference (the icon's ink centre of mass is ~5% left of its
+   box centre, but the reference does not correct for it either).
+   inline-flex shrink-wraps the block to the wordmark, so it sits flush with
+   the paragraph's left edge while the icon still centres over it. Both
+   images are flex:0 0 auto - letting them shrink would squash the artwork
+   (height is already resolved from the specified width). */
+.site-footer__logo{display:inline-flex;flex-direction:column;align-items:center;
+                   gap:5px;margin-bottom:var(--space-4)}
+.site-footer__logo-mark{width:52.5px;height:auto;flex:0 0 auto}
+.site-footer__logo-word{width:147.5px;height:auto;flex:0 0 auto}
 .site-footer__brand p{max-width:38ch}
 .site-footer__legal{display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:space-between;
      align-items:center;margin-top:var(--space-9);padding-top:var(--space-5);
@@ -268,14 +271,11 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 }
 @media(min-width:768px){
   .site-footer__grid{grid-template-columns:1.4fr 1fr 1fr 1fr}
-  .site-footer__logo{gap:5.5px}
-  .site-footer__logo-mark{width:40.7px}
-  .site-footer__logo-word{width:147.5px;transform:translateY(2px)}
 }
 @media(min-width:1024px){
   .site-footer__logo{gap:8px}
-  .site-footer__logo-mark{width:53.4px}
-  .site-footer__logo-word{width:221.3px;transform:translateY(3px)}
+  .site-footer__logo-mark{width:78.8px}
+  .site-footer__logo-word{width:221.3px}
 }
 
 /* ===== Motion (enabled only when the visitor allows it) ===== */
@@ -299,7 +299,13 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 .page-hero{background:var(--color-dark-bg);color:var(--color-dark-text);
      padding-block:calc(var(--header-h) + var(--space-9)) var(--space-9)}
 .page-hero .container{max-width:760px;text-align:center}
-.page-hero h1{font-size:var(--text-3xl);margin-top:var(--space-3)}
+/* The page keyword lives INSIDE the <h1> as its first line so the heading
+   carries it semantically (SEO protocol 4.4). It keeps the .eyebrow classes
+   and takes over the eyebrow's old margin, so the hero renders exactly as it
+   did when the eyebrow was a sibling above the h1 — same position, same
+   size, same spacing. Nothing here changes the visual result. */
+.h1-kw{margin-bottom:var(--space-3)}
+.page-hero h1{font-size:var(--text-3xl);margin-top:0}
 .page-hero p{color:var(--color-dark-text-muted);margin-top:var(--space-4);font-size:var(--text-lg)}
 .page-hero .hero-actions{justify-content:center;margin-top:var(--space-7)}
 
@@ -571,3 +577,37 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
        transition-delay:calc(var(--stagger-i,0) * 110ms)}
   .anim-ready [data-animate].is-visible{--reveal-shift:0px;--reveal-scale:1;opacity:1}
 }
+
+/* ===== Location pages (/markham/, /vaughan/, /thornhill/, /aurora/,
+   /newmarket/) =====
+   These five pages are structurally identical and carry no page-specific CSS
+   of their own, so everything they need lives here per the shared-vs-per-page
+   rule in contracts/file-structure.md. */
+.area-prose{max-width:720px;margin-inline:auto;display:grid;gap:var(--space-5)}
+.area-prose p{color:var(--color-text-muted)}
+.tone-cream .area-prose p{color:var(--color-tone-cream-muted)}
+
+.area-links{max-width:760px;margin-inline:auto;display:grid;gap:var(--space-4);
+            list-style:none;padding:0}
+.area-links li{display:grid;gap:var(--space-1);padding-bottom:var(--space-4);
+               border-bottom:1px solid var(--color-border)}
+.area-links li:last-child{border-bottom:0;padding-bottom:0}
+.area-links a{font-family:var(--font-heading);font-weight:600;
+              font-size:var(--text-lg);color:var(--color-primary)}
+.area-links span{color:var(--color-text-muted);font-size:var(--text-sm)}
+
+.area-honest .sec-head{margin-bottom:0}
+
+/* Closing CTA band. Shared by what-to-expect, services, financing and all five
+   location pages — declared once here rather than repeated in four page
+   stylesheets. */
+.final-cta{background:var(--color-dark-bg);color:var(--color-dark-text);text-align:center}
+.final-cta h2{font-size:var(--text-2xl);margin-bottom:var(--space-6)}
+.final-cta .hero-actions{justify-content:center}
+
+/* Skip link. Off-screen until focused, then pinned below the fixed header so
+   it is not covered by it. First tab stop on every page. */
+.skip-link{position:absolute;left:var(--space-4);top:-100%;z-index:200;
+           padding:var(--space-3) var(--space-5);border-radius:var(--radius-md);
+           background:var(--color-primary);color:var(--color-surface);font-weight:600}
+.skip-link:focus{top:var(--space-4)}

@@ -34,6 +34,11 @@
 }
 
 /* --- closing CTA (same treatment as what-to-expect) --- */
-.final-cta{background:var(--color-dark-bg);color:var(--color-dark-text);text-align:center}
-.final-cta h2{font-size:var(--text-2xl);margin-bottom:var(--space-6)}
-.final-cta .hero-actions{justify-content:center}
+/* .final-cta moved to shared/base.css - used by 4+ pages. */
+
+/* Cross-links from a service to the location pages that service covers. Sits
+   just above the "all services" back-link, quieter than body copy. */
+.svc__areas{margin-top:var(--space-4);font-size:var(--text-sm);
+            color:var(--color-text-muted)}
+.svc__areas a{color:var(--color-primary);font-weight:600}
+.tone-cream .svc__areas{color:var(--color-tone-cream-muted)}
