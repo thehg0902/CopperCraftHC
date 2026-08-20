@@ -267,8 +267,15 @@
 
      Deliberately NOT applied to: the hero stage and its trust band (the scroll
      driver in script.js owns those layers' opacity and transform — a second
-     writer would fight it), the Our Work marquee, and the testimonial carousel
-     slides (both already move, and the marquee's duplicate set is aria-hidden).
+     writer would fight it), the Our Work marquee, the testimonial carousel
+     slides (both already move, and the marquee's duplicate set is aria-hidden),
+     and the HOME page service cards. Those last ones ride a horizontal rail
+     below 640px, where every card shares one offsetTop: the row bucket below
+     becomes all ten, so the last card earns a 990ms delay, and cards scrolled
+     off to the right are not intersecting at all until swiped to — so they
+     would fade in late, one at a time, under the reader's thumb. The operator
+     asked for them simply present. /services/ never carried data-animate on
+     its cards.
      ========================================================== */
   (function revealOnScroll() {
     var items = document.querySelectorAll('[data-animate]');
