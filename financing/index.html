@@ -198,11 +198,15 @@
       </div>
       <button class="btn btn-primary" type="submit">Send My Request</button>
       <p class="form-note">This form collects your name, phone, email and what you are interested in — nothing more. The credit application itself happens on the lender's secure portal.</p>
-      <!-- BUILD NOTE (hidden from visitors 2026-08-14 — the homepage problem-selector now
-           sends replacement-lane traffic here, so internal notes must not render).
-           Both items remain OPEN in state/QUESTIONS.md; restore or delete once resolved:
-           <p class="form-note form-note--warn">Placeholder form — no submission endpoint is wired yet (client.md Stack: <code>forms: placeholder</code>). The “Start Secure Application” link to <code>[PLACEHOLDER: Financeit application URL]</code> is also pending.</p>
-      -->
+      <!-- BUILD NOTE (hidden from visitors; internal notes must not render here — the
+           homepage problem-selector sends replacement-lane traffic to this page).
+           RESOLVED 2026-08-20: there is no Financeit application URL to link. The
+           operator confirmed no online application exists yet — the CTA is to contact
+           CopperCraft, who guide the customer through it. Every CTA on this page
+           already points at tel: or ../contact/, so no markup change was needed.
+           STILL OPEN in state/QUESTIONS.md: this form has no submission endpoint
+           (client.md Stack: forms: placeholder). Its action="../thank-you/" cannot
+           POST on static hosting, so a submission is currently lost. -->
     </form>
 
     <p class="sec-foot">Prefer to speak directly? <a href="tel:+16472506072">Call (647)&nbsp;250-6072</a></p>
