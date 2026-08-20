@@ -178,7 +178,8 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 
 /* ===== Footer ===== */
-.site-footer{background:var(--color-dark-bg);color:var(--color-dark-text-muted);
+.site-footer{background:var(--gradient-copper) top/100% 4px no-repeat,
+     var(--color-dark-bg);color:var(--color-dark-text-muted);
              padding-block:var(--space-9) var(--space-6);font-size:var(--text-sm)}
 .site-footer__grid{display:grid;grid-template-columns:1fr;gap:var(--space-8)}
 .site-footer h2{font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase;
@@ -328,12 +329,22 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
    Repair") and left no room for the CTA line. 10 divides evenly by 1, 2 and 5,
    so no breakpoint strands a widow (rules/css.md). */
 .service-grid{display:grid;grid-template-columns:1fr;gap:var(--space-4)}
-.service-card{background:var(--color-surface);border:1px solid var(--color-border);
+/* Metal edge. A gradient border needs the double-background technique, NOT
+   border-image: border-image ignores border-radius and would square off the
+   16px corners. padding-box paints the surface, border-box paints the metal
+   underneath it. Consequence: the surface colour is baked into
+   background-image, so every tone band must restate it - see the tone block. */
+.service-card{background-color:var(--color-surface);
+     background-image:linear-gradient(var(--color-surface),var(--color-surface)),
+       var(--gradient-copper);
+     background-origin:border-box;background-clip:padding-box,border-box;
+     border:1px solid transparent;
      border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
 /* One icon set serves both card types and both backgrounds: stroke is
    currentColor, so it inherits copper on light cards and can be re-tinted
    anywhere without a second asset. Matches the trust band's stat icons. */
-.card-icon{width:32px;height:32px;color:var(--color-primary);
+.card-icon{width:32px;height:32px;color:var(--metal-copper-core);
+     filter:drop-shadow(0 1px 0 var(--metal-copper-glow));
      margin-bottom:var(--space-3);flex:0 0 auto}
 /* break-word is a guarantee, not a nicety: now that grid tracks are
    minmax(0,1fr) they can shrink below their content's min-content width, so a
@@ -424,7 +435,8 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
    (565x862 and 765x1020) normalised to a single 3:4 crop.
    Runs on the SAME .track carousel component as the testimonials rather than
    a second implementation — one player drives both (see script.js). */
-.work{background:var(--color-dark-bg);color:var(--color-dark-text)}
+.work{background:var(--gradient-copper) top/100% 4px no-repeat,
+     var(--color-dark-bg);color:var(--color-dark-text)}
 .work .sec-head h2{color:var(--color-dark-text)}
 .work .sec-head p{color:var(--color-dark-text-muted)}
 .work .sec-foot{color:var(--color-dark-text-muted)}
@@ -452,7 +464,11 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 
 /* ===== FAQ ===== */
 .faq-list{max-width:760px;margin-inline:auto;display:grid;gap:var(--space-3)}
-.faq-list details{background:var(--color-surface);border:1px solid var(--color-border);
+.faq-list details{background-color:var(--color-surface);
+     background-image:linear-gradient(var(--color-surface),var(--color-surface)),
+       var(--gradient-copper);
+     background-origin:border-box;background-clip:padding-box,border-box;
+     border:1px solid transparent;
      border-radius:var(--radius-lg);padding:var(--space-5) var(--space-6)}
 .faq-list summary{font-family:var(--font-heading);font-weight:600;font-size:var(--text-base);
      cursor:pointer;list-style:none;display:flex;justify-content:space-between;
@@ -539,10 +555,17 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 
 .tone-cream .sec-head p,.tone-cream .sec-foot{color:var(--color-tone-cream-muted)}
 .tone-cream .legal p,.tone-cream .legal address{color:var(--color-tone-cream-muted)}
-.tone-cream .problem-card,.tone-cream .service-card,.tone-cream .review,
-.tone-cream .faq-list details,.tone-cream .quote,.tone-cream .legal-note,
-.tone-cream .hours-card,.tone-cream .chip,.tone-cream .car-nav button,
+.tone-cream .problem-card,.tone-cream .review,
+.tone-cream .quote,.tone-cream .legal-note,
+.tone-cream .hours-card,.tone-cream .car-nav button,
 .tone-cream .map{background:var(--color-tone-cream-surface);border-color:var(--color-tone-cream-border)}
+/* Split out of the group above: these three carry the metal edge, so their
+   surface must be restated INSIDE background-image. A `background:` shorthand
+   here would reset background-image and erase the gradient border. */
+.tone-cream .service-card,.tone-cream .faq-list details,.tone-cream .chip{
+     background-color:var(--color-tone-cream-surface);
+     background-image:linear-gradient(var(--color-tone-cream-surface),
+       var(--color-tone-cream-surface)),var(--gradient-copper)}
 .tone-cream .problem-card p,.tone-cream .service-card p,.tone-cream .review figcaption,
 .tone-cream .faq-body{color:var(--color-tone-cream-muted)}
 
@@ -552,11 +575,17 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 .tone-charcoal .eyebrow{color:var(--color-primary-light)}
 .tone-charcoal .link-cta{color:var(--color-primary-light)}
 .tone-charcoal .link-cta:hover{color:var(--color-tone-charcoal-text)}
-.tone-charcoal .problem-card,.tone-charcoal .service-card,.tone-charcoal .review,
-.tone-charcoal .faq-list details,.tone-charcoal .quote,.tone-charcoal .legal-note,
-.tone-charcoal .hours-card,.tone-charcoal .chip,.tone-charcoal .car-nav button,
+.tone-charcoal .problem-card,.tone-charcoal .review,
+.tone-charcoal .quote,.tone-charcoal .legal-note,
+.tone-charcoal .hours-card,.tone-charcoal .car-nav button,
 .tone-charcoal .map{background:var(--color-tone-charcoal-surface);
      border-color:var(--color-tone-charcoal-border);color:var(--color-tone-charcoal-text)}
+/* Same split as .tone-cream above, for the same reason. */
+.tone-charcoal .service-card,.tone-charcoal .faq-list details,.tone-charcoal .chip{
+     background-color:var(--color-tone-charcoal-surface);
+     background-image:linear-gradient(var(--color-tone-charcoal-surface),
+       var(--color-tone-charcoal-surface)),var(--gradient-copper);
+     color:var(--color-tone-charcoal-text)}
 .tone-charcoal .problem-card p,.tone-charcoal .service-card p,.tone-charcoal .review figcaption,
 .tone-charcoal .faq-body{color:var(--color-tone-charcoal-muted)}
 .tone-charcoal .faq-list summary::after{color:var(--color-primary-light)}
@@ -612,8 +641,11 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 .lede{max-width:58ch;margin:0 auto var(--space-8);text-align:center;
       font-size:var(--text-lg);line-height:var(--leading-normal)}
 .keypoints{max-width:760px;margin-inline:auto;display:grid;gap:var(--space-6)}
+/* The 3px rule is the same geometry as the tone bands' 4px copper hairline,
+   so it takes the same gradient. border-image is safe here - no radius. */
 .keypoints > li{display:grid;gap:var(--space-2);padding-left:var(--space-5);
-                border-left:3px solid var(--color-primary)}
+                border-left:3px solid transparent;
+                border-image:var(--gradient-copper) 1}
 .keypoints__k{font-size:var(--text-lg);line-height:var(--leading-tight)}
 .keypoints > li > p{color:var(--color-text-muted)}
 
@@ -624,14 +656,15 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
               font-size:var(--text-sm);color:var(--color-text-muted)}
 .subpoints li::before{content:"";position:absolute;left:0;top:.55em;
      width:6px;height:6px;border-radius:var(--radius-full);
-     background:var(--color-primary)}
+     background:var(--bead-copper)}
 
 .tone-cream .keypoints > li > p,
 .tone-cream .subpoints li{color:var(--color-tone-cream-muted)}
 .tone-charcoal .keypoints > li{border-left-color:var(--color-primary-light)}
 .tone-charcoal .keypoints > li > p,
 .tone-charcoal .subpoints li{color:var(--color-dark-text-muted)}
-.tone-charcoal .subpoints li::before{background:var(--color-primary-light)}
+/* no bead override on charcoal: --bead-copper carries its own specular
+   highlight, so it stays legible on the dark surface. */
 
 /* ===== Location pages (/markham/, /vaughan/, /thornhill/, /aurora/,
    /newmarket/) =====
@@ -656,7 +689,11 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 /* Closing CTA band. Shared by what-to-expect, services, financing and all five
    location pages — declared once here rather than repeated in four page
    stylesheets. */
-.final-cta{background:var(--color-dark-bg);color:var(--color-dark-text);text-align:center}
+/* 4px copper hairline as a background LAYER, matching .tone-cream and
+   .tone-charcoal. These dark bands were the only sections without one. Layer,
+   not border, so it adds zero box height (design-tokens.md tone-band rule). */
+.final-cta{background:var(--gradient-copper) top/100% 4px no-repeat,
+     var(--color-dark-bg);color:var(--color-dark-text);text-align:center}
 .final-cta h2{font-size:var(--text-2xl);margin-bottom:var(--space-6)}
 .final-cta .hero-actions{justify-content:center}
 
@@ -673,7 +710,11 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
    plain text. The anchor fills the pill so the whole chip is the hit target. */
 .chips{display:flex;flex-wrap:wrap;gap:var(--space-3);justify-content:center;
        margin-top:var(--space-6)}
-.chip{background:var(--color-surface);border:1px solid var(--color-border);
+.chip{background-color:var(--color-surface);
+      background-image:linear-gradient(var(--color-surface),var(--color-surface)),
+        var(--gradient-copper);
+      background-origin:border-box;background-clip:padding-box,border-box;
+      border:1px solid transparent;
       border-radius:var(--radius-full);padding:var(--space-2) var(--space-5);
       font-size:var(--text-sm);font-weight:500;box-shadow:var(--shadow-sm)}
 .chips--inline{justify-content:flex-start;margin-top:var(--space-4)}
@@ -699,7 +740,8 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 .svc__tips li{position:relative;padding-left:var(--space-6);color:var(--color-text-muted)}
 .tone-cream .svc__tips li{color:var(--color-tone-cream-muted)}
 .svc__tips li::before{content:"";position:absolute;left:2px;top:.5em;width:11px;height:6px;
-     border-left:2px solid var(--color-primary);border-bottom:2px solid var(--color-primary);
+     border-left:2px solid var(--metal-copper-glow);
+     border-bottom:2px solid var(--metal-copper-glow);
      transform:rotate(-45deg)}
 .svc__back{margin-top:var(--space-6);font-size:var(--text-sm)}
 .svc__back a:not(.btn){color:var(--color-primary);font-weight:600;text-decoration:none}
@@ -724,5 +766,5 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
                 color:var(--color-text-muted)}
 .svc__points li::before{content:"";position:absolute;left:4px;top:.6em;
      width:6px;height:6px;border-radius:var(--radius-full);
-     background:var(--color-primary)}
+     background:var(--bead-copper)}
 .tone-cream .svc__points li{color:var(--color-tone-cream-muted)}
