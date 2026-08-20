@@ -323,10 +323,11 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
   .hero-actions .btn{width:100%}
 }
 /* ===== Services ===== */
-/* 2-across even at mobile: 10 cards stacked one-per-row is a wall of text
-   on a phone. 10 divides evenly by 2 and 5, so no breakpoint strands a
-   widow (rules/css.md). */
-.service-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-3)}
+/* One card per row on a phone. Two-across at 360px gave each card ~160px of
+   content width, which hyphenated the titles mid-word ("Air-Condition/ing
+   Repair") and left no room for the CTA line. 10 divides evenly by 1, 2 and 5,
+   so no breakpoint strands a widow (rules/css.md). */
+.service-grid{display:grid;grid-template-columns:1fr;gap:var(--space-4)}
 .service-card{background:var(--color-surface);border:1px solid var(--color-border);
      border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
 /* One icon set serves both card types and both backgrounds: stroke is
@@ -343,6 +344,29 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 .service-card h3{font-size:var(--text-lg);margin-bottom:var(--space-2);
      overflow-wrap:break-word;hyphens:auto}
 .service-card p{color:var(--color-text-muted);font-size:var(--text-sm)}
+
+/* The card's whole surface is already one link (the stretched <a> in the h3,
+   see services/style.css). This CTA is therefore a SPAN, not a second anchor:
+   two anchors to the same destination in one card would split the anchor text
+   and make a screen reader announce the destination twice. aria-hidden keeps
+   it out of the a11y tree, which already has the h3 link. */
+.card-cta{display:inline-block;margin-top:var(--space-4);
+     font-family:var(--font-heading);font-weight:600;font-size:var(--text-sm);
+     color:var(--color-primary)}
+.card-cta::after{content:" →";display:inline-block;
+     transition:transform var(--duration-fast) var(--ease-standard)}
+.service-card:hover .card-cta::after{transform:translateX(4px)}
+@media(prefers-reduced-motion:reduce){.card-cta::after{transition:none}}
+
+/* ===== Breadcrumbs =====
+   Only present on the depth-2 service pages - the site is 2+ levels deep there
+   and nowhere else (file-structure.md rule 8). */
+.breadcrumb{font-size:var(--text-sm);color:var(--color-dark-text-muted);
+     margin-bottom:var(--space-6)}
+.breadcrumb ol{display:flex;flex-wrap:wrap;gap:var(--space-2);list-style:none}
+.breadcrumb li+li::before{content:"/";margin-right:var(--space-2);opacity:.5}
+.breadcrumb a{color:var(--color-primary-light);font-weight:600}
+.breadcrumb [aria-current]{opacity:.75}
 
 /* ===== Testimonials carousel ===== */
 .rating{margin-top:var(--space-4);font-size:var(--text-lg)}
@@ -464,7 +488,7 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 
 
 @media(min-width:640px){
-  .service-grid{gap:var(--space-5)}
+  .service-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5)}
   .work-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-5)}
   .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
 }
@@ -578,6 +602,37 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
   .anim-ready [data-animate].is-visible{--reveal-shift:0px;--reveal-scale:1;opacity:1}
 }
 
+/* ===== Key points =====
+   Replaces long prose blocks. Nobody reads a wall of text: each point leads
+   with a claim that stands on its own when scanned, and the supporting line
+   is deliberately subordinate so skipping it loses nothing essential. The
+   copper rule gives the eye a vertical edge to run down.
+   Every key line is a real <h3>, so the scannable structure and the document
+   outline are the same thing rather than two competing ones. */
+.lede{max-width:58ch;margin:0 auto var(--space-8);text-align:center;
+      font-size:var(--text-lg);line-height:var(--leading-normal)}
+.keypoints{max-width:760px;margin-inline:auto;display:grid;gap:var(--space-6)}
+.keypoints > li{display:grid;gap:var(--space-2);padding-left:var(--space-5);
+                border-left:3px solid var(--color-primary)}
+.keypoints__k{font-size:var(--text-lg);line-height:var(--leading-tight)}
+.keypoints > li > p{color:var(--color-text-muted)}
+
+/* Sub-points: enumerable detail under a key point. Tight, small, dotted -
+   scannable as a set rather than read as sentences. */
+.subpoints{display:grid;gap:var(--space-2);margin-top:var(--space-1)}
+.subpoints li{position:relative;padding-left:var(--space-4);
+              font-size:var(--text-sm);color:var(--color-text-muted)}
+.subpoints li::before{content:"";position:absolute;left:0;top:.55em;
+     width:6px;height:6px;border-radius:var(--radius-full);
+     background:var(--color-primary)}
+
+.tone-cream .keypoints > li > p,
+.tone-cream .subpoints li{color:var(--color-tone-cream-muted)}
+.tone-charcoal .keypoints > li{border-left-color:var(--color-primary-light)}
+.tone-charcoal .keypoints > li > p,
+.tone-charcoal .subpoints li{color:var(--color-dark-text-muted)}
+.tone-charcoal .subpoints li::before{background:var(--color-primary-light)}
+
 /* ===== Location pages (/markham/, /vaughan/, /thornhill/, /aurora/,
    /newmarket/) =====
    These five pages are structurally identical and carry no page-specific CSS
@@ -611,3 +666,18 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
            padding:var(--space-3) var(--space-5);border-radius:var(--radius-md);
            background:var(--color-primary);color:var(--color-surface);font-weight:600}
 .skip-link:focus{top:var(--space-4)}
+
+/* ===== Area chips =====
+   Home service-area band and the contact page's "where we work" point. Five of
+   the six link to their location page; Richmond Hill is the base and stays
+   plain text. The anchor fills the pill so the whole chip is the hit target. */
+.chips{display:flex;flex-wrap:wrap;gap:var(--space-3);justify-content:center;
+       margin-top:var(--space-6)}
+.chip{background:var(--color-surface);border:1px solid var(--color-border);
+      border-radius:var(--radius-full);padding:var(--space-2) var(--space-5);
+      font-size:var(--text-sm);font-weight:500;box-shadow:var(--shadow-sm)}
+.chips--inline{justify-content:flex-start;margin-top:var(--space-4)}
+.chip a{display:block;margin:calc(var(--space-3) * -1) calc(var(--space-4) * -1);
+        padding:var(--space-3) var(--space-4);color:var(--color-primary);
+        font-weight:600}
+.chip a:hover{color:var(--color-primary-dark)}

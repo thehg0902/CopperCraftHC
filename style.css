@@ -397,11 +397,7 @@
 }
 
 /* ===== Service-area chips ===== */
-.chips{display:flex;flex-wrap:wrap;gap:var(--space-3);justify-content:center;
-       margin-top:var(--space-6)}
-.chip{background:var(--color-surface);border:1px solid var(--color-border);
-      border-radius:var(--radius-full);padding:var(--space-2) var(--space-5);
-      font-size:var(--text-sm);font-weight:500;box-shadow:var(--shadow-sm)}
+/* .chips/.chip moved to shared/base.css - used by 2+ pages. */
 
 /* ===== Hero stage — reduced motion =====
    The scroll driver never runs (see script.js). Collapse the 340svh runway
@@ -427,11 +423,3 @@
   .problem-card,.faq-list details{transition:box-shadow var(--duration-base),
        transform var(--duration-base)}
 }
-
-/* Five of the six area chips link to their location page; Richmond Hill is
-   the base and stays plain text. The anchor fills the chip so the whole pill
-   is the hit target, not just the word. */
-.chip a{display:block;margin:calc(var(--space-3) * -1) calc(var(--space-4) * -1);
-        padding:var(--space-3) var(--space-4);color:var(--color-primary);
-        font-weight:600}
-.chip a:hover{color:var(--color-primary-dark)}
