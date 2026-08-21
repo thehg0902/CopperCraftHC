@@ -326,13 +326,15 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 /* ===== Services ===== */
 /* One card per row on a phone. Two-across at 360px gave each card ~160px of
    content width, which hyphenated the titles mid-word ("Air-Condition/ing
-   Repair") and left no room for the CTA line. 10 divides evenly by 1, 2 and 5,
-   so no breakpoint strands a widow (rules/css.md). */
+   Repair") and left no room for the CTA line. TWELVE cards divide evenly by
+   1, 2 and 6, so no breakpoint strands a widow (rules/css.md). Was 1/2/5 while
+   there were ten; the desktop count moved to 6 when ERV and HRV were added,
+   because 12 / 5 leaves a ragged final row of two. */
 .service-grid{display:grid;grid-template-columns:1fr;gap:var(--space-4)}
 
 /* ===== Service rail (phone) =====
    HOME PAGE ONLY, via the --rail modifier: /services/ is the read-everything
-   destination and keeps its grid at every width. Ten cards stacked one per row
+   destination and keeps its grid at every width. Twelve cards stacked one per row
    is a wall to scroll past; a horizontal rail lets the visitor swipe sideways
    for more or keep scrolling down to the next section.
 
@@ -546,7 +548,13 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
   .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
 }
 @media(min-width:1024px){
-  .service-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .service-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+  /* Six columns leaves ~172px per card at 1280 and ~108px of text column once
+     the card padding is taken out. "Maintenance" at --text-lg measures 126px
+     (the figure recorded in style.css for the phone layout), so it would
+     hyphenate mid-word again at --text-lg. Stepping to --text-base drops the
+     widest word to ~98px, which fits. Same fix already proven on the phone. */
+  .service-grid .service-card h3{font-size:var(--text-base)}
 }
 
 /* ===== Legal pages (privacy policy + terms of use) ===== */

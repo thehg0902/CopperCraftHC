@@ -45,6 +45,10 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://coppercraft.ca/services/erv/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://coppercraft.ca/services/furnace-installation/</loc>
     <priority>0.8</priority>
   </url>
@@ -54,6 +58,10 @@
   </url>
   <url>
     <loc>https://coppercraft.ca/services/heat-pumps/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://coppercraft.ca/services/hrv/</loc>
     <priority>0.8</priority>
   </url>
   <url>
