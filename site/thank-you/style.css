@@ -5,3 +5,8 @@
      padding:var(--space-6);box-shadow:var(--shadow-sm)}
 .hours-card h3{font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase;
      color:var(--color-text-muted);margin-bottom:var(--space-3)}
+
+/* Instagram CTA */
+.social-cta{text-align:center}
+.social__link{display:inline-flex;align-items:center;gap:var(--space-3)}
+.social__icon{width:20px;height:20px;flex:0 0 auto}
