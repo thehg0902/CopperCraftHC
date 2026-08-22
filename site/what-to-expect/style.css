@@ -12,6 +12,22 @@
 
 .reassure .sec-head{margin-bottom:0}
 
-.final-cta{background:var(--color-dark-bg);color:var(--color-dark-text);text-align:center}
-.final-cta h2{font-size:var(--text-2xl);margin-bottom:var(--space-6)}
-.final-cta .hero-actions{justify-content:center}
+/* .final-cta moved to shared/base.css - used by 4+ pages. */
+
+/* ===== Owner =====
+   Portrait beside text. The one photograph of a person on the site keeps its
+   native portrait shape - squaring a person to match the service grid would
+   crop the subject for no reason. Mirrors .svc__inner's proportions so the
+   section sits in the same rhythm as the service pages. */
+.owner__inner{display:grid;gap:var(--space-6)}
+.owner__media{width:100%;max-width:380px;margin-inline:auto}
+.owner__media img{width:100%;height:auto;border-radius:var(--radius-lg);
+     box-shadow:var(--shadow-md)}
+.owner__body h2{font-size:var(--text-2xl);margin-block:var(--space-2) var(--space-4)}
+.owner__body>p{color:var(--color-text-muted);margin-bottom:var(--space-5)}
+
+@media (min-width:1024px){
+  .owner__inner{grid-template-columns:.75fr 1.25fr;gap:var(--space-9);
+                align-items:center}
+  .owner__media{max-width:none;margin-inline:0}
+}

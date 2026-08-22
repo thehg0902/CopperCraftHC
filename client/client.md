@@ -193,10 +193,26 @@ installation Richmond Hill", "HVAC maintenance Richmond Hill".
 - Primary action:
 {claude-proposed: call (with a secondary "book a free estimate" path) — matches the
  trigger-driven, panic-lane audience.}
-- Target search terms:
-{claude-proposed: furnace repair Richmond Hill; AC repair Richmond Hill; no heat
- emergency; furnace replacement Ontario; heat pump installation Richmond Hill;
- HVAC maintenance York Region.}
+- Target search terms: HVAC service Richmond Hill / heating and cooling services Richmond Hill / heater repair Richmond Hill / furnace installation Richmond Hill / air conditioning service Richmond Hill / air conditioning installation Richmond Hill / heat pump installation Richmond Hill / ductless air conditioning Richmond Hill / water heater installation Richmond Hill / smart thermostat installation Richmond Hill / HVAC maintenance Richmond Hill / commercial HVAC Richmond Hill / HVAC service call Richmond Hill / HVAC installation photos Richmond Hill / HVAC company reviews Richmond Hill / HVAC financing Richmond Hill / book HVAC service Richmond Hill / HVAC service Markham / HVAC service Vaughan / HVAC service Thornhill / HVAC service Aurora / HVAC service Newmarket / HRV installation Richmond Hill / ERV installation Richmond Hill
+  {operator-CONFIRMED 2026-08-20 (in-chat), REVISED same day when /services/ was
+   split into a hub + 10 child pages. The operator's three head terms were
+   "air conditioning service near me", "HVAC service near me" and "heater repair
+   near me"; "near me" is resolved by Google from searcher location + GBP
+   proximity and is never an on-page string, so each was area-substituted per the
+   operator's own instruction. The two service head terms MOVED off the hub and
+   the process page onto the pages that convert:
+     air conditioning service Richmond Hill -> /services/ac-repair/
+     heater repair Richmond Hill            -> /services/furnace-repair/
+   One phrase per page, in page order:
+   / , /services/ , /services/furnace-repair/ , /services/furnace-installation/ ,
+   /services/ac-repair/ , /services/ac-installation/ , /services/heat-pumps/ ,
+   /services/ductless-systems/ , /services/water-heaters/ ,
+   /services/thermostats-controls/ , /services/preventative-maintenance/ ,
+   /services/light-commercial/ , /what-to-expect/ , /our-work/ , /reviews/ ,
+   /financing/ , /contact/ , /markham/ , /vaughan/ , /thornhill/ , /aurora/ ,
+   /newmarket/ , /services/hrv/ , /services/erv/ .
+   24 indexable + 3 noindex + 404. ERV and HRV added 2026-08-20 on
+   operator instruction; they are now confirmed services.}
 - Languages:
 {claude-proposed: en (Richmond Hill has a large Persian/Farsi + Chinese community —
  consider en+fa or en+zh if the operator serves them; confirm before adding).}
@@ -204,11 +220,16 @@ installation Richmond Hill", "HVAC maintenance Richmond Hill".
   {SEAMLESS: nothing sits between hero → scroll-story-1 → scroll-story-2 — one
    continuous dark cinematic journey, no strips/bands. Trust bar moved to AFTER the
    sequence.}
-- Domain:
+- Domain: https://coppercraft.ca
+  {operator-CONFIRMED 2026-08-20 (in-chat). Apex, no www. .htaccess redirects
+   www -> apex, so canonicals, og:url and sitemap <loc> all use the apex form.}
 ### Integrations
 - Google Maps:
 - Google Business Profile:
-- Socials:
+- Socials: https://www.instagram.com/coppercraft_hvac/
+  {operator-CONFIRMED 2026-08-20 (in-chat). Instagram only; no other accounts
+   supplied. Drives schema sameAs on all 26 pages and the Follow block on
+   /contact/.}
 - Existing website:
 - Booking link:
 - Formspree ID:
@@ -220,6 +241,10 @@ installation Richmond Hill", "HVAC maintenance Richmond Hill".
   {hero loop + both scroll-scrub source videos are operator-provided footage, not
    AI-generated — no paid-media generation gate for these slots.}
 - People in imagery: no (hero + scrub videos are product/atmosphere/equipment only,
+  {OVERRIDDEN 2026-08-21 (operator, in-chat) for REAL job photographs only. Three of
+   the operator's own photos contain people: two technicians at work (furnace repair,
+   rooftop maintenance) and Joe, the owner, on /what-to-expect/. The rule still stands
+   for GENERATED imagery, which remains people-free.}
   no people)
 ### Visual constraints
 - Brand colors:

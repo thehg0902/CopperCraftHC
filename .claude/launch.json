@@ -14,6 +14,12 @@
       "port": 8090
     },
     {
+      "name": "site-seo",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["-m", "http.server", "8095", "--directory", "site"],
+      "port": 8095
+    },
+    {
       "name": "os-root",
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8081"],

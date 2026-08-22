@@ -181,3 +181,50 @@ Notes:
   all 10 pages now links to the per-service anchors (services/#<slug> from
   the homepage, ../services/#<slug> from subpages) — verified cross-page
   landing clears the fixed header (92px scroll-margin).
+
+### 2026-08-20 — P5 SEO LAYER (technical + local)
+Built against SEO_BUILD_PROTOCOL.md. Site is now **16 HTML files / 15 pages +
+404**: 12 indexable, 3 noindex, plus 404.html.
+
+Done:
+- `scripts/seo_check.py` — new, ports protocol §9. Baseline was 23 fail / 25
+  warn; now **1 fail / 0 warn**.
+- Canonical + OG/Twitter + JSON-LD on every page (23 LD blocks, all parse,
+  NAP character-matched to visible text on all 16).
+- Titles/descriptions rewritten with the §4.2 overflow ladder; all unique,
+  none over 60/155.
+- H1s rewritten on all pages incl. home — keyword folded into the h1 in the
+  old eyebrow's slot, so the render is unchanged (see DECISIONS.md).
+- 5 location pages built (541–615 unique words each).
+- `sitemap.xml` (12 URLs), `robots.txt`, `404.html`, `.htaccess` (apex
+  canonicalisation, HTTPS force, security headers, cache policy).
+- `og-default.webp` 1200×630 derived from the hero poster.
+- Thin pages fixed: /our-work/ 60→400+ words, /what-to-expect/ 192→700+,
+  /contact/ 170→500+.
+- `data-city` display variable in shared/main.js (whitelist only, static
+  default, no IP lookup, no effect on indexed text).
+- Skip-to-content link on all 16 pages.
+- `.final-cta` deduplicated into shared/base.css.
+
+Verified in-browser at 360 / desktop: hero unchanged, location pages render in
+the site's design language, `?loc=` swaps the display slot while canonical and
+title stay fixed, whitelist rejects injection, no page-level horizontal scroll.
+Fixed one real regression found in QA: /our-work/ captions overflowed the photo
+overlay (now flow below the image), and the pre-existing dark-on-dark overlay
+title contrast was corrected while in that component.
+
+STILL OPEN before /qa:
+- `[PLACEHOLDER: Financeit application URL]` on /financing/ — the ONE remaining
+  seo_check FAIL. Pre-existing; not papered over.
+- 5 new items in QUESTIONS.md (GBP address string, socials for `sameAs`, geo
+  coordinates, Review-schema approval, real /our-work/ job details).
+- Fonts still missing (`assets/fonts/*.woff2` 404 on every page) — pre-existing.
+- Form endpoint, legal-page drafts, GBP review URL — pre-existing.
+
+NOTE on the qa-review check script: it reports 439 FAIL, but **272 of that class
+already fail on pristine HEAD** — it mis-resolves `?v=` cache-buster query
+strings and `#anchor` fragments as broken local refs. An independent link
+resolver over all 16 pages returns **0 broken links and 0 dead anchors**. No new
+failure CATEGORY was introduced; the 4 `#fff` and 1 placeholder counts are
+unchanged from baseline. The script needs fixing separately — it cannot
+currently gate anything.

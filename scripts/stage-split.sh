@@ -27,7 +27,19 @@ OS_PATHS='^(CLAUDE\.md|\.claude/|contracts/|state/|scripts/|client/|docs/)'
 # CACHED stylesheet and the layout breaks — invisible to anyone testing in a
 # fresh browser. stamp-assets.py rewrites ?v=<content hash>; it is idempotent,
 # so unchanged files keep their URL and stay cached.
-python3 "$(dirname "$0")/stamp-assets.py" >/dev/null
+# `python3` is not a safe assumption: Windows ships a Store alias stub of that
+# name that prints an install prompt and exits non-zero, which would kill this
+# script under `set -e` before anything is staged. Probe each candidate by
+# actually running it and take the first that works.
+# `py` (bare) is deliberately NOT a candidate: the launcher honours the
+# stamp script's `#!/usr/bin/env python3` shebang and dispatches straight back
+# to the stub. `py -3` pins the version and bypasses it.
+PYBIN=""
+for _c in "python3" "python" "py -3"; do
+  if $_c -c "import sys" >/dev/null 2>&1; then PYBIN="$_c"; break; fi
+done
+[ -n "$PYBIN" ] || { echo "ABORT: no working Python found (tried python3, python, py -3)." >&2; exit 1; }
+$PYBIN "$(dirname "$0")/stamp-assets.py" >/dev/null
 
 # --- build the site tree ----------------------------------------------------
 TMP_INDEX=$(mktemp)

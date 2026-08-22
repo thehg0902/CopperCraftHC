@@ -1,4 +1,4 @@
-# Contract: File Structure  (v2.1.0)
+# Contract: File Structure  (v2.2.0)
 
 The website is a STANDALONE deliverable: everything the browser needs
 lives under `site/`. Client delivery = zip the CONTENTS of site/ (see
@@ -23,6 +23,10 @@ site/
     index.html      style.css        script.js      <- about page only
   <each additional page>/
     index.html      style.css        script.js
+  services/                                        <- optional HUB page
+    index.html      style.css        script.js
+    <child-page>/
+      index.html    style.css        script.js     <- see rule 8
 
 Shared-vs-per-page rule: per-page style.css/script.js contain ONLY that
 page's specific styles/behavior. Anything used by 2+ pages goes to
@@ -37,6 +41,7 @@ Relative-path table:
 |-----------------|----------------------|----------------------|-------------------------------|
 | site/ (home)    | shared/tokens.css    | assets/images/x.webp | about/  menu/                 |
 | site/<page>/    | ../shared/tokens.css | ../assets/images/x.webp | ../ (home), ../menu/ (sibling) |
+| site/<hub>/<child>/ | ../../shared/tokens.css | ../../assets/images/x.webp | ../../ (home), ../ (hub), ../<sib>/ (sibling child) |
 
 Rules:
 1. Kebab-case file and folder names. No spaces, no uppercase.
@@ -53,6 +58,15 @@ Rules:
    allowed external references besides analytics.
 7. Page folders are created per client build (from the Phase 1 page map);
    the template ships only site/ root files, shared/, and assets/.
+8. Depth is ONE level by default. A second level is permitted only for
+   HUB-AND-CHILD groups - a parent page whose job is navigating to its
+   children (e.g. services/ -> services/furnace-repair/). Never deeper
+   than two. A child page uses ../../ for shared/ and assets/ (see the
+   relative-path table) and MUST carry breadcrumbs, since the site is
+   then 2+ levels deep. Do not nest merely to express topic grouping:
+   nest only when the parent is a real, indexable navigation hub.
+   (Added v2.2.0 by operator instruction - see state/DECISIONS.md
+   2026-08-20 "SERVICE PAGES".)
 
 ## Framework exception (v1.4.0 — vanilla preferred, requests honored)
 

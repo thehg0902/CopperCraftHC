@@ -213,3 +213,392 @@ Shifted from flat orange to a PREMIUM METALLIC COPPER — deeper, browner/rosier
   was a broken signal, not evidence. | claude | operator bug report
 
 2026-08-13 | Services page: photo-real GENERATED imagery (scoped override of "Photos policy: real-only") | The services page is being rebuilt as an informational page — one section per service (10 total) with homeowner tips and one image each, all Higgsfield-generated. Offered the operator three styles with copper line-art recommended (the financing-icon precedent, safe under the real-photos-only policy); the operator explicitly chose PHOTO-REAL generated scenes (in-chat 2026-08-13). Scope of the override: the 10 services-page section illustrations ONLY. The gallery/Our Work remains exclusively real job photos ("Real jobs, photographed on site" stays literally true — these educational scene-setters never enter the gallery or claim to be CopperCraft's work), and the "no people in imagery" rule still applies to the generated set. All 10 go through the MEDIA_LOG per-row approval gate before generation. | human (choice) + claude (scoping) | operator decision in-chat
+
+## 2026-08-20 | SEO LAYER BUILT — 15 pages, 5 new location pages
+Operator-approved in-session. Decisions:
+- **Domain:** `https://coppercraft.ca`, apex (no www). Recorded in client.md.
+  Drives every canonical, og:url, sitemap `<loc>` and the robots Sitemap line.
+- **Keyword state:** State A. Operator supplied three head terms with "near me";
+  "near me" is resolved by Google from searcher location + GBP proximity and is
+  never an on-page string, so per the operator's own instruction each was
+  area-substituted to Richmond Hill. Nine further State B terms generated from
+  the confirmed Services x Service area and approved in the same session.
+  Full list is now owner-typed in client.md.
+- **SUPERSEDES "HERO IS FROZEN — text only" (2026-07-24).** Operator explicitly
+  approved rewriting all H1s including home. Implementation keeps the visual
+  result identical: each page's `<span class="eyebrow">` above the h1 became the
+  h1's FIRST CHILD carrying the exact keyword, keeping the eyebrow classes and
+  absorbing the h1's old top margin. Same three visual elements, same order,
+  same size. The two signed-off home headline clauses are untouched.
+- **Page count 10 -> 15.** Added /markham/, /vaughan/, /thornhill/, /aurora/,
+  /newmarket/. 541-615 unique words each, real geographic detail per page (roads,
+  neighbourhoods, housing stock). No Richmond Hill location page — home is it.
+  12 indexable + 3 noindex. Protocol §3's ~30-page target is deliberately NOT
+  met: Services x Service area does not reach it honestly and padding with
+  low-value combos is barred.
+- **Locations are NOT in the nav.** Nav was already at 8 items (protocol max 6).
+  They are reached from the home service-area chips and in-copy links instead.
+- **No geo in JSON-LD.** The Maps embed carries a query string, not coordinates,
+  and no coordinates are confirmed anywhere. Omitted rather than invented.
+- **No aggregateRating** — still blocked by the QUESTIONS.md review-count item.
+  Individual `Review` schema on /reviews/ was NOT shipped; it needs operator OK.
+- **NAP normalized to the owner-typed Overrides string:** `9555 Yonge St,
+  Richmond Hill, ON L4C 9M5`. Three variants were live ("Yonge Street", "Ontario"
+  vs "ON"). All 16 pages and the JSON-LD now match character for character.
+  GBP confirmation still open — see QUESTIONS.md.
+- **City display variable** (`<span data-city>`): resolves from the location page,
+  then a whitelisted `?loc=` param, then the static "Richmond Hill" default in
+  the markup. No IP lookup — that would add a third-party request and a privacy
+  disclosure and would still not move rankings. Indexed text never varies;
+  serving Googlebot a different city than a human would be cloaking.
+- **`.final-cta` moved to shared/base.css**, removing three duplicate copies in
+  services/, financing/ and what-to-expect/ style.css (file-structure.md: used by
+  2+ pages -> shared).
+
+## 2026-08-20 | SERVICE PAGES: /services/ split into a hub + 10 child pages
+Operator-approved in-session. Site goes 15 pages -> 25 (22 indexable, 3 noindex, +404).
+
+- **NESTED URLs, overriding contracts/file-structure.md.** The operator chose
+  `/services/<slug>/` over flat `/<slug>/`. The contract's canonical tree was ONE
+  flat level of page folders and its relative-path table had no depth-2 row.
+  Per the CLAUDE.md precedence ladder an explicit operator instruction (level 1)
+  beats a contract (level 5), so this is authorized — but rather than leave the
+  site silently violating its own law, **file-structure.md was AMENDED to v2.2.0**:
+  new rule 8 permits exactly one level of nesting beneath a real navigation hub,
+  never deeper, and the relative-path table gained a `site/<hub>/<child>/` row
+  (`../../` for shared/ and assets/). An addition, not a removal or rename.
+- **Depth 2 means breadcrumbs are now correct** (protocol 2.3 — "only when the site
+  is 2+ levels deep"). Each child page carries a visible trail plus BreadcrumbList
+  schema. No other page on the site has breadcrumbs, and none should.
+- **The hub does NOT keep the service copy.** All 10 `.svc` sections were MOVED to
+  the child pages, not duplicated. Had both carried it, the 5-word-shingle check in
+  scripts/seo_check.py would fail them as clones and Google would bury one. The hub
+  is now hero -> card grid -> a "not sure which one you need?" guide -> CTA, 469
+  words of its own copy.
+- **Slugs unchanged from the old anchor ids** (`furnace-repair`, `thermostats-controls`,
+  `light-commercial`, ...). That made the 215-link migration a mechanical
+  `services/#<slug>` -> `services/<slug>/` transform rather than a rename.
+- **Old fragments still land somewhere.** A URL fragment never reaches the server so
+  `/services/#furnace-repair` cannot be 301'd. Each hub card therefore keeps
+  `id="<slug>"`, so a legacy link scrolls to the right card, which links onward.
+  Verified 10/10.
+- **KEYWORD REMAP — the two service head terms moved to the pages that convert:**
+  `air conditioning service Richmond Hill` /services/ -> /services/ac-repair/ ;
+  `heater repair Richmond Hill` /what-to-expect/ -> /services/furnace-repair/ .
+  The hub took `heating and cooling services Richmond Hill`, /what-to-expect/ took
+  `HVAC service call Richmond Hill`, /our-work/ took `HVAC installation photos
+  Richmond Hill`. No two pages now target the same query.
+- **Card CTA is a SPAN, not a second anchor.** The card's whole surface is already one
+  stretched link (`.service-card h3 a::after{inset:0}`). A second `<a>` to the same
+  destination would split the anchor text and make a screen reader announce the
+  destination twice, so the "Learn more about X" line is
+  `<span class="card-cta" aria-hidden="true">`. One link per card, whole card tappable.
+- **Mobile grid 2 -> 1 column** (1 / 2 / 5 at 0 / 640 / 1024). Two-across at 360px gave
+  each card ~160px and hyphenated titles mid-word. 10 divides evenly by 1, 2 and 5, so
+  the no-widow constraint in rules/css.md still holds at every breakpoint.
+- **Service pages are NOT in the nav.** It already carries 8 items against a protocol
+  cap of 6; they are reached from the hub grid, the footer column and in-copy links.
+- **hasOfferCatalog slimmed.** It repeated the identical 6-city `areaServed` array
+  inside all 10 Offers on every page. The business-level `areaServed` already declares
+  coverage, so the per-offer copies were dropped. Sitewide JSON-LD is now 114 KB
+  across 26 pages (63 blocks) where the business block alone had been ~400 lines/page.
+
+## 2026-08-20 | COPPER FINISH: Level 2 (metal on edges and marks, not on text)
+Operator picked Level 2 from a four-level preview (`style-preview-metallic.html`,
+built at repo root, served on 8081, deleted after the decision).
+
+Context: the operator asked for "more copper finishes instead of just matt colors".
+Only 8 CSS rules carried any finish before this, `--metal-copper-core` and
+`--metal-copper-glow` were defined but unused, and all 15 service + location pages had
+zero metallic treatment. The Phase 2 guardrail — "not chrome, not too metallic" — was
+surfaced in the preview so the choice was made against it, not in ignorance of it.
+
+Shipped:
+- **Metal EDGE on `.service-card`, `.chip`, `.faq-list details`** via the double-
+  background technique (padding-box paints the surface, border-box paints
+  `--gradient-copper` beneath). NOT `border-image`, which ignores `border-radius` and
+  would square off the 16px corners.
+- **`.keypoints > li` 3px rule** takes `border-image:var(--gradient-copper)` — safe
+  there because that element has no radius.
+- **NEW TOKEN `--bead-copper`** (contract v1.4.0) on `.subpoints`/`.svc__points`
+  markers. A radial with an off-centre highlight, because a LINEAR sweep reads as a
+  flat tint at 6px — the eye never sees the ramp.
+- **`.card-icon`** → `--metal-copper-core` + a `--metal-copper-glow` drop-shadow.
+- **`.svc__tips` checkmark** → `--metal-copper-glow`.
+- **4px copper hairline added to `.final-cta`, `.site-footer`, `.work`.** These were
+  the only sections without one; `.tone-cream`/`.tone-charcoal` already had it.
+  `.page-hero` is DELIBERATELY EXCLUDED — it is the first section on every subpage, so
+  a top hairline would sit under the fixed transparent header rather than reading as a
+  boundary between two bands.
+
+Deliberately NOT done, with reasons:
+- **No gradient-clipped text anywhere.** Measured 1.49:1 on white — a hard fail at any
+  size, and the same failure already recorded for `.review__stars` at 16px. Level 3
+  (gilded headings) was shown and rejected on this basis.
+- **`.card-cta` left at `--color-primary`.** `--metal-copper-core` would be the more
+  metallic choice but measures 4.22:1 on the cream card surface; `--color-primary`
+  holds 5.06:1 there and 5.45:1 on white.
+- **The L3 card surface was corrected before it was ever offered** — its darkest stop
+  failed muted body text at 4.41:1, fixed to #F7EDE0 (4.82:1).
+- **`.btn-soft`, `.hero-trust .stars`, `.review__stars` untouched** — all three are
+  recorded decisions.
+- **`.fin-band` untouched** — changing its surface obligates re-tinting three PNGs
+  whose copper is baked into the raster.
+
+Correction logged: an earlier analysis claimed `.btn-primary:hover` "loses its sheen".
+It does not. `:hover` sets only `background-color`, which does not reset
+`background-image`, so the sheen persists over the darker base. No fix was needed and
+none was made.
+
+## 2026-08-20 | Back to all services -> button
+`.sec-foot` link on all 10 service pages becomes `btn btn-ghost btn-sm`. Chosen over a
+full-size or primary button because it sits ~200px above the `.final-cta` band, whose
+"Call" button is a conversion action; matching that weight would teach the eye to treat
+navigation and conversion as equals. Precedent for a `.btn` inside `.sec-foot` already
+exists at `site/index.html:304`, and the `:not(.btn)` guard on `.sec-foot a` is what
+makes it safe.
+
+## 2026-08-20 | Homepage services: horizontal rail on phone
+Operator: the section "looks empty" and is a long scroll on phone.
+
+Root cause was a change made earlier the same day: the mobile grid went 2-across ->
+1-across to stop titles hyphenating mid-word, which turned 10 cards into a 10-row wall.
+The phone override in style.css also hid `.service-card p`, so each card was an icon
+and two words - which is what read as empty.
+
+- **Rail is the BASE style, grid returns at min-width:640px** (mobile-first per
+  rules/css.md). Scoped by a `--rail` modifier so it applies to the HOME page only;
+  `/services/` shares the `.service-grid` class and keeps its grid at every width,
+  because it is the "see all" destination.
+- **PHONE ONLY (<640px)** by operator choice. Tablet keeps its 2-column grid.
+- **`contain:paint` is load-bearing, not an optimisation.** It is the same fix already
+  documented on `.track`: a flex scroll row leaks its intrinsic max-content width to
+  the document (measured there at 3649px scrollWidth against a 1280px viewport, which
+  gave desktop a horizontal scrollbar and let a phone pinch-zoom out of the design).
+  Verified after this change: at 360px `documentElement.scrollWidth === innerWidth`.
+- **`flex:0 0 80%` is the affordance.** The next card stays visibly cut off (62px of
+  peek at 360px). At 100% the rail would look identical to the stack it replaced and
+  nobody would discover it scrolls.
+- **No negative-margin edge bleed.** Nicer visually, but it interacts with the
+  containment clip box, and that containment was not worth destabilising for polish.
+- **No JS.** `makeCarousel` is hard-wired to `#track`/`#prev`/`#next` and called once,
+  so a second instance needs new ids or a refactor - and its autoplay is wrong for a
+  service list. CSS scroll-snap needs none of it.
+- **Card description restored on phone.** The old override existed because 2-across at
+  375px left 92px of text column; at 80% of the container the card is ~250px and the
+  description fits. It is what makes a card worth swiping to.
+- **Keyboard:** the rail has no focusable children, so it carries `tabindex="0"`,
+  `role="group"` and an aria-label - the same contract `.track` uses - plus a
+  `:focus-visible` ring at `outline-offset:4px`.
+- **"See all services"** `.btn-primary` -> `services/`, shown at every breakpoint. The
+  existing "Not sure what your system needs? Call..." line stays: that is a conversion
+  path, the button is navigation.
+
+**Operator chose to keep the homepage cards DECORATIVE** (no links), though the 10
+service pages now exist. Recorded tradeoff: a swipeable rail of untappable cards means
+the button is the only way out of the section, and the homepage passes no link equity
+to the service pages. Raised once, decided, not re-opened.
+
+## 2026-08-20 | Homepage service cards: scroll-reveal removed
+Operator: "dont do fade in animation for the cards, just have them there so the first
+time user scrolls in they can see."
+
+`data-animate` removed from the 10 `.service-card` items on the HOME page. Not a taste
+call - the reveal was actively broken once those cards became a horizontal rail:
+
+- The stagger buckets siblings by shared `offsetTop` (main.js `assignStagger`). In a
+  rail all ten cards sit on one line, so the bucket is all ten and the last card earns
+  `9 x 110ms = 990ms` of delay.
+- Cards scrolled off to the right are not intersecting the viewport at all, so the
+  IntersectionObserver has not fired for them. They would fade in late, one at a time,
+  under the reader's thumb as they swipe.
+
+`/services/` never carried `data-animate` on its cards, so nothing changed there. The
+section's `.sec-head` still reveals - it is on screen when the visitor arrives and was
+not part of the complaint. The exclusion is recorded in the `revealOnScroll` comment
+block in `shared/main.js`, alongside the hero stage and marquee exclusions.
+
+## 2026-08-20 | GBP verified against the site; aggregateRating ruled out permanently
+Operator supplied their Google Business Profile for checking.
+
+**Matches, no change needed:**
+- Name `CopperCraft Heating & Cooling`, phone `(647) 250-6072`, and address
+  `9555 Yonge St, Richmond Hill, ON L4C 9M5` — all identical to the site and to every
+  JSON-LD block, character for character. The earlier NAP normalisation to the
+  owner-typed "Yonge St" (over the site's then-current "Yonge Street") was correct.
+
+**Changed:**
+- Review count 12 added to visible copy in four places (home hero, trust stat,
+  testimonials heading, /reviews/). Was "5.0 on Google", now "5.0 from 12 Google
+  reviews". A bare average reads like a single review; a count is what makes it
+  credible. NOTE: this is a hardcoded number and will go stale — it needs updating
+  whenever the GBP count moves.
+
+**aggregateRating / Review schema — CLOSED PERMANENTLY, and NOT for the reason
+previously recorded.** QUESTIONS.md had this blocked "until a review count is
+confirmed". The count is now confirmed and the schema still must not ship. Google's
+review-snippet documentation: "If the entity that's being reviewed controls the reviews
+about itself, their pages that use LocalBusiness or any other type of Organization
+structured data are ineligible for star review feature", plus "Don't aggregate reviews
+or ratings from other websites." Marking up our own Google reviews on our own site is
+both violations simultaneously. The earlier framing (a missing-data blocker) was wrong;
+it is a policy blocker and no amount of data resolves it. Verified against Google's
+current docs rather than asserted from memory.
+Consequence: the previously-drafted `Review` objects for /reviews/ are cancelled, not
+deferred. The rating stays as page text, which is unrestricted.
+
+**Financeit:** no online application exists. The CTA is to contact CopperCraft, who
+guide the customer through. All /financing/ CTAs already pointed at tel: or /contact/,
+so only the hidden build note needed rewriting. Removing its `[PLACEHOLDER:` token took
+scripts/seo_check.py to **0 fail / 0 warn** for the first time.
+
+**Biggest finding, and it is not on the site:** the GBP has NO website link — it shows
+"Add missing information → Add website". Logged in QUESTIONS.md as a launch-day action.
+
+## 2026-08-20 | CORRECTION: the "Yonge St vs Yonge Street" question was overstated
+Operator reported that GBP auto-normalises their typed address, and that the real
+street name is "Street" while the profile displays "St".
+
+Google normalises street-type suffixes and resolves both spellings to the same Place —
+visible in the operator's own screenshot, where the field holds "9555 Yonge St" while
+Google's autocomplete simultaneously offers "9555 Yonge Street". Same entity, two
+renderings.
+
+I had recorded this question as the highest-weight open item and told the operator a
+mismatch would be "actively costing you local ranking". **That was wrong and is
+withdrawn.** Character-for-character NAP matching matters where entities genuinely
+differ — missing suite number, different phone, Ltd vs Inc, wrong street number. A
+street-suffix abbreviation is not in that class.
+
+Decision: site stays on `9555 Yonge St` (28 visible instances + every JSON-LD
+streetAddress). It matches what the public GBP displays, which is the string citation
+aggregators scrape. Changing it to "Street" would be equally fine and equally
+inconsequential — not worth the churn.
+
+Operator guidance recorded: always accept the Google autocomplete suggestion when
+editing GBP. Binding the listing to the correct verified Place is what matters; the
+suffix rendering is cosmetic and Google owns it either way.
+
+## 2026-08-20 | Instagram added; sameAs finally populated
+Operator supplied https://www.instagram.com/coppercraft_hvac/ — the first social account
+on file.
+
+- **/contact/**: a "Follow" block in the charcoal contact column, after Hours. Inline
+  SVG on the same stroke system as `.card-icon` (24-unit box, `stroke:currentColor`,
+  round caps) so it re-tints with the link instead of needing a second asset; the camera
+  dot is a zero-length round-capped path, the same trick the problem-selector icons use.
+  `target="_blank" rel="noopener"`, `aria-hidden` on the decorative SVG, handle in the
+  link text so the destination is announced.
+- **Schema `sameAs` populated on all 26 pages.** It had been deliberately omitted while
+  empty rather than invented. Protocol 6.1 is explicit that an empty `sameAs` is a real
+  weakness: an answer engine resolves business identity by cross-referencing that array.
+- **`client.md` Socials** is now owner-typed rather than blank.
+
+Caught in verification: `404.html` is not in `apply_meta.py`'s PAGES table — its schema
+had been copied once from the contact page and was therefore stale, shipping without
+`sameAs` while the other 25 pages had it. Refreshed from the live block. Worth
+remembering that 404.html drifts silently on any future schema change.
+
+## 2026-08-20 | ERV + HRV added — 12 services, 28 pages
+Operator instruction. Two new child pages, cards on both the hub and the homepage rail.
+
+- **Duplicate-content risk handled deliberately.** ERV and HRV are near-identical
+  devices — the only functional difference is that an ERV also transfers moisture — so
+  a shared template would have produced two pages the 5-word-shingle check correctly
+  calls clones. Each is written from the OPPOSITE side of the decision: HRV as the
+  Ontario default (winter condensation, stale air, heat only), ERV as the other answer
+  (humidity transfer, for houses that run dry). They cross-link, because a visitor
+  searching one is choosing between both. 415 / 412 words; shingle check passes.
+- **Desktop grid 5 → 6 columns** (operator choice). 12 / 5 would leave a ragged final
+  row of two; 12 / 6 is exactly two rows.
+- **The 6-column choice REQUIRED a companion change, and it was measured, not assumed.**
+  Six columns leaves 172px per card and a 106px text column. "Conditioning" at
+  `--text-lg` is ~126px — it would have hyphenated mid-word, reintroducing the exact
+  bug fixed earlier in this build. The 1024px rule therefore steps card titles to
+  `--text-base`. Measured after the change at 1280px: title 16px, widest word
+  ("Conditioning") 95px in a 106px column — **11px of headroom, fits**.
+- **Images generated under the paid gate.** Two MEDIA_LOG rows written with
+  `YES [in-chat 2026-08-20]` BEFORE any generation, per the CLAUDE.md hard invariant.
+  Model recorded as `recraft_v4_1` rather than the provider shorthand "higgsfield" used
+  by earlier rows, because the ledger feeds cost tracking and would otherwise
+  misattribute. HRV needed two takes (first job returned failed). Extends the scoped
+  real-only exception already logged 2026-08-13 for generated service imagery.
+- **Homepage rail cards stay DECORATIVE** — no links, matching the ten already there
+  (operator's earlier choice, unchanged).
+- **New symptom-router bucket on the hub**: "The air itself feels wrong" → HRV / ERV.
+  Ventilation is a genuinely distinct symptom from the four temperature/age buckets.
+
+Fixed while in there:
+- **`aria-current="page"` was on "What to Expect"** in the nav on every service child
+  page, copied from whatever the template was cloned from. Corrected on all 12.
+- **`404.html` added to `apply_meta.py`'s PAGES table.** It had been outside the
+  generator, so its JSON-LD was a one-time copy that silently went stale TWICE — first
+  shipping without `sameAs`, then still advertising 10 services after the catalog grew
+  to 12. Now regenerated with every other page. Also repaired the malformed
+  `og-default.webp` row in MEDIA_LOG, which I had appended in the wrong column order.
+
+## 2026-08-21 | Real operator photographs replace 7 generated service images
+Operator dropped 10 photographs into `site/assets/`. This moves the site BACK toward
+its own `Photos policy: real-only`; the generated service imagery was only ever a
+scoped exception (2026-08-13) taken because real photos did not exist.
+
+- **7 slots now carry real photographs**: furnace-repair, furnace-installation,
+  ac-installation, heat-pumps, preventative-maintenance, light-commercial,
+  water-heaters. **The 2026-08-13 generated-imagery exception narrows from 12 slots to
+  5** — ac-repair, ductless-systems, thermostats-controls, hrv, erv, which nothing in
+  the drop covers.
+- **`People in imagery: no` is OVERRIDDEN for real photographs only** (operator,
+  in-chat). This is broader than the owner shot alone: `FurnaceRepair.png` and
+  `Preventative Maintenance.png` both show technicians at work. The rule still binds
+  GENERATED imagery, which stays people-free.
+- **Filenames are hints, not proof — and one was wrong.** `Water Heaters.png` turned
+  out to be a bank of three COMMERCIAL A.O. Smith Cyclone units in a plant room, not a
+  residential water heater, and /our-work/ already carries that subject. The slot went
+  to `tankless waterheater.png` instead. Every photo was opened before its alt text was
+  written; none was mapped on filename alone.
+- **All 12 service images are now 780x780 squares, NOT 1040x1040.** Eight sources are
+  portrait 1086x1448 against landscape 1040x780 slots, so square was chosen to lose
+  ~25% either way instead of 44% off a portrait. 780 rather than 1040 because the five
+  retained generated images are 1040x780 — their largest possible square IS 780, and
+  targeting 1040 would have upscaled five of twelve by 33% and visibly softened them.
+  Per-image vertical crop bias was set by where the subject actually sits in frame.
+- **The owner portrait is NOT squared.** Squaring a person to match a service grid
+  crops the subject for no reason. It stays portrait at 900x1200 in a two-column
+  section on /what-to-expect/, inserted between `wte-decide` (cream) and `reassure`
+  (charcoal) as a default-tone band so the page's alternating rhythm survives.
+- **Owner copy is built only from confirmed facts.** client.md never states who the
+  owner is; it names "Joe" solely as "the technician customers name repeatedly", and
+  bars fabricated backstory. The operator confirmed in-chat that Joe is the
+  owner/operator; no surname was supplied, so first name only. No years in business, no
+  founding story, no licence or certification claim — all are empty or explicitly
+  excluded. The one quoted line is verbatim from an approved testimonial, and the
+  section links to /reviews/ so the claim is checkable rather than asserted.
+- **Originals archived, not shipped.** ~25 MB of PNG/JPEG moved to
+  `client/assets-intake/2026-08-21-operator-drop/`. `site/assets` stays derived and is
+  never hand-authored (contracts/asset-slots.md; same resolution as DECISIONS.md:116).
+  `scripts/ingest-assets.py` could not do this job — it reads only
+  `client/assets-intake/slots/`, matches on exact basename, and does not crop.
+- **2 spares retained**: `Water Heaters.png` (commercial bank) and `hot water tank.png`
+  (tall tank, would not survive a square crop). Logged `available` in MEDIA_LOG.
+
+## 2026-08-21 | Two more real photos: ac-repair + ductless-systems
+Second operator drop. Both content-verified before mapping, not trusted on filename —
+the check that caught `Water Heaters.png` being a commercial three-tank bank in the
+first drop.
+
+- `AC repair.png` (1402x1122 landscape) -> `service-ac-repair.webp`. A CopperCraft
+  technician at an open condenser working on the service-panel wiring. Third technician
+  photo, under the `People in imagery` override already logged for REAL photographs.
+- `ductless systems.png` (1086x1448 portrait) -> `service-ductless-systems.webp`.
+  Mitsubishi wall head reading 72 in a living room. Crop biased UP (0.05) rather than
+  centred: the head sits high in frame, so a centred square would have trimmed the unit
+  instead of the sofa.
+
+**The 2026-08-13 generated-imagery exception narrows again, 5 slots -> 3.** Only
+thermostats-controls, hrv and erv still run generated images; nothing in either drop
+covers them. **9 of 12 service pages now carry real photographs.**
+
+Noted and kept: the ductless photo includes a small framed family photograph on the
+console. At 780px output it is ~40px and unidentifiable, and it is what makes the shot
+read as a lived-in home rather than a showroom. Flagged to the operator as reversible
+(a tighter crop would remove it at the cost of the room context).

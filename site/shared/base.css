@@ -178,25 +178,29 @@ header.scrolled .nav-toggle span{background:var(--color-text)}
 header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 
 /* ===== Footer ===== */
-.site-footer{background:var(--color-dark-bg);color:var(--color-dark-text-muted);
+.site-footer{background:var(--gradient-copper) top/100% 4px no-repeat,
+     var(--color-dark-bg);color:var(--color-dark-text-muted);
              padding-block:var(--space-9) var(--space-6);font-size:var(--text-sm)}
 .site-footer__grid{display:grid;grid-template-columns:1fr;gap:var(--space-8)}
 .site-footer h2{font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase;
                 color:var(--color-dark-text);margin-bottom:var(--space-4);margin-top:var(--space-6)}
 .site-footer h2:first-child{margin-top:0}
 .site-footer a:not(.btn):hover{color:var(--color-primary-light)}
-/* Footer lockup: mark beside the wordmark, both knockout variants against
-   the dark footer surface, held at the header's 64:36 mark-to-wordmark
-   height relationship. Sized in three steps because the brand grid track
-   is narrowest in the middle: full width while the footer is one column,
-   tightest at 768 where the 1.4fr track is only ~178px, roomy again from
-   1024 up. Both images are flex:0 0 auto - letting them shrink would squash
-   the artwork (height is already resolved from the specified width). */
-.site-footer__logo{display:flex;align-items:center;gap:5px;
-                   margin-bottom:var(--space-4)}
-.site-footer__logo-mark{width:45.1px;height:auto;flex:0 0 auto}
-.site-footer__logo-word{width:147.5px;height:auto;flex:0 0 auto;
-                        transform:translateY(3px)}
+/* Footer lockup: the brand's stacked arrangement - icon centred over the
+   wordmark - rebuilt from the two separate knockout files rather than a
+   combined asset. Proportions are taken from the stacked artwork: the icon
+   sits at ~0.356 of the wordmark's width, and the gap at ~0.10 of the icon's
+   height, so the whole thing scales as one piece. Centring is on the boxes,
+   matching the reference (the icon's ink centre of mass is ~5% left of its
+   box centre, but the reference does not correct for it either).
+   inline-flex shrink-wraps the block to the wordmark, so it sits flush with
+   the paragraph's left edge while the icon still centres over it. Both
+   images are flex:0 0 auto - letting them shrink would squash the artwork
+   (height is already resolved from the specified width). */
+.site-footer__logo{display:inline-flex;flex-direction:column;align-items:center;
+                   gap:5px;margin-bottom:var(--space-4)}
+.site-footer__logo-mark{width:52.5px;height:auto;flex:0 0 auto}
+.site-footer__logo-word{width:147.5px;height:auto;flex:0 0 auto}
 .site-footer__brand p{max-width:38ch}
 .site-footer__legal{display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:space-between;
      align-items:center;margin-top:var(--space-9);padding-top:var(--space-5);
@@ -268,14 +272,11 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 }
 @media(min-width:768px){
   .site-footer__grid{grid-template-columns:1.4fr 1fr 1fr 1fr}
-  .site-footer__logo{gap:5.5px}
-  .site-footer__logo-mark{width:40.7px}
-  .site-footer__logo-word{width:147.5px;transform:translateY(2px)}
 }
 @media(min-width:1024px){
   .site-footer__logo{gap:8px}
-  .site-footer__logo-mark{width:53.4px}
-  .site-footer__logo-word{width:221.3px;transform:translateY(3px)}
+  .site-footer__logo-mark{width:78.8px}
+  .site-footer__logo-word{width:221.3px}
 }
 
 /* ===== Motion (enabled only when the visitor allows it) ===== */
@@ -299,7 +300,13 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 .page-hero{background:var(--color-dark-bg);color:var(--color-dark-text);
      padding-block:calc(var(--header-h) + var(--space-9)) var(--space-9)}
 .page-hero .container{max-width:760px;text-align:center}
-.page-hero h1{font-size:var(--text-3xl);margin-top:var(--space-3)}
+/* The page keyword lives INSIDE the <h1> as its first line so the heading
+   carries it semantically (SEO protocol 4.4). It keeps the .eyebrow classes
+   and takes over the eyebrow's old margin, so the hero renders exactly as it
+   did when the eyebrow was a sibling above the h1 — same position, same
+   size, same spacing. Nothing here changes the visual result. */
+.h1-kw{margin-bottom:var(--space-3)}
+.page-hero h1{font-size:var(--text-3xl);margin-top:0}
 .page-hero p{color:var(--color-dark-text-muted);margin-top:var(--space-4);font-size:var(--text-lg)}
 .page-hero .hero-actions{justify-content:center;margin-top:var(--space-7)}
 
@@ -317,16 +324,61 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
   .hero-actions .btn{width:100%}
 }
 /* ===== Services ===== */
-/* 2-across even at mobile: 10 cards stacked one-per-row is a wall of text
-   on a phone. 10 divides evenly by 2 and 5, so no breakpoint strands a
-   widow (rules/css.md). */
-.service-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-3)}
-.service-card{background:var(--color-surface);border:1px solid var(--color-border);
+/* One card per row on a phone. Two-across at 360px gave each card ~160px of
+   content width, which hyphenated the titles mid-word ("Air-Condition/ing
+   Repair") and left no room for the CTA line. TWELVE cards divide evenly by
+   1, 2 and 6, so no breakpoint strands a widow (rules/css.md). Was 1/2/5 while
+   there were ten; the desktop count moved to 6 when ERV and HRV were added,
+   because 12 / 5 leaves a ragged final row of two. */
+.service-grid{display:grid;grid-template-columns:1fr;gap:var(--space-4)}
+
+/* ===== Service rail (phone) =====
+   HOME PAGE ONLY, via the --rail modifier: /services/ is the read-everything
+   destination and keeps its grid at every width. Twelve cards stacked one per row
+   is a wall to scroll past; a horizontal rail lets the visitor swipe sideways
+   for more or keep scrolling down to the next section.
+
+   contain:paint is a BUG FIX, not an optimisation - the same one documented on
+   .track below. A flex scroll row leaks its intrinsic max-content width to the
+   document: measured there at 3649px scrollWidth against a 1280px viewport,
+   which gave desktop a horizontal scrollbar and let a phone pinch-zoom out of
+   the design. overflow-x:auto, overflow:hidden and overflow:clip were each
+   measured and none of them stop it. Paint containment is what caps it.
+
+   flex-basis 80% is the affordance: the next card stays visibly cut off at the
+   right edge. At 100% the rail would look identical to the stack it replaced
+   and nobody would discover it scrolls.
+
+   padding-block gives the card box-shadow room inside the containment clip. */
+.service-grid--rail{display:flex;gap:var(--space-4);overflow-x:auto;
+     contain:paint;scroll-snap-type:x mandatory;scrollbar-width:none;
+     padding-block:var(--space-2)}
+.service-grid--rail::-webkit-scrollbar{display:none}
+/* 4px offset, wider than the 2px used elsewhere, matching .track: a scroll
+   container's ring needs to clear the edge of the content it scrolls. */
+.service-grid--rail:focus-visible{outline:2px solid var(--color-primary);
+     outline-offset:4px}
+.service-grid--rail > .service-card{flex:0 0 80%;scroll-snap-align:start}
+/* Smooth scrolling is motion - gate it, same as .track. */
+@media(prefers-reduced-motion:no-preference){
+  .service-grid--rail{scroll-behavior:smooth}
+}
+/* Metal edge. A gradient border needs the double-background technique, NOT
+   border-image: border-image ignores border-radius and would square off the
+   16px corners. padding-box paints the surface, border-box paints the metal
+   underneath it. Consequence: the surface colour is baked into
+   background-image, so every tone band must restate it - see the tone block. */
+.service-card{background-color:var(--color-surface);
+     background-image:linear-gradient(var(--color-surface),var(--color-surface)),
+       var(--gradient-copper);
+     background-origin:border-box;background-clip:padding-box,border-box;
+     border:1px solid transparent;
      border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
 /* One icon set serves both card types and both backgrounds: stroke is
    currentColor, so it inherits copper on light cards and can be re-tinted
    anywhere without a second asset. Matches the trust band's stat icons. */
-.card-icon{width:32px;height:32px;color:var(--color-primary);
+.card-icon{width:32px;height:32px;color:var(--metal-copper-core);
+     filter:drop-shadow(0 1px 0 var(--metal-copper-glow));
      margin-bottom:var(--space-3);flex:0 0 auto}
 /* break-word is a guarantee, not a nicety: now that grid tracks are
    minmax(0,1fr) they can shrink below their content's min-content width, so a
@@ -337,6 +389,29 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 .service-card h3{font-size:var(--text-lg);margin-bottom:var(--space-2);
      overflow-wrap:break-word;hyphens:auto}
 .service-card p{color:var(--color-text-muted);font-size:var(--text-sm)}
+
+/* The card's whole surface is already one link (the stretched <a> in the h3,
+   see services/style.css). This CTA is therefore a SPAN, not a second anchor:
+   two anchors to the same destination in one card would split the anchor text
+   and make a screen reader announce the destination twice. aria-hidden keeps
+   it out of the a11y tree, which already has the h3 link. */
+.card-cta{display:inline-block;margin-top:var(--space-4);
+     font-family:var(--font-heading);font-weight:600;font-size:var(--text-sm);
+     color:var(--color-primary)}
+.card-cta::after{content:" →";display:inline-block;
+     transition:transform var(--duration-fast) var(--ease-standard)}
+.service-card:hover .card-cta::after{transform:translateX(4px)}
+@media(prefers-reduced-motion:reduce){.card-cta::after{transition:none}}
+
+/* ===== Breadcrumbs =====
+   Only present on the depth-2 service pages - the site is 2+ levels deep there
+   and nowhere else (file-structure.md rule 8). */
+.breadcrumb{font-size:var(--text-sm);color:var(--color-dark-text-muted);
+     margin-bottom:var(--space-6)}
+.breadcrumb ol{display:flex;flex-wrap:wrap;gap:var(--space-2);list-style:none}
+.breadcrumb li+li::before{content:"/";margin-right:var(--space-2);opacity:.5}
+.breadcrumb a{color:var(--color-primary-light);font-weight:600}
+.breadcrumb [aria-current]{opacity:.75}
 
 /* ===== Testimonials carousel ===== */
 .rating{margin-top:var(--space-4);font-size:var(--text-lg)}
@@ -394,7 +469,8 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
    (565x862 and 765x1020) normalised to a single 3:4 crop.
    Runs on the SAME .track carousel component as the testimonials rather than
    a second implementation — one player drives both (see script.js). */
-.work{background:var(--color-dark-bg);color:var(--color-dark-text)}
+.work{background:var(--gradient-copper) top/100% 4px no-repeat,
+     var(--color-dark-bg);color:var(--color-dark-text)}
 .work .sec-head h2{color:var(--color-dark-text)}
 .work .sec-head p{color:var(--color-dark-text-muted)}
 .work .sec-foot{color:var(--color-dark-text-muted)}
@@ -422,7 +498,11 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 
 /* ===== FAQ ===== */
 .faq-list{max-width:760px;margin-inline:auto;display:grid;gap:var(--space-3)}
-.faq-list details{background:var(--color-surface);border:1px solid var(--color-border);
+.faq-list details{background-color:var(--color-surface);
+     background-image:linear-gradient(var(--color-surface),var(--color-surface)),
+       var(--gradient-copper);
+     background-origin:border-box;background-clip:padding-box,border-box;
+     border:1px solid transparent;
      border-radius:var(--radius-lg);padding:var(--space-5) var(--space-6)}
 .faq-list summary{font-family:var(--font-heading);font-weight:600;font-size:var(--text-base);
      cursor:pointer;list-style:none;display:flex;justify-content:space-between;
@@ -458,12 +538,23 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 
 
 @media(min-width:640px){
-  .service-grid{gap:var(--space-5)}
+  .service-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5)}
+  /* Rail is phone-only: hand the grid back, and release the scroll container
+     and its containment with it. */
+  .service-grid--rail{display:grid;overflow:visible;contain:none;
+       padding-block:0}
+  .service-grid--rail > .service-card{flex:none}
   .work-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-5)}
   .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
 }
 @media(min-width:1024px){
-  .service-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .service-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+  /* Six columns leaves ~172px per card at 1280 and ~108px of text column once
+     the card padding is taken out. "Maintenance" at --text-lg measures 126px
+     (the figure recorded in style.css for the phone layout), so it would
+     hyphenate mid-word again at --text-lg. Stepping to --text-base drops the
+     widest word to ~98px, which fits. Same fix already proven on the phone. */
+  .service-grid .service-card h3{font-size:var(--text-base)}
 }
 
 /* ===== Legal pages (privacy policy + terms of use) ===== */
@@ -509,10 +600,17 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 
 .tone-cream .sec-head p,.tone-cream .sec-foot{color:var(--color-tone-cream-muted)}
 .tone-cream .legal p,.tone-cream .legal address{color:var(--color-tone-cream-muted)}
-.tone-cream .problem-card,.tone-cream .service-card,.tone-cream .review,
-.tone-cream .faq-list details,.tone-cream .quote,.tone-cream .legal-note,
-.tone-cream .hours-card,.tone-cream .chip,.tone-cream .car-nav button,
+.tone-cream .problem-card,.tone-cream .review,
+.tone-cream .quote,.tone-cream .legal-note,
+.tone-cream .hours-card,.tone-cream .car-nav button,
 .tone-cream .map{background:var(--color-tone-cream-surface);border-color:var(--color-tone-cream-border)}
+/* Split out of the group above: these three carry the metal edge, so their
+   surface must be restated INSIDE background-image. A `background:` shorthand
+   here would reset background-image and erase the gradient border. */
+.tone-cream .service-card,.tone-cream .faq-list details,.tone-cream .chip{
+     background-color:var(--color-tone-cream-surface);
+     background-image:linear-gradient(var(--color-tone-cream-surface),
+       var(--color-tone-cream-surface)),var(--gradient-copper)}
 .tone-cream .problem-card p,.tone-cream .service-card p,.tone-cream .review figcaption,
 .tone-cream .faq-body{color:var(--color-tone-cream-muted)}
 
@@ -522,11 +620,17 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
 .tone-charcoal .eyebrow{color:var(--color-primary-light)}
 .tone-charcoal .link-cta{color:var(--color-primary-light)}
 .tone-charcoal .link-cta:hover{color:var(--color-tone-charcoal-text)}
-.tone-charcoal .problem-card,.tone-charcoal .service-card,.tone-charcoal .review,
-.tone-charcoal .faq-list details,.tone-charcoal .quote,.tone-charcoal .legal-note,
-.tone-charcoal .hours-card,.tone-charcoal .chip,.tone-charcoal .car-nav button,
+.tone-charcoal .problem-card,.tone-charcoal .review,
+.tone-charcoal .quote,.tone-charcoal .legal-note,
+.tone-charcoal .hours-card,.tone-charcoal .car-nav button,
 .tone-charcoal .map{background:var(--color-tone-charcoal-surface);
      border-color:var(--color-tone-charcoal-border);color:var(--color-tone-charcoal-text)}
+/* Same split as .tone-cream above, for the same reason. */
+.tone-charcoal .service-card,.tone-charcoal .faq-list details,.tone-charcoal .chip{
+     background-color:var(--color-tone-charcoal-surface);
+     background-image:linear-gradient(var(--color-tone-charcoal-surface),
+       var(--color-tone-charcoal-surface)),var(--gradient-copper);
+     color:var(--color-tone-charcoal-text)}
 .tone-charcoal .problem-card p,.tone-charcoal .service-card p,.tone-charcoal .review figcaption,
 .tone-charcoal .faq-body{color:var(--color-tone-charcoal-muted)}
 .tone-charcoal .faq-list summary::after{color:var(--color-primary-light)}
@@ -571,3 +675,141 @@ header.scrolled.on-dark .nav-toggle span{background:var(--color-dark-text)}
        transition-delay:calc(var(--stagger-i,0) * 110ms)}
   .anim-ready [data-animate].is-visible{--reveal-shift:0px;--reveal-scale:1;opacity:1}
 }
+
+/* ===== Key points =====
+   Replaces long prose blocks. Nobody reads a wall of text: each point leads
+   with a claim that stands on its own when scanned, and the supporting line
+   is deliberately subordinate so skipping it loses nothing essential. The
+   copper rule gives the eye a vertical edge to run down.
+   Every key line is a real <h3>, so the scannable structure and the document
+   outline are the same thing rather than two competing ones. */
+.lede{max-width:58ch;margin:0 auto var(--space-8);text-align:center;
+      font-size:var(--text-lg);line-height:var(--leading-normal)}
+.keypoints{max-width:760px;margin-inline:auto;display:grid;gap:var(--space-6)}
+/* The 3px rule is the same geometry as the tone bands' 4px copper hairline,
+   so it takes the same gradient. border-image is safe here - no radius. */
+.keypoints > li{display:grid;gap:var(--space-2);padding-left:var(--space-5);
+                border-left:3px solid transparent;
+                border-image:var(--gradient-copper) 1}
+.keypoints__k{font-size:var(--text-lg);line-height:var(--leading-tight)}
+.keypoints > li > p{color:var(--color-text-muted)}
+
+/* Sub-points: enumerable detail under a key point. Tight, small, dotted -
+   scannable as a set rather than read as sentences. */
+.subpoints{display:grid;gap:var(--space-2);margin-top:var(--space-1)}
+.subpoints li{position:relative;padding-left:var(--space-4);
+              font-size:var(--text-sm);color:var(--color-text-muted)}
+.subpoints li::before{content:"";position:absolute;left:0;top:.55em;
+     width:6px;height:6px;border-radius:var(--radius-full);
+     background:var(--bead-copper)}
+
+.tone-cream .keypoints > li > p,
+.tone-cream .subpoints li{color:var(--color-tone-cream-muted)}
+.tone-charcoal .keypoints > li{border-left-color:var(--color-primary-light)}
+.tone-charcoal .keypoints > li > p,
+.tone-charcoal .subpoints li{color:var(--color-dark-text-muted)}
+/* no bead override on charcoal: --bead-copper carries its own specular
+   highlight, so it stays legible on the dark surface. */
+
+/* ===== Location pages (/markham/, /vaughan/, /thornhill/, /aurora/,
+   /newmarket/) =====
+   These five pages are structurally identical and carry no page-specific CSS
+   of their own, so everything they need lives here per the shared-vs-per-page
+   rule in contracts/file-structure.md. */
+.area-prose{max-width:720px;margin-inline:auto;display:grid;gap:var(--space-5)}
+.area-prose p{color:var(--color-text-muted)}
+.tone-cream .area-prose p{color:var(--color-tone-cream-muted)}
+
+.area-links{max-width:760px;margin-inline:auto;display:grid;gap:var(--space-4);
+            list-style:none;padding:0}
+.area-links li{display:grid;gap:var(--space-1);padding-bottom:var(--space-4);
+               border-bottom:1px solid var(--color-border)}
+.area-links li:last-child{border-bottom:0;padding-bottom:0}
+.area-links a{font-family:var(--font-heading);font-weight:600;
+              font-size:var(--text-lg);color:var(--color-primary)}
+.area-links span{color:var(--color-text-muted);font-size:var(--text-sm)}
+
+.area-honest .sec-head{margin-bottom:0}
+
+/* Closing CTA band. Shared by what-to-expect, services, financing and all five
+   location pages — declared once here rather than repeated in four page
+   stylesheets. */
+/* 4px copper hairline as a background LAYER, matching .tone-cream and
+   .tone-charcoal. These dark bands were the only sections without one. Layer,
+   not border, so it adds zero box height (design-tokens.md tone-band rule). */
+.final-cta{background:var(--gradient-copper) top/100% 4px no-repeat,
+     var(--color-dark-bg);color:var(--color-dark-text);text-align:center}
+.final-cta h2{font-size:var(--text-2xl);margin-bottom:var(--space-6)}
+.final-cta .hero-actions{justify-content:center}
+
+/* Skip link. Off-screen until focused, then pinned below the fixed header so
+   it is not covered by it. First tab stop on every page. */
+.skip-link{position:absolute;left:var(--space-4);top:-100%;z-index:200;
+           padding:var(--space-3) var(--space-5);border-radius:var(--radius-md);
+           background:var(--color-primary);color:var(--color-surface);font-weight:600}
+.skip-link:focus{top:var(--space-4)}
+
+/* ===== Area chips =====
+   Home service-area band and the contact page's "where we work" point. Five of
+   the six link to their location page; Richmond Hill is the base and stays
+   plain text. The anchor fills the pill so the whole chip is the hit target. */
+.chips{display:flex;flex-wrap:wrap;gap:var(--space-3);justify-content:center;
+       margin-top:var(--space-6)}
+.chip{background-color:var(--color-surface);
+      background-image:linear-gradient(var(--color-surface),var(--color-surface)),
+        var(--gradient-copper);
+      background-origin:border-box;background-clip:padding-box,border-box;
+      border:1px solid transparent;
+      border-radius:var(--radius-full);padding:var(--space-2) var(--space-5);
+      font-size:var(--text-sm);font-weight:500;box-shadow:var(--shadow-sm)}
+.chips--inline{justify-content:flex-start;margin-top:var(--space-4)}
+.chip a{display:block;margin:calc(var(--space-3) * -1) calc(var(--space-4) * -1);
+        padding:var(--space-3) var(--space-4);color:var(--color-primary);
+        font-weight:600}
+.chip a:hover{color:var(--color-primary-dark)}
+
+/* ===== Service detail (services/<slug>/) =====
+   One service per page. The image is landscape 1040x780 and carries
+   width/height attributes, so `height:auto` here is load-bearing: without
+   it the height attribute wins over the width constraint and the photo
+   renders stretched tall on a phone. */
+.svc__inner{display:grid;gap:var(--space-6)}
+.svc__media{width:100%;max-width:560px;margin-inline:auto}
+.svc__media img{width:100%;height:auto;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)}
+.svc__body h2{font-size:var(--text-2xl);margin-block:var(--space-2) var(--space-4)}
+.svc__body>p{color:var(--color-text-muted);margin-bottom:var(--space-4)}
+.tone-cream .svc__body>p{color:var(--color-tone-cream-muted)}
+.svc__tips-title{font-size:var(--text-sm);font-weight:600;letter-spacing:.08em;
+     text-transform:uppercase;margin-block:var(--space-6) var(--space-3)}
+.svc__tips{display:grid;gap:var(--space-3)}
+.svc__tips li{position:relative;padding-left:var(--space-6);color:var(--color-text-muted)}
+.tone-cream .svc__tips li{color:var(--color-tone-cream-muted)}
+.svc__tips li::before{content:"";position:absolute;left:2px;top:.5em;width:11px;height:6px;
+     border-left:2px solid var(--metal-copper-glow);
+     border-bottom:2px solid var(--metal-copper-glow);
+     transform:rotate(-45deg)}
+.svc__back{margin-top:var(--space-6);font-size:var(--text-sm)}
+.svc__back a:not(.btn){color:var(--color-primary);font-weight:600;text-decoration:none}
+
+@media (min-width:1024px){
+  .svc__inner{grid-template-columns:.9fr 1.1fr;gap:var(--space-9);align-items:center}
+  .svc__media{max-width:none;margin-inline:0}
+}
+
+/* Cross-links from a service to the location pages that service covers. Sits
+   just above the "all services" back-link, quieter than body copy. */
+.svc__areas{margin-top:var(--space-4);font-size:var(--text-sm);
+            color:var(--color-text-muted)}
+.svc__areas a{color:var(--color-primary);font-weight:600}
+.tone-cream .svc__areas{color:var(--color-tone-cream-muted)}
+
+/* Reason list on a service page — the "why this matters" argument, in points.
+   Dotted, to stay visually distinct from the .svc__tips checkmarks below it:
+   these are reasons, those are things you can act on. */
+.svc__points{display:grid;gap:var(--space-3)}
+.svc__points li{position:relative;padding-left:var(--space-6);
+                color:var(--color-text-muted)}
+.svc__points li::before{content:"";position:absolute;left:4px;top:.6em;
+     width:6px;height:6px;border-radius:var(--radius-full);
+     background:var(--bead-copper)}
+.tone-cream .svc__points li{color:var(--color-tone-cream-muted)}
