@@ -373,3 +373,52 @@
   })();
 
 })();
+
+/* ==========================================================
+   ANALYTICS — conversion events
+
+   One wrapper, one place to change tools. track() is the only thing the
+   listeners below know about; swapping GA4 for Plausible (or adding a
+   second sink) means editing this function and nothing else.
+
+   Guarded on typeof gtag because the tag is a separate <script> in <head>:
+   an ad blocker, a consent tool, or a slow network can leave it undefined,
+   and an uncaught ReferenceError here would kill every listener after it.
+
+   Delegated from document so the listeners survive any markup that gets
+   injected later (the city-swap block above rewrites text, but a future
+   dynamic section would otherwise need re-binding).
+   ========================================================== */
+(function () {
+  function track(name, params) {
+    if (typeof gtag === 'function') gtag('event', name, params || {});
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+
+    // Phone is the primary conversion on this site — 128 tel: links across
+    // the pages, plus the sticky mobile call bar.
+    if (href.indexOf('tel:') === 0) {
+      track('call_click', { link_url: href, page_path: location.pathname });
+    } else if (href.indexOf('mailto:') === 0) {
+      track('email_click', { link_url: href, page_path: location.pathname });
+    }
+  }, true);
+
+  // Quote forms post to /thank-you/, so the submit fires on the way out.
+  document.addEventListener('submit', function (e) {
+    var form = e.target;
+    if (form && form.hasAttribute && form.hasAttribute('data-contact-form')) {
+      track('form_submit', { page_path: location.pathname });
+    }
+  }, true);
+
+  // The thank-you page is the only proof a quote actually landed — the
+  // submit event above can fire on a request that never completes.
+  if (/\/thank-you\/?$/.test(location.pathname)) {
+    track('generate_lead', { page_path: location.pathname });
+  }
+})();
