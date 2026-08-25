@@ -1,0 +1,414 @@
+/* Home page — hero stage, trust bar, problem selector, why, services,
+   reviews, our work, service area, FAQ, contact.
+   Shared reset/header/footer/buttons live in shared/base.css. */
+
+/* ===== Hero stage =====
+   .hero-stage is the RUNWAY — its height is the scroll distance the
+   choreography maps onto. __inner is the sticky viewport-sized stage. The
+   media well sits at z-index 0, content layers at z-index 1.
+   --hero-scrim, --story-scrim and --hero-focal-x are published by the scroll
+   driver every tick and must carry NO transition, or they lag the scroll.
+
+   padding-block:0 overrides the global `section` rhythm. It is load-bearing:
+   the wrapper's padding would both inset the sticky stage AND desync the
+   driver, whose runway is offsetHeight - stickyHeight (padding sits inside
+   offsetHeight but is NOT part of the sticky travel).
+   340svh - 100svh sticky = 240svh of travel, enough for both 61-frame
+   sequences (~100svh each) plus the crossfade between them.
+
+   vh first, svh second: without svh support `height:340svh` is invalid, the
+   wrapper collapses to auto, runway <= 0, and the driver silently disables
+   itself. The vh fallback keeps the effect (just less stable under mobile
+   browser chrome). */
+.hero-stage{position:relative;height:340vh;height:340svh;padding-block:0}
+.hero-stage__inner{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;color:#fff}
+
+.hero-stage__media{position:absolute;inset:0;z-index:0}
+/* Desktop keeps its composition: a fixed centre crop. Only the portrait
+   media query below tracks the subject via --hero-focal-x. */
+.hero-stage__video,
+.hero-stage__canvas{position:absolute;inset:0;width:100%;height:100%;
+                    object-fit:cover;object-position:50% center}
+/* Both sequences start hidden; the driver crossfades A over the loop, then
+   B over A. Stacking order = DOM order: video, A, B. Reordering the markup
+   silently reverses the dissolve. Never add a transition here — it lags
+   reverse scrubbing. */
+.hero-stage__canvas{opacity:0}
+.hero-stage__scrim{position:absolute;inset:0}
+/* Left-weighted gradient: contrast for the lead copy, which is flush left at
+   phone/tablet widths. The desktop block below re-aims it — the scrim has to
+   follow the copy, or the text lands on the bright end of the ramp. */
+.hero-stage__scrim--lead{background:linear-gradient(90deg,rgba(17,20,22,.82),rgba(17,20,22,.38));
+     opacity:var(--hero-scrim,1)}
+/* Flat wash: contrast for the centred copy layers over the interior shots. */
+.hero-stage__scrim--flat{background:rgba(17,20,22,.46);opacity:var(--story-scrim,0)}
+
+.hero-stage__layer{position:absolute;inset:0;z-index:1;display:flex;align-items:center;
+                   will-change:opacity,transform}
+.hero-stage__layer--lead .container{max-width:620px;margin-inline:0}
+/* Both sit above --lead in DOM order at inset:0, so they would swallow clicks
+   on the hero CTAs. Their own links opt back in below. (The driver also flips
+   visibility:hidden at opacity 0, which keeps hidden copy out of the tab
+   order and the a11y tree.) */
+.hero-stage__layer--next,
+.hero-stage__layer--promise{opacity:0;text-align:center;pointer-events:none}
+.hero-stage__layer--next .container,
+.hero-stage__layer--promise .container{max-width:760px}
+
+.hero-stage h1{font-size:var(--text-hero);margin-block:0 var(--space-5);
+               text-shadow:0 2px 24px rgba(0,0,0,.45)}
+/* The keyword line moved from a sibling <span class="eyebrow"> into the h1
+   (see base.css .h1-kw). It absorbs the h1's old top margin so the lockup
+   sits exactly where it did. display:block overrides the desktop
+   `--lead h1 span{display:inline-block}` rule below, which exists to control
+   where the TWO headline clauses break and must not catch this line. The
+   `span.h1-kw` qualifier is load-bearing: that rule is later in the file at
+   equal specificity, so a plain `.h1-kw` would lose to it above 1024px. */
+.hero-stage h1 span.h1-kw{display:block;margin-bottom:var(--space-4);
+                          text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.hero-sub{font-size:var(--text-lg);color:#f0f0f0;margin-bottom:var(--space-7)}
+
+/* ===== Staged hero entrance =====
+   Each element lifts in after the one before it, with a real pause between,
+   so the opening reads as deliberate rather than everything arriving at once.
+   The LAYER's opacity belongs to the scroll driver — this only ever touches
+   the children, so the two never fight.
+   Hidden by default and revealed by .is-revealed from shared/main.js; the
+   <noscript> block in index.html un-hides them when the script never runs. */
+.hero-intro > *{opacity:0;transform:translateY(26px)}
+@media(prefers-reduced-motion:no-preference){
+  .hero-intro > *{transition:opacity 700ms var(--ease-out-expo),
+                             transform 700ms var(--ease-out-expo)}
+  .hero-intro.is-revealed > *{opacity:1;transform:none}
+  /* 240ms between beats — long enough to read as a sequence, short enough
+     that the phone CTA is not held back on an emergency visit. */
+  .hero-intro.is-revealed > :nth-child(1){transition-delay:0ms}
+  .hero-intro.is-revealed > :nth-child(2){transition-delay:240ms}
+  .hero-intro.is-revealed > :nth-child(3){transition-delay:480ms}
+  .hero-intro.is-revealed > :nth-child(4){transition-delay:720ms}
+  .hero-intro.is-revealed > :nth-child(5){transition-delay:960ms}
+}
+/* Reduced motion: no curtain, no stagger, no transform — just the hero. */
+@media(prefers-reduced-motion:reduce){
+  .hero-intro > *{opacity:1;transform:none}
+}
+.hero-trust{margin-top:var(--space-6);font-size:var(--text-sm);color:#d8dade;
+            text-shadow:0 1px 8px rgba(0,0,0,.5)}
+/* Solid, not the copper gradient-clip: at 14px over moving footage the
+   gradient reads as muddy grey. Solid light copper stays crisp. */
+.hero-trust .stars{background:none;-webkit-background-clip:border-box;
+     background-clip:border-box;color:var(--color-primary-light)}
+
+/* ===== Story layers =====
+   Four distinct roles so the beat reads as a hierarchy rather than four
+   paragraphs of similar weight (which is what felt messy):
+     h2.line       headline, hero-weight
+     p.line        body, held to a comfortable measure
+     .line--muted  strapline — smaller, letter-spaced, quieter
+     .btn          the CTA, a real button
+   Every one keeps .line so the driver's stagger still picks it up. */
+.hero-stage__layer--next .line,
+.hero-stage__layer--promise .line{margin-block:var(--space-4);
+     text-shadow:0 2px 24px rgba(0,0,0,.55)}
+.hero-stage__layer h2.line{font-size:var(--text-2xl);font-weight:600;
+     line-height:var(--leading-tight);margin-bottom:var(--space-5);
+     text-shadow:0 2px 28px rgba(0,0,0,.6)}
+.hero-stage__layer p.line{font-size:var(--text-lg);color:#eceef0;
+     max-width:52ch;margin-inline:auto}
+.hero-stage__layer p.line--muted{font-size:var(--text-sm);color:#b9c0c6;
+     letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+     max-width:44ch;margin-inline:auto}
+/* Closing line — resolves the beat. Sentence case and quieter than the
+   uppercase strapline above it, so the two don't read as the same thing
+   twice (which is what made the promise layer feel cluttered). */
+/* ===== Story 1 emphasis =====
+   The beat is an argument — "not this / but THIS" — so the two halves are
+   typographically opposed instead of one flat grey block:
+     .line__aside  the thing they DON'T need — smaller, dimmer, set back
+     strong        what they DO get — copper, the only saturated thing here
+   All colour sits on --color-primary-light, never --color-primary: the deep
+   copper goes muddy against dark footage. */
+.hero-stage__layer h2 em{font-style:normal;color:var(--color-primary-light)}
+/* em, not a token: the parent is --text-lg on desktop and --text-base on
+   mobile, so a fixed size would collapse the contrast on phones. */
+.hero-stage__layer p.line .line__aside{display:block;font-size:.82em;
+     color:#a9b0b7;margin-bottom:var(--space-3)}
+.hero-stage__layer p.line strong{color:var(--color-primary-light);font-weight:600}
+/* Copper separators turn three clipped sentences into one cadenced line. */
+.hero-stage__layer p.line--muted span{color:var(--color-primary-light);
+     margin-inline:var(--space-2);font-weight:400}
+.hero-stage__layer p.line--close{font-size:var(--text-base);color:#cfd4d9;
+     max-width:46ch;margin-inline:auto;margin-top:var(--space-6)}
+/* The story layers are pointer-events:none so they never swallow clicks on
+   the hero buttons underneath — the CTA has to opt back in. */
+.line-cta{pointer-events:auto}
+.hero-stage__layer .line-cta{margin-top:var(--space-6)}
+
+/* ===== Trust band =====
+   Borderless social proof floating ON the footage — no card, no panel. It is
+   type on film, so every text layer carries its own shadow and the stats are
+   separated by hairline rules rather than boxes.
+
+   Placement-agnostic by design: inside a pinned hero stage it inherits the
+   layer's absolute positioning and the scroll driver fades it in; dropped into
+   normal flow as a standalone section it lays out identically (see the
+   .trust-band:not(.hero-stage__layer) rules and the IntersectionObserver
+   entrance in shared/main.js). */
+/* width:100% + min-width:0 are load-bearing. The layer is display:flex, so
+   the container is a flex item and defaults to sizing on its CONTENT — and
+   its content includes the marquee track at width:max-content (~3800px).
+   Without these it blows out to the 960px cap inside a 418px stage and the
+   copy runs off the right edge. Same flex trap as the announce bar. */
+.trust-band .container{max-width:960px;width:100%;min-width:0}
+.marquee,.trust-stats{min-width:0}
+.trust-band h2{font-size:var(--text-2xl);margin-top:var(--space-3);
+     text-shadow:0 2px 28px rgba(0,0,0,.6)}
+
+/* 3 stats. auto-fit would drop to 2 columns mid-range and strand a widow
+   (3 mod 2 = 1), so the counts are explicit: 1 up, then straight to 3.
+   See .claude/rules/css.md. */
+.trust-stats{display:grid;grid-template-columns:1fr;gap:var(--space-3);
+     margin-top:var(--space-6);text-align:left}
+.stat{padding:var(--space-3) 0}
+/* Separation by hairline rule, never a box. Sibling selector so the first
+   stat never gets an edge: top rules stacked, left rules side-by-side. */
+.stat + .stat{border-top:1px solid rgba(255,255,255,.22)}
+.stat__icon{width:22px;height:22px;color:var(--color-primary-light);
+     filter:drop-shadow(0 1px 4px rgba(0,0,0,.55));margin-bottom:var(--space-3)}
+.stat__fact{font-family:var(--font-heading);font-weight:600;
+     font-size:var(--text-lg);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.stat__note{font-size:var(--text-sm);color:#cdd3d8;margin-top:var(--space-2);
+     text-shadow:0 1px 4px rgba(0,0,0,.5)}
+
+/* ===== Review marquee =====
+   The track holds the chip set TWICE and travels exactly -50%, so the loop
+   returns to a pixel-identical position — that is what makes it seamless.
+   The duplicate set is aria-hidden so the a11y tree counts each review once. */
+.marquee{margin-top:var(--space-6);overflow:hidden;
+     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);
+     mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%)}
+.marquee__track{display:flex;width:max-content;gap:var(--space-4)}
+.chip-review{flex:none;width:min(80vw,20rem);padding:var(--space-4);
+     border-radius:var(--radius-lg);
+     background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);
+     backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+/* Lighter copper on the dark band — --color-primary is too dark against the
+   footage. Smaller than the card stars so the compact chips stay uncrowded. */
+.chip-review .review__stars{color:var(--color-primary-light);margin-bottom:var(--space-2)}
+.chip-review .review__stars svg{width:13px;height:13px}
+.chip-review blockquote p{font-size:var(--text-sm);color:#f2f4f5;
+     text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.chip-review figcaption{margin-top:var(--space-3);font-family:var(--font-heading);
+     font-weight:600;font-size:var(--text-xs);color:var(--color-primary-light);
+     text-shadow:0 1px 4px rgba(0,0,0,.5)}
+
+@media(prefers-reduced-motion:no-preference){
+  .marquee__track{animation:marquee 28s linear infinite}
+  .marquee:hover .marquee__track{animation-play-state:paused}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+}
+/* No animation under reduce — but the row must stay browsable, so hand it
+   back to the user as a normal horizontal scroller. */
+@media(prefers-reduced-motion:reduce){
+  .marquee{overflow-x:auto}
+  .marquee__track{width:auto}
+}
+
+/* Placement B: same markup in normal flow. */
+.trust-band:not(.hero-stage__layer){position:static;padding-block:var(--section-pad-y)}
+
+/* ===== Problem selector ===== */
+.problem-grid{display:grid;grid-template-columns:1fr;gap:var(--space-5)}
+.problem-card{position:relative;background:var(--color-surface);border:1px solid var(--color-border);
+     border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm);
+     display:flex;flex-direction:column;gap:var(--space-3);
+     transition:box-shadow var(--duration-base),transform var(--duration-base)}
+.problem-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.problem-card h3{font-size:var(--text-lg)}
+.problem-card p{color:var(--color-text-muted);font-size:var(--text-sm);flex:1}
+/* whole card is a link to its service section; the CTA stays clickable above it */
+.problem-card h3 a{color:inherit;text-decoration:none}
+.problem-card h3 a::after{content:"";position:absolute;inset:0;border-radius:var(--radius-lg)}
+.problem-card h3 a:focus-visible{outline:none}
+.problem-card h3 a:focus-visible::after{outline:2px solid var(--color-primary);outline-offset:2px}
+.problem-card .link-cta{align-self:flex-start;position:relative;z-index:1}
+
+/* ===== Why CopperCraft ===== */
+.why-grid{display:grid;grid-template-columns:1fr;gap:var(--space-6)}
+.why-grid li{border-left:3px solid var(--color-primary);padding-left:var(--space-5)}
+.why-grid h3{font-size:var(--text-lg);margin-bottom:var(--space-2)}
+.why-grid p{color:var(--color-text-muted)}
+.tone-charcoal .why-grid p{color:var(--color-tone-charcoal-muted)}
+
+/* ===== Financing band =====
+   Deliberately NOT a .tone-* section. Financing is an offer, not another
+   content band, so it gets its own surface — which also keeps the
+   cream/charcoal alternation downstream intact. Dropping a .tone-* here
+   would duplicate a tone against either neighbour (why = charcoal,
+   services = cream) and force a cascade of flips through the rest of the
+   page. Carries data-header-dark in the markup so the fixed header picks
+   up its dark surface over this band (shared/main.js).
+   Surface runs the deep end of the copper ramp — --color-primary-dark into
+   --metal-copper-shade, the darkest copper in the palette ("deep shadow of
+   the curve", tokens.css). A GRADIENT rather than a flat fill on purpose:
+   at section scale a single mid-brown reads as flat paint, while the slow
+   shift across the two darkest copper stops reads as metal, which is the
+   whole point of the brand. Both stops are dark enough to stay clearly
+   distinct from the cream .services below while sitting warmer and lighter
+   than the near-black charcoal .why above.
+   Contrast measured against the LIGHTEST stop (#7E4520, worst case):
+   --color-dark-text 7.2:1, --metal-copper-spec 5.8:1 — both AA. Accents use
+   --metal-copper-spec, NOT --color-primary-light, which drops to 4.0:1 here
+   and fails for 14px text. */
+.fin-band{background:linear-gradient(160deg,var(--color-primary-dark) 0%,
+     var(--metal-copper-shade) 100%);color:var(--color-dark-text)}
+.fin-band .eyebrow{color:var(--metal-copper-spec)}
+.fin-band h2{font-size:var(--text-2xl);margin-top:var(--space-2)}
+.fin-band__inner{display:grid;gap:var(--space-7);align-items:center}
+.fin-band__copy p{margin-top:var(--space-4)}
+.fin-band__cta{margin-top:var(--space-6)}
+.fin-band__points{display:grid;gap:var(--space-5)}
+/* align-items:flex-start, not center: when a point wraps to two lines the
+   icon must stay level with the FIRST line, the way the old ::before glyph
+   did — centring it against a two-line block reads as misaligned next to a
+   one-line neighbour. */
+.fin-band__points li{display:flex;gap:var(--space-4);align-items:flex-start}
+/* Raster, so it cannot inherit currentColor the way .card-icon does — the
+   tint is baked into the PNG. Re-tinted to --metal-copper-spec (#F6DDBB)
+   when this band went copper: the original #E0A46A art measured only 4.0:1
+   against the lightest gradient stop, and copper-on-copper read muddy.
+   If this band's surface changes again these three assets must be
+   re-tinted, not just recoloured in CSS.
+   Rendered at 96px for 3x DPR, displayed at 32 to match .card-icon. */
+.fin-icon{width:32px;height:32px;flex:0 0 auto}
+
+@media(min-width:820px){
+  .trust-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+  .stat{padding:var(--space-2) var(--space-6)}
+  /* rule flips: stacked -> side-by-side */
+  .stat + .stat{border-top:0;border-left:1px solid rgba(255,255,255,.22)}
+}
+
+/* ===== Breakpoints ===== */
+@media(min-width:640px){
+  .problem-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .why-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-7)}
+  .field-row{grid-template-columns:1fr 1fr;gap:var(--space-5)}
+}
+@media(min-width:1024px){
+  .problem-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .why-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  /* Copy left, proof points right. Stays stacked below this — at tablet the
+     two columns squeeze the three point lines into three-line wraps. */
+  .fin-band__inner{grid-template-columns:1.15fr 1fr;gap:var(--space-9)}
+
+  /* ===== Hero lead — desktop composition =====
+     Flush left is a phone composition: on a wide screen it strands the copy
+     against the bezel and leaves the middle of the frame empty. On desktop the
+     block centres and the copy centre-aligns with it, so the hero reads as a
+     symmetrical title card over the footage.
+     The block widens to 900px purely to hold the enlarged eyebrow on ONE line
+     — a wrapped eyebrow reads as a sentence instead of a label. The h1 still
+     breaks to two lines at every desktop width, which is the intended shape. */
+  .hero-stage__layer--lead{text-align:center}
+  .hero-stage__layer--lead .container{max-width:900px;margin-inline:auto}
+  .hero-stage__layer--lead .hero-actions{justify-content:center}
+
+  /* The 900px measure is wide enough that the h1 would otherwise break as
+     "Comfort Down? We'll Make / It Right." — mid-clause. Making each clause an
+     inline-block moves the preferred break to the space BETWEEN them, so it
+     reads "Comfort Down? / We'll Make It Right."
+     Done this way rather than with an h1 max-width because the width window
+     that produces the right break is only ~67px wide and was measured in the
+     fallback font — the real Poppins metrics could flip it. This is font-
+     independent. Desktop-only: below 1024px the spans stay plain inline and
+     the signed-off phone wrap is byte-identical. */
+  .hero-stage__layer--lead h1 span{display:inline-block}
+
+  /* Eyebrow scaled up from --text-sm. Capped at --text-xl so it stays firmly
+     subordinate to the h1 (~35% of it at 1024, ~42% at 1920) — it is a label
+     above the headline, never a competing line. Tracking drops .08em -> .055em
+     because letter-spacing tuned for 14px reads as gappy at 28px. */
+  .hero-stage__layer--lead .eyebrow{
+    font-size:clamp(var(--text-lg),1.9vw,var(--text-xl));
+    letter-spacing:.055em}
+
+  /* The copy no longer sits on the dark end of the 90deg ramp, so the lead
+     scrim becomes a soft vignette on the frame's centre: darkest exactly under
+     the text, falling off to the corners so the shot still reads as footage
+     rather than a flat wash. Measured over the brightest hero frame — see the
+     contrast check in the build notes. */
+  .hero-stage__scrim--lead{
+    background:radial-gradient(120% 90% at 50% 50%,
+                               rgba(17,20,22,.80) 0%,
+                               rgba(17,20,22,.66) 45%,
+                               rgba(17,20,22,.34) 100%)}
+}
+
+/* ===== Hero stage — portrait =====
+   A portrait cover-crop throws away most of the 16:9 width, and the subject
+   drifts left across the transition (condenser at the entry -> fireplace
+   inside -> wall unit). Track it with the driver-published --hero-focal-x so
+   the subject stays in the crop instead of sliding out of frame. */
+@media(max-width:640px){
+  /* ===== Services on the phone =====
+     This block used to strip the cards to icon + label, because two cards
+     across 375px left each one 158px wide and headings spilled past the edge.
+     That constraint is gone: the cards now ride a horizontal rail at 80% of
+     the container (see .service-grid--rail in base.css), which is ~250px on a
+     360px screen. The description fits again and is what makes a card worth
+     swiping to - an icon and two words is what made the section read as empty.
+     Only the label step-down is kept, so a long name like
+     "Air-Conditioning Installation" still wraps to two lines rather than four. */
+  .service-card{padding:var(--space-5)}
+  .service-card h3{font-size:var(--text-base)}
+
+  .hero-stage__video,
+  .hero-stage__canvas{object-position:var(--hero-focal-x,40%) center}
+  .hero-stage__layer p.line{font-size:var(--text-base)}
+  .hero-stage__layer h2.line{font-size:var(--text-xl)}
+  .hero-stage__layer p.line--muted{font-size:var(--text-xs)}
+  /* Centred on phones so the proof line reads as a footer to the CTAs
+     rather than a stray fragment hanging off the left edge. */
+  .card-icon{width:28px;height:28px;margin-bottom:var(--space-2)}
+  .hero-trust{text-align:center}
+  /* The band is the densest layer in the run (eyebrow + h2 + 3 stats +
+     marquee) and the stage clips at 100svh, so it has to fit inside one
+     phone viewport with no scroll of its own. */
+  .trust-band h2{font-size:var(--text-xl)}
+  .trust-stats{margin-top:var(--space-5);gap:var(--space-2)}
+  .stat{padding:var(--space-2) 0}
+  .stat__icon{width:20px;height:20px;margin-bottom:var(--space-2)}
+  .stat__fact{font-size:var(--text-base)}
+  .stat__note{font-size:var(--text-xs);margin-top:var(--space-1)}
+  .marquee{margin-top:var(--space-5)}
+  .chip-review blockquote p{font-size:var(--text-xs)}
+}
+
+/* ===== Service-area chips ===== */
+/* .chips/.chip moved to shared/base.css - used by 2+ pages. */
+
+/* ===== Hero stage — reduced motion =====
+   The scroll driver never runs (see script.js). Collapse the 340svh runway
+   and the sticky stage back into a normal stacked document: no pin, no
+   crossfade, all three copy layers simply readable in order, video paused on
+   its poster. Both canvases are hidden — nothing paints them without the
+   driver, and hero-media rule 6 requires the poster alone to read as a
+   finished hero. */
+@media(prefers-reduced-motion:reduce){
+  .hero-stage{height:auto}
+  .hero-stage__inner{position:relative;height:auto;min-height:100svh;
+                     display:flex;flex-direction:column;justify-content:center;
+                     gap:var(--space-8);padding-block:var(--space-9)}
+  .hero-stage__layer{position:static;opacity:1!important;transform:none!important;
+                     visibility:visible!important;pointer-events:auto}
+  .hero-stage__canvas{display:none}
+  .hero-stage__media{position:absolute;inset:0}
+  .hero-stage__scrim--flat{opacity:.46}
+  .hero-stage__layer .line{opacity:1!important;transform:none!important}
+}
+
+@media(prefers-reduced-motion:no-preference){
+  .problem-card,.faq-list details{transition:box-shadow var(--duration-base),
+       transform var(--duration-base)}
+}

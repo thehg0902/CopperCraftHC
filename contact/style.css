@@ -1,0 +1,10 @@
+/* contact — all shared styles now live in shared/base.css. */
+
+/* Social link: hand-drawn inline SVG on the same stroke system as .card-icon
+   (24-unit box, stroke:currentColor, round caps) so it re-tints with the link
+   colour on any background instead of needing a second asset. The camera dot
+   is a zero-length round-capped path, the same trick the problem-selector
+   icons use. Sits on the charcoal contact band, where
+   .tone-charcoal .contact-grid a:not(.btn) already supplies the copper. */
+.social__link{display:inline-flex;align-items:center;gap:var(--space-3)}
+.social__icon{width:22px;height:22px;flex:0 0 auto}

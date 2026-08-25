@@ -1,0 +1,16 @@
+/* services — index-grid jump links, informational .svc sections, closing CTA.
+   Shared components live in shared/base.css. */
+
+/* --- index grid: whole card is a jump link --- */
+.services .service-card{position:relative}
+.service-card h3 a{color:inherit;text-decoration:none}
+.service-card h3 a::after{content:"";position:absolute;inset:0;border-radius:var(--radius-lg)}
+.services .service-card:hover{border-color:var(--color-primary)}
+.service-card h3 a:focus-visible{outline:none}
+.service-card h3 a:focus-visible::after{outline:2px solid var(--color-primary);outline-offset:2px}
+
+/* .svc__* moved to shared/base.css - the hub has no .svc sections left;
+   those styles now serve the 10 child pages under services/. */
+
+/* --- closing CTA (same treatment as what-to-expect) --- */
+/* .final-cta moved to shared/base.css - used by 4+ pages. */

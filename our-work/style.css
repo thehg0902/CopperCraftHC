@@ -1,0 +1,21 @@
+/* our-work — the gallery on its own page sits on the light background
+   (the homepage runs it as a dark band). Grid styles are shared.
+   Background/text color now come from the .tone-cream class on the
+   section element (site/shared/base.css) instead of being set here. */
+/* The overlay sits on a dark bottom-up scrim, so it keeps the base white /
+   copper-light pair. Overriding it to --color-text here put dark text on that
+   scrim and failed contrast over every photo. */
+/* The overlay must anchor to the PHOTO, not the card - the card now also
+   contains the caption below the image, and inset:auto 0 0 0 on the card
+   would pin the overlay over that text instead. */
+.work-item__frame{position:relative}
+.work--page .work-item__cat{color:var(--color-primary-light)}
+.work--page .sec-foot{color:var(--color-text-muted)}
+
+/* Gallery captions. The category line stays a small label; the caption below
+   carries the description of what is visible in the photograph. */
+/* Caption flows BELOW the photo on the card's dark surface - it is a
+   paragraph of description, far too long to sit in the overlay. */
+.work-item__cap{padding:var(--space-4);font-size:var(--text-sm);
+                line-height:var(--leading-normal);
+                color:var(--color-dark-text-muted)}
