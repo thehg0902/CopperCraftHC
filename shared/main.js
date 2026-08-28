@@ -150,6 +150,66 @@
   })();
 
   /* ==========================================================
+     CONTACT FORMS — Formspree, submitted over fetch.
+
+     WHY NOT a plain POST: Formspree's own docs put the post-submit
+     redirect in the dashboard Settings tab, and it ignores the legacy
+     `_next` hidden field on these forms — so a native POST lands the
+     visitor on Formspree's generic thank-you page instead of ours. The
+     dashboard setting is not a good fix either: it takes ONE absolute
+     URL, so a submission from the staging/demo subdomain would bounce to
+     the production domain.
+
+     Submitting over fetch keeps the navigation ours: on success we go to
+     `data-success`, a RELATIVE path, so the visitor stays on whatever
+     host they were already on (localhost, demo subdomain, or production)
+     and lands on our /thank-you/.
+
+     JS off still works: the markup is a real <form action=… method=POST>,
+     so it degrades to a native Formspree post. `_next` is kept for that
+     path in case the dashboard redirect is configured later.
+     ========================================================== */
+  (function contactForms() {
+    var forms = document.querySelectorAll('[data-contact-form]');
+    if (!forms.length) return;
+
+    Array.prototype.forEach.call(forms, function (form) {
+      // Only hijack a real Formspree post. If the action is ever pointed
+      // somewhere else, let the browser do its normal thing.
+      if (!/formspree\.io/.test(form.action)) return;
+
+      var status = form.querySelector('.form-status');
+      var btn = form.querySelector('[type="submit"]');
+
+      form.addEventListener('submit', function (e) {
+        // Let native validation win first — no point posting an invalid form.
+        if (!form.checkValidity()) return;
+        e.preventDefault();
+
+        var label = btn ? btn.textContent : '';
+        if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+        if (status) { status.hidden = true; status.textContent = ''; }
+
+        function fail() {
+          if (btn) { btn.disabled = false; btn.textContent = label; }
+          if (!status) { form.submit(); return; }   // no status node: fall back to a native post
+          status.textContent = 'Sorry — that did not send. Please call (647) 250-6072 or email info@coppercraft.ca.';
+          status.hidden = false;
+        }
+
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        }).then(function (res) {
+          if (!res.ok) return fail();
+          window.location.href = form.getAttribute('data-success') || 'thank-you/';
+        }).catch(fail);
+      });
+    });
+  })();
+
+  /* ==========================================================
      CAROUSELS — one player, every track.
      Lives here rather than in the home page's script.js because the Our Work
      carousel also runs on /our-work/, which loads its own script.js only.
@@ -372,53 +432,4 @@
     for (var i = 0; i < slots.length; i++) slots[i].textContent = city;
   })();
 
-})();
-
-/* ==========================================================
-   ANALYTICS — conversion events
-
-   One wrapper, one place to change tools. track() is the only thing the
-   listeners below know about; swapping GA4 for Plausible (or adding a
-   second sink) means editing this function and nothing else.
-
-   Guarded on typeof gtag because the tag is a separate <script> in <head>:
-   an ad blocker, a consent tool, or a slow network can leave it undefined,
-   and an uncaught ReferenceError here would kill every listener after it.
-
-   Delegated from document so the listeners survive any markup that gets
-   injected later (the city-swap block above rewrites text, but a future
-   dynamic section would otherwise need re-binding).
-   ========================================================== */
-(function () {
-  function track(name, params) {
-    if (typeof gtag === 'function') gtag('event', name, params || {});
-  }
-
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href]');
-    if (!a) return;
-    var href = a.getAttribute('href') || '';
-
-    // Phone is the primary conversion on this site — 128 tel: links across
-    // the pages, plus the sticky mobile call bar.
-    if (href.indexOf('tel:') === 0) {
-      track('call_click', { link_url: href, page_path: location.pathname });
-    } else if (href.indexOf('mailto:') === 0) {
-      track('email_click', { link_url: href, page_path: location.pathname });
-    }
-  }, true);
-
-  // Quote forms post to /thank-you/, so the submit fires on the way out.
-  document.addEventListener('submit', function (e) {
-    var form = e.target;
-    if (form && form.hasAttribute && form.hasAttribute('data-contact-form')) {
-      track('form_submit', { page_path: location.pathname });
-    }
-  }, true);
-
-  // The thank-you page is the only proof a quote actually landed — the
-  // submit event above can fire on a request that never completes.
-  if (/\/thank-you\/?$/.test(location.pathname)) {
-    track('generate_lead', { page_path: location.pathname });
-  }
 })();

@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3BE5N4Z5E5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-3BE5N4Z5E5');
-</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Favicon. Google Search reads the homepage icon and applies it site-wide;
+     the file also sits at the site root so browsers find /favicon.ico by
+     convention. PNG sizes are multiples of 48 per Google's requirement. -->
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/images/favicon-96.png?v=ea1bca97" sizes="96x96">
+<link rel="icon" type="image/png" href="assets/images/favicon-192.png?v=0fbe46b8" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png?v=a60b3d8a">
 <title>HVAC Service Richmond Hill | CopperCraft Heating &amp; Cooling</title>
 <meta name="description" content="Furnace and A/C repair, installation and heat pumps in Richmond Hill. Honest advice, no pressure. Call (647) 250-6072 for same-day service.">
 <!-- SEO: canonical + social -->
@@ -27,7 +25,7 @@
 <meta property="og:site_name" content="CopperCraft Heating &amp; Cooling">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="shared/tokens.css?v=94299b37">
-<link rel="stylesheet" href="shared/base.css?v=d96ef9fb">
+<link rel="stylesheet" href="shared/base.css?v=39ed4c9a">
 <link rel="stylesheet" href="style.css?v=c8fabae4">
 <noscript><style>
   /* No driver: the runway is pure scroll distance the choreography would
@@ -575,7 +573,10 @@
       <p>For urgent heating or cooling problems, calling is the fastest option.</p>
     </div>
 
-    <form class="quote" action="thank-you/" method="post" data-contact-form>
+    <form class="quote" action="https://formspree.io/f/xppagdrn" method="POST" data-contact-form data-success="thank-you/">
+      <input type="hidden" name="_subject" value="New website enquiry — Home">
+      <input type="hidden" name="_next" value="https://coppercraft.ca/thank-you/">
+      <div class="sr-only" aria-hidden="true"><label for="f-gotcha">Leave this field empty</label><input id="f-gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
       <div class="field-row">
         <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
         <div class="field"><label for="f-phone">Phone number</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required></div>
@@ -611,9 +612,9 @@
         </fieldset>
         <div class="field"><label for="f-when">Preferred day or time</label><input id="f-when" name="preferred_time" type="text" placeholder="e.g. weekday mornings"></div>
       </div>
+      <p class="form-status" role="alert" aria-live="assertive" hidden></p>
       <button class="btn btn-primary" type="submit">Send My Request</button>
       <p class="form-note">No pressure. No commitment. We'll simply contact you to discuss the next step.</p>
-      <p class="form-note form-note--warn">Placeholder form — no submission endpoint is wired yet (client.md Stack: <code>forms: placeholder</code>). Add a provider ID and this posts live.</p>
     </form>
 
     <p class="sec-foot">Prefer to speak directly? <a href="tel:+16472506072">Call (647)&nbsp;250-6072</a></p>
@@ -664,6 +665,7 @@
         <li>Phone: <a href="tel:+16472506072">(647)&nbsp;250-6072</a></li>
         <li>Email: <a href="mailto:info@coppercraft.ca">info@coppercraft.ca</a></li>
         <li>9555 Yonge St, Richmond Hill, ON L4C 9M5</li>
+        <li><a href="https://www.instagram.com/coppercraft_hvac/" target="_blank" rel="noopener">Check out our Instagram</a></li>
       </ul>
       <h2>Hours</h2>
       <ul class="plain">
@@ -719,7 +721,7 @@
   <a class="btn btn-ghost" href="contact/">Book a Visit</a>
 </div>
 
-<script src="shared/main.js?v=27339699"></script>
+<script src="shared/main.js?v=132e23e1"></script>
 <script src="script.js?v=b5702623"></script>
 <script type="application/ld+json">
 {
