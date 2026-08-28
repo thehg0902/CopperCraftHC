@@ -150,6 +150,66 @@
   })();
 
   /* ==========================================================
+     CONTACT FORMS — Formspree, submitted over fetch.
+
+     WHY NOT a plain POST: Formspree's own docs put the post-submit
+     redirect in the dashboard Settings tab, and it ignores the legacy
+     `_next` hidden field on these forms — so a native POST lands the
+     visitor on Formspree's generic thank-you page instead of ours. The
+     dashboard setting is not a good fix either: it takes ONE absolute
+     URL, so a submission from the staging/demo subdomain would bounce to
+     the production domain.
+
+     Submitting over fetch keeps the navigation ours: on success we go to
+     `data-success`, a RELATIVE path, so the visitor stays on whatever
+     host they were already on (localhost, demo subdomain, or production)
+     and lands on our /thank-you/.
+
+     JS off still works: the markup is a real <form action=… method=POST>,
+     so it degrades to a native Formspree post. `_next` is kept for that
+     path in case the dashboard redirect is configured later.
+     ========================================================== */
+  (function contactForms() {
+    var forms = document.querySelectorAll('[data-contact-form]');
+    if (!forms.length) return;
+
+    Array.prototype.forEach.call(forms, function (form) {
+      // Only hijack a real Formspree post. If the action is ever pointed
+      // somewhere else, let the browser do its normal thing.
+      if (!/formspree\.io/.test(form.action)) return;
+
+      var status = form.querySelector('.form-status');
+      var btn = form.querySelector('[type="submit"]');
+
+      form.addEventListener('submit', function (e) {
+        // Let native validation win first — no point posting an invalid form.
+        if (!form.checkValidity()) return;
+        e.preventDefault();
+
+        var label = btn ? btn.textContent : '';
+        if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+        if (status) { status.hidden = true; status.textContent = ''; }
+
+        function fail() {
+          if (btn) { btn.disabled = false; btn.textContent = label; }
+          if (!status) { form.submit(); return; }   // no status node: fall back to a native post
+          status.textContent = 'Sorry — that did not send. Please call (647) 250-6072 or email info@coppercraft.ca.';
+          status.hidden = false;
+        }
+
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        }).then(function (res) {
+          if (!res.ok) return fail();
+          window.location.href = form.getAttribute('data-success') || 'thank-you/';
+        }).catch(fail);
+      });
+    });
+  })();
+
+  /* ==========================================================
      CAROUSELS — one player, every track.
      Lives here rather than in the home page's script.js because the Our Work
      carousel also runs on /our-work/, which loads its own script.js only.

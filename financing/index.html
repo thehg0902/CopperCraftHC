@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Favicon. Google Search reads the homepage icon and applies it site-wide;
+     the file also sits at the site root so browsers find /favicon.ico by
+     convention. PNG sizes are multiples of 48 per Google's requirement. -->
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="../assets/images/favicon-96.png?v=ea1bca97" sizes="96x96">
+<link rel="icon" type="image/png" href="../assets/images/favicon-192.png?v=0fbe46b8" sizes="192x192">
+<link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=a60b3d8a">
 <title>HVAC Financing Richmond Hill | CopperCraft Heating &amp; Cooling</title>
 <meta name="description" content="HVAC financing in Richmond Hill: pay for a furnace, AC or heat pump monthly instead of all at once. An option, never a push. Call (647) 250-6072.">
 <!-- SEO: canonical + social -->
@@ -18,7 +25,7 @@
 <meta property="og:site_name" content="CopperCraft Heating &amp; Cooling">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="../shared/tokens.css?v=94299b37">
-<link rel="stylesheet" href="../shared/base.css?v=d96ef9fb">
+<link rel="stylesheet" href="../shared/base.css?v=39ed4c9a">
 <link rel="stylesheet" href="style.css?v=6df540f6">
 </head>
 <body>
@@ -179,7 +186,7 @@
       <p>Tell us what you are considering and we will walk you through the options. No pressure and no obligation.</p>
     </div>
 
-    <form class="quote" action="https://formspree.io/f/xppagdrn" method="POST" data-contact-form>
+    <form class="quote" action="https://formspree.io/f/xppagdrn" method="POST" data-contact-form data-success="../thank-you/">
       <input type="hidden" name="_subject" value="New website enquiry — Financing">
       <input type="hidden" name="_next" value="https://coppercraft.ca/thank-you/">
       <div class="sr-only" aria-hidden="true"><label for="f-gotcha">Leave this field empty</label><input id="f-gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
@@ -199,6 +206,7 @@
           <option value="exploring">Not sure yet — just exploring financing</option>
         </select>
       </div>
+      <p class="form-status" role="alert" aria-live="assertive" hidden></p>
       <button class="btn btn-primary" type="submit">Send My Request</button>
       <p class="form-note">This form collects your name, phone, email and what you are interested in — nothing more. The credit application itself happens on the lender's secure portal.</p>
       <!-- BUILD NOTE (hidden from visitors; internal notes must not render here — the
@@ -302,7 +310,7 @@
   <a class="btn btn-ghost" href="../contact/">Book a Visit</a>
 </div>
 
-<script src="../shared/main.js?v=8398df99"></script>
+<script src="../shared/main.js?v=132e23e1"></script>
 <script src="script.js?v=4fb297d1"></script>
 <script type="application/ld+json">
 {
